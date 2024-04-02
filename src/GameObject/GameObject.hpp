@@ -25,6 +25,18 @@ class TradeObject : GameObject {
         void cetakBarang(){
             cout << " " << kode_huruf <<" |";
         }
+        void setNama(string newNama) {
+            nama = newNama;
+        }
+        void setKode(string newKode) {
+            kode_huruf = newKode;
+        }
+        string getKode() {
+            return kode_huruf;
+        }
+        string getNama() {
+            return nama;
+        }
 };
 
 class CultivatedObject : TradeObject {

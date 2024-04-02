@@ -32,6 +32,11 @@ class Field {
         int getJumlahIsi(){
             return jumlahIsi;
         }
+
+        TradeObject** getBarang(){
+            return this->barang;
+        }
+
 };
 
 // class ladang: Field {

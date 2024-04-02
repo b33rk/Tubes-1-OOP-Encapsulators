@@ -1,9 +1,11 @@
 #include "Player.hpp"
 
-class Petani : public Player {
+class Peternak : public Player {
     private:
         Field lahan;
     public:
+
+        Peternak(int id, string nama) : Player(id,nama,"Peternak"){}
         void beriMakan();
         void ternak(CultivatedObject* hewan, int row, int col){
             this->lahan[row][col] = hewan;

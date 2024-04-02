@@ -17,7 +17,7 @@ class Game {
         int colLadang;
         int rowLahan;
         int colLahan;
-        Player* listPlayer;
+        Player** listPlayer;
         int jumlahPlayer;
         int turn;
     public:
@@ -46,14 +46,19 @@ class Game {
         }
 
         string getPlayerNama(int i){
-            return this->listPlayer[i].getNama();
+            return this->listPlayer[i]->getNama();
         }
 
         int bayarPajakPlayer(int i){
-            return this->listPlayer[i].bayarPajak();
+            return this->listPlayer[i]->bayarPajak();
 
         }
-        string getPeran(int i){
-            return this->listPlayer[i].
+        string getPeranPlayer(int i){
+            return this->listPlayer[i]->getPeran();
+        }
+
+        void tambahGamePlayer(Player* player){
+            this->listPlayer[this->jumlahPlayer] = player;
+            this->jumlahPlayer++;
         }
 };

@@ -5,6 +5,8 @@ class Petani : public Player {
     private:
         Field ladang;
     public:
+        Petani(int id, string nama) : Player(id,nama,"Petani"){
+        }
         void next(){
             TradeObject** barang = this->ladang.getBarang();
             for (int i = 0; i < ladang.getJumlahIsi(); i++){

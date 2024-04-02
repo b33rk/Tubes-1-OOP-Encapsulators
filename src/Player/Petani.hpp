@@ -20,7 +20,7 @@ class Petani : public Player {
             // product b(nama)
         }
         void tanam(CultivatedObject* tanaman, int row, int col){
-            this->ladang[row][col] = tanaman;            
+            this->ladang.barang[row][col] = tanaman;            
         }
         int hitungKekayaan(Game game){
             int total = 0;
@@ -33,10 +33,11 @@ class Petani : public Player {
                     }
                 }
             }
-            TradeObject** penyimpanan = this->ladang.getPenyimpanan();
+            TradeObject** penyimpanan = this->penyimpanan.getBarang();
+        
             for (int i = 0; i < ladang.getRow(); i++){
                 for(int j = 0; j<ladang.getCol() ; j++){
-                    if (barang[i][j].kode_huruf != "XXX"){
+                    if (barang[i][j].getKodeHuruf() != "   "){
                         int price = game.getPrice(barang[i][j].kode_huruf);
                         total += price;
                     } 

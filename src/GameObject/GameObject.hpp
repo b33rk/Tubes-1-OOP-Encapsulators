@@ -11,6 +11,9 @@ class GameObject {
         int id;
         string kode_huruf;
         string nama;
+
+
+        
 };
 
 class TradeObject : GameObject {

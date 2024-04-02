@@ -40,4 +40,20 @@ class Game {
         void tambah() {
 
         }
+
+        int getJumlahPlayer(){
+            return this->jumlahPlayer;
+        }
+
+        string getPlayerNama(int i){
+            return this->listPlayer[i].getNama();
+        }
+
+        int bayarPajakPlayer(int i){
+            return this->listPlayer[i].bayarPajak();
+
+        }
+        string getPeran(int i){
+            return this->listPlayer[i].
+        }
 };

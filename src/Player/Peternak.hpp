@@ -6,7 +6,7 @@ class Petani : public Player {
     public:
         void beriMakan();
         void ternak();
-        void bayarPajak();
+        int bayarPajak();
         void cetakLahan(){
             lahan.cetak();
         }

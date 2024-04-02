@@ -1,9 +1,17 @@
+#ifndef WALIKOTA_HPP
+#define WALIKOTA_HPP
+
 #include "Player.hpp"
 #include "../GameMaster/GameMaster.hpp"
+#include <iostream>
+using namespace std;
 
 class Walikota : public Player {
     public:
-        void pungutPajak();
+        void pungutPajak(Game& game){
+
+
+        }
         void bangun();
         void tambahPlayer(Game& a, string jenis, string nama) {
             // if (jenis == "peternak") {
@@ -15,3 +23,5 @@ class Walikota : public Player {
             // }
         }
 };
+
+#endif

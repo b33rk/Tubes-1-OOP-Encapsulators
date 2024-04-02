@@ -7,6 +7,10 @@ class Field {
         int static jumlahIsi;
         TradeObject** barang;
     public:
+        Field(){
+            this->row = 0;
+            this->col = 0;
+        }
         Field(int row, int col) {
             this->row = row;
             this->col = col;

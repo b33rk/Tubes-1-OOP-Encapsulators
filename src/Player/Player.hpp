@@ -26,6 +26,9 @@ class Player{
             penyimpanan.cetak();
         }
 
-        void virtual bayarPajak();
+        virtual int bayarPajak();
         void virtual cetakLahan();
+        string getNama(){
+            return this->nama;
+        }
 };

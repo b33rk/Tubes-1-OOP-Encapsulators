@@ -1,11 +1,12 @@
 #include "../GameObject/gameObject.hpp"
 
+template<class T>
 class Field {
     private:
         int row;
         int col;
         int static jumlahIsi;
-        TradeObject** barang;
+        T** barang;
     public:
         Field(int row, int col) {
             this->row = row;

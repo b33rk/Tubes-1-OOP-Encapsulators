@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <string.h>
+#include <vector>
 
 string const pathConfig = "../Config";
 
@@ -17,7 +18,8 @@ class Game {
         int colLadang;
         int rowLahan;
         int colLahan;
-        Player* listPlayer;
+        vector<Player*> listPlayer;
+        // Player** listPlayer;
         int jumlahPlayer;
         int turn;
     public:

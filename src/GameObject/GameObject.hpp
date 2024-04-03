@@ -42,7 +42,7 @@ class ProductObject : TradeObject {
         string origin;
 };
 
-class Recipe : TradeObject {
+class Recipe : GameObject {
     private :
         string* listMaterial;
         int* materialQuantity;

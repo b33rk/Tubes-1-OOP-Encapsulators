@@ -37,6 +37,24 @@ class Field {
             return this->barang;
         }
 
+        int getRow(){
+            return this->row;
+        }
+
+        int getCol(){
+            return this->col;
+        }
+
+        void setPenyimpanan(int row, int col, TradeObject Trade){
+            this->barang[row][col] = Trade;
+        }
+
+        void incrementJumlahIsi(){
+            this->jumlahIsi++;
+        }
+
+        
+
 };
 
 // class ladang: Field {

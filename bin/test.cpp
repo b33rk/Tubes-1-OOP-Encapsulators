@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include "../src/GameMaster/GameMaster.hpp"
 
 using namespace std;
 
@@ -14,6 +15,13 @@ class B : public A {
 };
 
 int main() {
-    A* alooo = new B;
-    alooo->f();
+    try{
+        Game g;
+        g.muat_semua_config();
+        g.cetak_state();
+    }catch(const unsigned long c){
+        cout << c << endl;
+    }catch(const char* c){
+        cout << c << endl;
+    }
 }

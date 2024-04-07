@@ -1,4 +1,4 @@
-#include "../GameObject/gameObject.hpp"
+#include "../GameObject/GameObject.hpp"
 #include <vector>
 #include <bits/stdc++.h>
 

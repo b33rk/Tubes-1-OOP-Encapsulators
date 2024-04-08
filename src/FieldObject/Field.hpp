@@ -6,15 +6,30 @@ class Field {
         int row;
         int col;
         int static jumlahIsi;
-        T** barang;
+        vector<vector<T*>> barang;
     public:
         Field(){
             this->row = 0;
             this->col = 0;
+            this->jumlahIsi = 0;
+            this->initBarang();
         }
         Field(int row, int col) {
             this->row = row;
             this->col = col;
+            this->jumlahIsi = 0;
+            this->initBarang();
+
+        }
+
+        void initBarang(){
+            this->barang.resize(this->row);// make outer vector row size
+            for (int i = 0 ; i < this->row ; i++){
+                this->barang[i].resize(this->col); // make inner vector col size;
+                for (int j = 0 ; j < this->col ; j++ ){
+                    this->barang[i][j] = new T(); 
+                }
+            }
         }
         void cetak(){
             cout << "    ================[ Penyimpanan ]==================" << endl;
@@ -34,7 +49,7 @@ class Field {
             return jumlahIsi;
         }
 
-        TradeObject** getBarang(){
+        vector<vector<T*>> getBarang(){
             return this->barang;
         }
 
@@ -46,12 +61,13 @@ class Field {
             return this->col;
         }
 
-        void setPenyimpanan(int row, int col, TradeObject Trade){
-            this->barang[row][col] = Trade;
-        }
-
         void incrementJumlahIsi(){
             this->jumlahIsi++;
+        }
+
+        void setBarang(int row, int col, T* object){
+            delete this->barang[row][col];
+            this->barang[row][col] = object;
         }
 
         

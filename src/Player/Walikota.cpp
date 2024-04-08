@@ -27,11 +27,11 @@ void Walikota :: pungutPajak(Game& game){
 void Walikota :: bangunBangunan(Recipe recipe){
     // Anggap building adalah tradeobject dengan id yang sama dengan recipe, dan atribut yang sama dengan recipe
     TradeObject* T = new TradeObject(recipe.getPrice(),recipe.getNamaGameObject());
-    TradeObject** temp_penyimpanan = this->penyimpanan.getBarang();
+    vector<vector<TradeObject*>> temp_penyimpanan = this->penyimpanan.getBarang();
     for (int row = 0 ; row <  this->penyimpanan.getRow() ; row++){
         for (int col = 0 ; col <  this->penyimpanan.getCol() ; col++){
-            if (temp_penyimpanan[row][col].getKodeHuruf() == "   "){
-                this->penyimpanan.setPenyimpanan(row,col, *T); // Membuat fungsi untuk set barang pada peyimpanan pada row col 
+            if (temp_penyimpanan[row][col]->getKodeHuruf() == "   "){
+                this->penyimpanan.setBarang(row,col, T); // Membuat fungsi untuk set barang pada peyimpanan pada row col 
                 this->penyimpanan.incrementJumlahIsi(); // membuat fungsi untuk increment jumlahIsi
             }
         }

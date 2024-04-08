@@ -2,30 +2,30 @@
 
 class Peternak : public Player {
     private:
-        Field lahan;
+        Field<CultivatedObject> lahan; // sapi dll bisa di panen dan menambah berat jadi diasumsikan sebagai cultivatedobject
     public:
 
         Peternak(int id, string nama) : Player(id,nama,"Peternak"){}
         void beriMakan();
         void ternak(CultivatedObject* hewan, int row, int col){
-            this->lahan[row][col] = hewan;
+            this->lahan.setBarang(row,col,hewan);
         }
-        int hitungKekayaan(Game game){
+        int hitungKekayaan(Game game){ // Apakah harus ada game ?
             int total = 0;
-            TradeObject** barang = this->lahan.getBarang();
+            vector<vector<CultivatedObject*>> barang = this->lahan.getBarang();
             for (int i = 0; i < lahan.getRow(); i++){
                 for(int j = 0; j<lahan.getCol() ; j++){
-                    if (barang[i][j].kode_huruf != "XXX"){
-                        int price = game.getPrice(barang[i][j].kode_huruf);
+                    if (barang[i][j]->getKodeHuruf() != "  "){
+                        int price = barang[i][j]->getPrice();
                         total += price;
                     }
                 }
             }
-            TradeObject** penyimpanan = this->lahan.getPenyimpanan();
-            for (int i = 0; i < lahan.getRow(); i++){
-                for(int j = 0; j<lahan.getCol() ; j++){
-                    if (barang[i][j].kode_huruf != "XXX"){
-                        int price = game.getPrice(barang[i][j].kode_huruf);
+            vector<vector<TradeObject*>> penyimpanan = this->penyimpanan.getBarang();
+            for (int i = 0; i < this->penyimpanan.getRow(); i++){
+                for(int j = 0; j<this->penyimpanan.getCol() ; j++){
+                    if (barang[i][j]->getKodeHuruf() != "   "){
+                        int price = barang[i][j]->getPrice();
                         total += price;
                     } 
                 }
@@ -33,8 +33,8 @@ class Peternak : public Player {
             total += this->kekayaan;
             return total;
         }
-        int bayarPajak(Game game){
-            int KKP = hitungKekayaan(game) - 11;
+        int bayarPajak(Game game){ // apakah harus ada game ?
+            int KKP = this->hitungKekayaan(game) - 11;
             float persentase;
             int pajak;
             if(KKP > 0){

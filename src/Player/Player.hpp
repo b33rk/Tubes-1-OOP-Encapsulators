@@ -8,7 +8,7 @@ class Player{
         int kekayaan;
         string nama;
         string peran;
-        Field penyimpanan;
+        Field<TradeObject> penyimpanan;
         
     public:
         Player(int id, string nama, string peran){
@@ -36,5 +36,8 @@ class Player{
         }
         string getPeran(){
             return this->getPeran();
+        }
+        void setKekayaan(int kekayaan){
+            this->kekayaan = kekayaan;
         }
 };

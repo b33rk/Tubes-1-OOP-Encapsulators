@@ -3,15 +3,15 @@
 
 class Petani : public Player {
     private:
-        Field ladang;
+        Field<CultivatedObject> ladang;
     public:
         Petani(int id, string nama) : Player(id,nama,"Petani"){
         }
         void next(){
-            TradeObject** barang = this->ladang.getBarang();
+            vector<vector<CultivatedObject*>> barang= this->ladang.getBarang();
             for (int i = 0; i < ladang.getJumlahIsi(); i++){
                 for(int j = 0; j<ladang.getRow() ; j++){
-                    barang[i][j].incrementWeight();
+                    (*barang[i][j]).incrementWeight();
                 }
             }
         }
@@ -20,25 +20,26 @@ class Petani : public Player {
             // product b(nama)
         }
         void tanam(CultivatedObject* tanaman, int row, int col){
-            this->ladang.barang[row][col] = tanaman;            
+            this->ladang.setBarang(row,col,tanaman);         
         }
-        int hitungKekayaan(Game game){
+        int hitungKekayaan(Game game){ //  apakah harus ada game ?
             int total = 0;
-            TradeObject** barang = this->ladang.getBarang();
+            vector<vector<CultivatedObject*>> barang = this->ladang.getBarang();
             for (int i = 0; i < ladang.getRow(); i++){
                 for(int j = 0; j<ladang.getCol() ; j++){
-                    if (barang[i][j].kode_huruf != "XXX"){
-                        int price = game.getPrice(barang[i][j].kode_huruf);
+                    if ((*barang[i][j]).getKodeHuruf() != "XXX"){
+                        // int price = game.getPrice(barang[i][j].kode_huruf);
+                        int price = barang[i][j]->getPrice();
                         total += price;
                     }
                 }
             }
-            TradeObject** penyimpanan = this->penyimpanan.getBarang();
+            vector<vector<TradeObject*>> penyimpanan = this->penyimpanan.getBarang();
         
             for (int i = 0; i < ladang.getRow(); i++){
                 for(int j = 0; j<ladang.getCol() ; j++){
-                    if (barang[i][j].getKodeHuruf() != "   "){
-                        int price = game.getPrice(barang[i][j].kode_huruf);
+                    if (barang[i][j]->getKodeHuruf() != "   "){
+                        int price = penyimpanan[i][j]->getPrice();
                         total += price;
                     } 
                 }

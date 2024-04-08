@@ -2,6 +2,7 @@
 #define __GAMEOBJECT__
 
 #include <iostream>
+#include <string>
 // #include <string.h>
 
 using namespace std;
@@ -13,6 +14,15 @@ class GameObject {
         string nama;
     
     public:
+
+        // constructors
+        GameObject(int id, string kode_huruf, string nama){
+            this->id = id;
+            this->kode_huruf = kode_huruf;
+            this->nama = nama;
+        }
+        GameObject() : GameObject(0,"   ","   "){}
+        
         int getId(){
             return this->id;
         }
@@ -23,6 +33,7 @@ class GameObject {
         string getNamaGameObject(){
             return this->nama;
         }
+        virtual void incrementWeight(){};
         
 };
 
@@ -53,7 +64,7 @@ class CultivatedObject : public TradeObject {
         int cultivateWeight;
         int currentWeight;
     public:
-        void incrementWeight(){
+        void incrementWeight() override{
             cultivateWeight++;
         }
 };
@@ -63,10 +74,27 @@ class ProductObject : public TradeObject {
         string origin;
 };
 
-class Recipe : public TradeObject {
+
+// recipe seharusnya bukan tradeobject, gabisa di trade soalnya
+class Recipe : public GameObject {
     private :
-        string* listMaterial;
-        int* materialQuantity;
+        int price;
+        vector<string> listMaterial;
+        vector<int> materialQuantity;
+    public:
+        Recipe() : GameObject(){
+            this->price = 0;
+        }
+        Recipe(int id, string kode_huruf, string nama, int price, vector<string>listMaterials, vector<int> materialQuantity) : GameObject(id,kode_huruf,nama){
+            for (int i = 0; i < listMaterial.size() ; i++){
+                this->listMaterial.push_back(listMaterials[i]);
+                this->materialQuantity.push_back(materialQuantity[i]);
+        
+            }
+        }
+        int getPrice(){
+            return this->price;
+        }
 };
 
 #endif

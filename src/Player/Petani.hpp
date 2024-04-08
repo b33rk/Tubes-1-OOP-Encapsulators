@@ -11,7 +11,7 @@ class Petani : public Player {
             vector<vector<CultivatedObject*>> barang= this->ladang.getBarang();
             for (int i = 0; i < ladang.getJumlahIsi(); i++){
                 for(int j = 0; j<ladang.getRow() ; j++){
-                    (*barang[i][j]).incrementWeight();
+                    barang[i][j]->incrementWeight();
                 }
             }
         }
@@ -27,7 +27,7 @@ class Petani : public Player {
             vector<vector<CultivatedObject*>> barang = this->ladang.getBarang();
             for (int i = 0; i < ladang.getRow(); i++){
                 for(int j = 0; j<ladang.getCol() ; j++){
-                    if ((*barang[i][j]).getKodeHuruf() != "XXX"){
+                    if (barang[i][j]->getKodeHuruf() != "   "){
                         // int price = game.getPrice(barang[i][j].kode_huruf);
                         int price = barang[i][j]->getPrice();
                         total += price;

@@ -67,6 +67,7 @@ class CultivatedObject : public TradeObject {
         void incrementWeight() override{
             cultivateWeight++;
         }
+        void addWeight();
 };
 
 class ProductObject : public TradeObject {

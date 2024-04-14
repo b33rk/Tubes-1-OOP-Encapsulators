@@ -2,9 +2,13 @@
 
 ## How to run
 ### Linux
-`make -f compile.makefile`
-`./main.exe`
+```
+make -f compile.makefile
+./main.exe
+```
 
-###Windows
-`./compile.bat`
-`./main.exe`
+### Windows
+```
+./compile.bat
+./main.exe
+```

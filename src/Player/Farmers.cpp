@@ -1,6 +1,6 @@
 #include "Farmers.hpp"
 
-Farmers::Farmers(int id, string nama, string tipe, int penguranganKKP) : Player(id, nama, tipe, 0) {}
+Farmers::Farmers(int id, string nama, string tipe, int penguranganKKP, int uang) : Player(id, nama, tipe, 0,uang) {}
 
 int Farmers::hitungKekayaan()
 {
@@ -31,6 +31,15 @@ int Farmers::hitungKekayaan()
     }
     total += this->kekayaan;
     return total;
+}
+
+
+
+void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight)
+{
+    ProductObject *product = new ProductObject(prodId, prodKode, nama, prodPrice, prodType, origin, addedWeight);
+    this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
+    delete this->lahan.getBarang(rowLahan, colLahan);
 }
 
 int Farmers::bayarPajak()

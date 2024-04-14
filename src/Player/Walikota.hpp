@@ -5,16 +5,19 @@
 #include "../GameMaster/GameMaster.hpp"
 #include "Petani.hpp"
 #include "Peternak.hpp"
+#include "../Exception/Exception.hpp"
 #include <iostream>
 using namespace std;
 
 class Walikota : public Player {
     public:
-        void pungutPajak(Game& game){
+        Walikota(int id, string nama, int berat, int uang) ;
+        void pungutPajak(Player** listPlayer, int num_of_players){
         }
         void bangunBangunan(Recipe recipe);
-        void tambahPlayer(Game& game, int id, string nama, string peran ) {
+        void tambahPlayer(string peran ) {
         }
+        int bayarPajak() override;
 };
 
 #endif

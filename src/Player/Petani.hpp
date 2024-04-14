@@ -3,7 +3,7 @@
 class Petani : public Farmers
 {
 public:
-    Petani(int id, string nama);
+    Petani(int id, string nama, int uang);
     void next();
     void panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight);
     void tanam(CultivatedObject *tanaman, int row, int col);

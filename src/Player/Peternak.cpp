@@ -1,6 +1,7 @@
 #include "Peternak.hpp"
+#include "../Exception/Exception.hpp"
 
-Peternak::Peternak(int id, string nama) : Farmers(id, nama, "Peternak", 0){};
+Peternak::Peternak(int id, string nama, int uang) : Farmers(id, nama, "Peternak", 0, uang){};
 
 void Peternak::beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan)
 {
@@ -15,7 +16,8 @@ void Peternak::beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, 
     }
     else
     {
-        throw MakananSalahException();
+        
+        throw MakananSalahException() ;
     }
 }
 

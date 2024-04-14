@@ -1,7 +1,7 @@
 #include "Farmers.hpp"
 #include "Petani.hpp"
 
-Petani::Petani(int id, string nama) : Farmers(id, nama, "Petani", 13) {}
+Petani::Petani(int id, string nama, int uang) : Farmers(id, nama, "Petani", 13,uang) {}
 
 void Petani::next()
 {
@@ -13,14 +13,6 @@ void Petani::next()
             barang[i][j]->incrementWeight();
         }
     }
-}
-
-void Petani::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight)
-{
-    TradeObject *tumbuhan = this->lahan.getBarang(rowLahan, colLahan);
-    ProductObject *product = new ProductObject(prodId, prodKode, nama, prodPrice, prodType, origin, addedWeight);
-    this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
-    delete this->lahan.getBarang(rowLahan, colLahan);
 }
 
 void Petani::tanam(CultivatedObject *tanaman, int row, int col)

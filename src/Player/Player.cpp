@@ -1,11 +1,12 @@
 #include "Player.hpp"
 
-Player::Player(int id, string nama, string peran, int berat)
+Player::Player(int id, string nama, string peran, int berat, int uang)
 {
     this->id = id;
     this->nama = nama;
     this->peran = peran;
     this->berat = berat;
+    this->uang = uang;
 }
 
 string Player::getNama()
@@ -18,6 +19,15 @@ string Player::getPeran()
     return this->getPeran();
 }
 
+int Player::getUang()
+{
+    return this->uang;
+}
+
+void Player::setUang(int uang)
+{
+    this->uang = uang;
+}
 void Player::setKekayaan(int kekayaan)
 {
     this->kekayaan = kekayaan;

@@ -42,4 +42,25 @@ class Game {
         void tambah() {
 
         }
+
+        int getJumlahPlayer(){
+            return this->jumlahPlayer;
+        }
+
+        string getPlayerNama(int i){
+            return this->listPlayer[i]->getNama();
+        }
+
+        int bayarPajakPlayer(int i){
+            return this->listPlayer[i]->bayarPajak();
+
+        }
+        string getPeranPlayer(int i){
+            return this->listPlayer[i]->getPeran();
+        }
+
+        void tambahGamePlayer(Player* player){
+            this->listPlayer[this->jumlahPlayer] = player;
+            this->jumlahPlayer++;
+        }
 };

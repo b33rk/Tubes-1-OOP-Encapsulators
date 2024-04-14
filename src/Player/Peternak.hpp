@@ -1,14 +1,13 @@
-#include "Player.hpp"
+#include "Farmers.hpp"
 
-class Petani : public Player {
-    private:
-        Field lahan;
+class Peternak : public Farmers {
     public:
-        void beriMakan();
-        void ternak();
-        void bayarPajak();
-        void cetakLahan(){
-            lahan.cetak();
-        }
+
+        Peternak(int id, string nama);
+        void beriMakan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int addWeight);
+
+        void ternak(CultivatedObject* hewan, int row, int col);
+
+        void cetakLahan();
 };
 

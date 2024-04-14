@@ -2,7 +2,7 @@
 COMPILER = g++
 
 # Source files
-SRC_FILES = main.cpp \
+SRC_FILES = main.cpp	\
         
 
 # Build main.exe directly from source files

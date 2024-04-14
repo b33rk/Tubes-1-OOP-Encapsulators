@@ -3,7 +3,7 @@
 ## How to run
 ### Linux
 ```
-make -f compile.makefile
+make
 ./main.exe
 ```
 

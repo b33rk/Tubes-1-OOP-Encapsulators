@@ -8,7 +8,7 @@ Melihat hal ini, terbesit pikiran di hati Bondowoso untuk mengijinkan Roro menge
 ## Cara menjalankan
 Jalankan perintah
 ```
-https://github.com/b33rk/Tubes-1-OOP-Encapsulators.git
+git clone https://github.com/b33rk/Tubes-1-OOP-Encapsulators.git
 ```
 
 ### Linux

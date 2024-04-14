@@ -63,7 +63,7 @@ void Walikota :: tambahPlayer(string peran ){
     //     throw "Peran tidak valid\n";
     // }
 
-    if (this->getUang()){
+    if (this->getUang() < 50){
         throw uangTidakCukupException();
     }
     if (peran != "Peternak" && peran != "Petani"){

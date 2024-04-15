@@ -38,6 +38,7 @@ class Game {
         map<string, CultivatedObject> animalMap;
         map<string, ProductObject> productMap;
         map<string, Recipe> recipeMap;
+        /*
         vector<TradeObject> tradeObjMemory;
         vector<CultivatedObject> cultObjMemory;
         vector<ProductObject> prodObjMemory;
@@ -45,6 +46,7 @@ class Game {
         vector<Petani> petaniMemory;
         vector<Peternak> peternakMemory;
         vector<Walikota> walkotMemory;
+        */
     public:
         Game(){}
         void nextTurn() {
@@ -406,7 +408,8 @@ class Game {
                 vector<string> itemJumlah = split(itemDanJumlah, ' ');
                 inisialisasiToko.push_back(make_pair(itemJumlah[0], stoi(itemJumlah[1])));
             }
-
+            turn = 1;
+            jumlahPlayer = listPlayer.size();
         }
 
         void simpan(){
@@ -478,7 +481,7 @@ class Game {
             cout << "Masukkan nama pemain: ";
             cin >> user;
             try{
-                listPlayer[turn]->tambahPlayer(jenis_pemain);
+                listPlayer[turn - 1]->tambahPlayer(jenis_pemain);
                 Player* new_player;
                 if(jenis_pemain == "Peternak"){
                     new_player = new Peternak(user, 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);

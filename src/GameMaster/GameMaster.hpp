@@ -19,430 +19,512 @@ using namespace std;
 
 string const pathConfig = "./config";
 
-const char* spaces = " \n\r\t";
+const char *spaces = " \n\r\t";
 
-class Game {
-    public:
-        int goalUang;
-        int goalBerat;
-        int rowPenyimpanan;
-        int colPenyimpanan;
-        int rowLadang;
-        int colLadang;
-        int rowLahan;
-        int colLahan;
-        int jumlahPlayer;
-        int turn;
-        vector<Player*> listPlayer;
-        map<string, CultivatedObject> plantMap;
-        map<string, CultivatedObject> animalMap;
-        map<string, ProductObject> productMap;
-        map<string, Recipe> recipeMap;
-    public:
-        Game(){}
-        void nextTurn() {
-            if (turn == jumlahPlayer){
-                turn = 1;
-            } else {
-                turn++;
-            }
-            cout << turn << endl;
+class Game
+{
+public:
+    int goalUang;
+    int goalBerat;
+    int rowPenyimpanan;
+    int colPenyimpanan;
+    int rowLadang;
+    int colLadang;
+    int rowLahan;
+    int colLahan;
+    int jumlahPlayer;
+    int turn;
+    vector<Player *> listPlayer;
+    map<string, CultivatedObject> plantMap;
+    map<string, CultivatedObject> animalMap;
+    map<string, ProductObject> productMap;
+    map<string, Recipe> recipeMap;
+
+public:
+    Game() {}
+    void nextTurn()
+    {
+        if (turn == jumlahPlayer)
+        {
+            turn = 1;
         }
-
-        Player* getCurrentPlayer() {
-            return this->listPlayer[turn - 1];
+        else
+        {
+            turn++;
         }
+        cout << turn << endl;
+    }
 
-        vector<Player*> getListPlayer() {
-            return this->listPlayer;
+    Player *getCurrentPlayer()
+    {
+        return this->listPlayer[turn - 1];
+    }
+
+    vector<Player *> getListPlayer()
+    {
+        return this->listPlayer;
+    }
+
+    // return pair p, p.first = row, p.second = col
+    pair<int, int> stringToCoord(string s)
+    {
+        char col = s[0];
+        char row = 10 * s[1] + s[2];
+        int colNum = col - 'A';
+        int rowNum = row - 1;
+        return make_pair(rowNum, colNum);
+    }
+
+    string coordToString(int row, int col)
+    {
+        char colChar = col + 'A';
+        row++;
+        char fi = '0' + (row / 10);
+        char se = '0' + (row % 10);
+        string ans = "";
+        ans += colChar;
+        ans += fi;
+        ans += se;
+        return ans;
+    }
+
+    void readPlant(vector<string> tokens)
+    {
+        if (tokens.size() != 6)
+            throw "readPlant: panjang token != 6";
+        CultivatedObject plant(stoi(tokens[0]), tokens[1], tokens[2], tokens[3], stoi(tokens[4]), stoi(tokens[5]));
+        plantMap[tokens[1]] = plant;
+    }
+
+    void readAnimal(vector<string> tokens)
+    {
+        if (tokens.size() != 6)
+            throw "readAnimal: panjang token != 6";
+        CultivatedObject animal(stoi(tokens[0]), tokens[1], tokens[2], tokens[3], stoi(tokens[4]), stoi(tokens[5]));
+        animalMap[tokens[1]] = animal;
+    }
+
+    void readProduct(vector<string> tokens)
+    {
+        if (tokens.size() != 7)
+            throw "readProduct: panjang token != 7";
+        ProductObject product(stoi(tokens[0]), tokens[1], tokens[2], stoi(tokens[6]), tokens[3], tokens[4], stoi(tokens[5]));
+        productMap[tokens[1]] = product;
+    }
+
+    void readRecipe(vector<string> tokens)
+    {
+        if (tokens.size() <= 4 || tokens.size() % 2 == 1)
+            throw "readRecipe: panjang token <= 4 atau panjang token ganjil";
+        vector<string> materials;
+        vector<int> materialQuantity;
+        for (int i = 4; i < tokens.size(); i += 2)
+        {
+            materials.push_back(tokens[i]);
+            materialQuantity.push_back(stoi(tokens[i + 1]));
         }
+        Recipe recipe(stoi(tokens[0]), tokens[1], tokens[2], stoi(tokens[3]), materials, materialQuantity);
+        recipeMap[tokens[1]] = recipe;
+    }
 
-       // return pair p, p.first = row, p.second = col
-        pair<int, int> stringToCoord(string s){
-            char col = s[0];
-            char row = 10 * s[1] + s[2];
-            int colNum = col - 'A';
-            int rowNum = row - 1;
-            return make_pair(rowNum, colNum);
+    void initialMisc()
+    {
+        ifstream MiscFile(pathConfig + "/" + "misc" + ".txt");
+        if (!MiscFile)
+            throw strerror(errno);
+        string allText = "";
+        string currentText;
+        while (getline(MiscFile, currentText))
+        {
+            allText += currentText + '\n';
         }
+        allText.erase(allText.find_last_not_of(spaces) + 1);
+        vector<string> splitted = split(allText, '\n');
+        for (int i = 0; i < 5; ++i)
+        {
+            string splitString = splitted[i];
+            splitString.erase(splitString.find_last_not_of(spaces) + 1);
 
-        string coordToString(int row, int col){
-            char colChar = col + 'A';
-            row++;
-            char fi = '0' + (row / 10);
-            char se = '0' + (row % 10);
-            string ans = "";
-            ans += colChar;
-            ans += fi;
-            ans += se;
-            return ans;
-        }
-
-        void readPlant(vector<string> tokens){
-            if(tokens.size() != 6) throw "readPlant: panjang token != 6";
-            CultivatedObject plant(stoi(tokens[0]), tokens[1], tokens[2], tokens[3], stoi(tokens[4]), stoi(tokens[5]));
-            plantMap[tokens[1]] = plant;
-        }
-
-        void readAnimal(vector<string> tokens){
-            if(tokens.size() != 6) throw "readAnimal: panjang token != 6";
-            CultivatedObject animal(stoi(tokens[0]), tokens[1], tokens[2], tokens[3], stoi(tokens[4]), stoi(tokens[5]));
-            animalMap[tokens[1]] = animal;
-        }
-
-        void readProduct(vector<string> tokens){
-            if(tokens.size() != 7) throw "readProduct: panjang token != 7";
-            ProductObject product(stoi(tokens[0]), tokens[1], tokens[2], stoi(tokens[6]), tokens[3], tokens[4], stoi(tokens[5]));
-            productMap[tokens[1]] = product;
-        }
-
-        void readRecipe(vector<string> tokens){
-            if(tokens.size() <= 4 || tokens.size() % 2 == 1) throw "readRecipe: panjang token <= 4 atau panjang token ganjil";
-            vector<string> materials;
-            vector<int> materialQuantity;
-            for(int i = 4; i < tokens.size(); i += 2){
-                materials.push_back(tokens[i]);
-                materialQuantity.push_back(stoi(tokens[i + 1]));
-            }
-            Recipe recipe(stoi(tokens[0]), tokens[1], tokens[2], stoi(tokens[3]), materials, materialQuantity);
-            recipeMap[tokens[1]] = recipe;
-        }
-
-        void initialMisc() {
-            ifstream MiscFile(pathConfig + "/" + "misc" + ".txt");
-            if(!MiscFile) throw strerror(errno);
-            string allText = "";
-            string currentText;
-            while(getline(MiscFile, currentText)){
-                allText += currentText + '\n';
-            }
-            allText.erase(allText.find_last_not_of(spaces)+1);
-            vector<string> splitted = split(allText, '\n');
-            for(int i = 0; i < 5; ++i){
-                string splitString = splitted[i];
-                splitString.erase(splitString.find_last_not_of(spaces) + 1);
-                
-                switch (i){
-                case 0:
-                    goalUang = stoi(splitString);
-                    break;
-                case 1:
-                    goalBerat = stoi(splitString);
-                    break;
-                default: // INI SEMUA BISA KEBALIK AWIKWOK
-                    vector<string> splittedSpace = split(splitString, ' ');
-                    switch(i){
-                        case 2:
-                            rowPenyimpanan = stoi(splittedSpace[0]); // GAK YAKIN, BISA JADI KEBALIK SAMA YANG BAWAH
-                            colPenyimpanan = stoi(splittedSpace[1]);  // GAK TAU MANA ROW MANA COL // UPD: BENER
-                            break;
-                        case 3:
-                            rowLahan = stoi(splittedSpace[0]);
-                            colLahan = stoi(splittedSpace[1]);
-                            break;
-                        case 4:
-                            rowLadang = stoi(splittedSpace[0]); // peternakan = ladang
-                            colLadang = stoi(splittedSpace[1]);
-                            break;
-                        default:
-                            throw "initialMisc: gak masuk switch case manapun (how)";
-                    }
-                    break;
-                }                
-            }
-            this->turn = 1;
-            this->rowLadang = 10;
-            this->colLadang = 8;
-            this->rowLahan = 10;
-            this->colLahan = 8;
-            this->colPenyimpanan = 10;
-            this->rowPenyimpanan = 8;
-            this->listPlayer.push_back(new Walikota("Walikota", 40, 50, this->rowPenyimpanan, this->colPenyimpanan));
-            this->listPlayer.push_back(new Petani("Petani1", 40, 50, this->rowPenyimpanan,this->colPenyimpanan, this->rowLahan, this->colLahan));
-            this->listPlayer.push_back(new Peternak("Peternak1", 40, 50, this->rowPenyimpanan, this->colPenyimpanan, this->rowLadang, this->colLadang));
-            this->jumlahPlayer = listPlayer.size();
-        }
-
-        vector<string> split(const string &s, char delim){
-            vector<string> result;
-            stringstream ss(s);
-            string item;
-            while(getline(ss, item, delim)){
-                result.push_back(item);
-            }
-            return result;
-        }
-
-        void muat_general(string namaFile, void(Game::*func)(vector<string>)){
-            ifstream currentFile(pathConfig + "/" + namaFile + ".txt");
-            if(!currentFile) throw strerror(errno);
-            string allText = "";
-            string currentText;
-            while(getline(currentFile, currentText)){
-                allText += currentText + '\n';
-            }
-            allText.erase(allText.find_last_not_of(spaces) + 1);
-            vector<string> splitted = split(allText, '\n');
-            for(auto &splitString: splitted){
-                splitString.erase(splitString.find_last_not_of(spaces) + 1);
+            switch (i)
+            {
+            case 0:
+                goalUang = stoi(splitString);
+                break;
+            case 1:
+                goalBerat = stoi(splitString);
+                break;
+            default: // INI SEMUA BISA KEBALIK AWIKWOK
                 vector<string> splittedSpace = split(splitString, ' ');
-                (this->*func)(splittedSpace);
+                switch (i)
+                {
+                case 2:
+                    rowPenyimpanan = stoi(splittedSpace[0]); // GAK YAKIN, BISA JADI KEBALIK SAMA YANG BAWAH
+                    colPenyimpanan = stoi(splittedSpace[1]); // GAK TAU MANA ROW MANA COL // UPD: BENER
+                    break;
+                case 3:
+                    rowLahan = stoi(splittedSpace[0]);
+                    colLahan = stoi(splittedSpace[1]);
+                    break;
+                case 4:
+                    rowLadang = stoi(splittedSpace[0]); // peternakan = ladang
+                    colLadang = stoi(splittedSpace[1]);
+                    break;
+                default:
+                    throw "initialMisc: gak masuk switch case manapun (how)";
+                }
+                break;
             }
         }
+        this->turn = 1;
+        // this->rowLadang = 10;
+        // this->colLadang = 8;
+        // this->rowLahan = 10;
+        // this->colLahan = 8;
+        // this->colPenyimpanan = 10;
+        // this->rowPenyimpanan = 8;
+        this->listPlayer.push_back(new Walikota("Walikota", 40, 50, this->rowPenyimpanan, this->colPenyimpanan));
+        this->listPlayer.push_back(new Petani("Petani1", 40, 50, this->rowPenyimpanan, this->colPenyimpanan, this->rowLahan, this->colLahan));
+        this->listPlayer.push_back(new Peternak("Peternak1", 40, 50, this->rowPenyimpanan, this->colPenyimpanan, this->rowLadang, this->colLadang));
+        this->jumlahPlayer = listPlayer.size();
+    }
 
-        void muat_semua_config(){
-            // muat_general dengan argumen function pointer milik Game
-            muat_general("plant", &Game::readPlant);
-            muat_general("animal", &Game::readAnimal);
-            muat_general("product", &Game::readProduct);
-            muat_general("recipe", &Game::readRecipe);
-            initialMisc();
+    vector<string> split(const string &s, char delim)
+    {
+        vector<string> result;
+        stringstream ss(s);
+        string item;
+        while (getline(ss, item, delim))
+        {
+            result.push_back(item);
         }
+        return result;
+    }
 
-        void cetak_state(){
-            for(auto &p: plantMap){
-                p.second.cetak();
-                cout << endl;
-            }
+    void muat_general(string namaFile, void (Game::*func)(vector<string>))
+    {
+        ifstream currentFile(pathConfig + "/" + namaFile + ".txt");
+        if (!currentFile)
+            throw strerror(errno);
+        string allText = "";
+        string currentText;
+        while (getline(currentFile, currentText))
+        {
+            allText += currentText + '\n';
+        }
+        allText.erase(allText.find_last_not_of(spaces) + 1);
+        vector<string> splitted = split(allText, '\n');
+        for (auto &splitString : splitted)
+        {
+            splitString.erase(splitString.find_last_not_of(spaces) + 1);
+            vector<string> splittedSpace = split(splitString, ' ');
+            (this->*func)(splittedSpace);
+        }
+    }
+
+    void muat_semua_config()
+    {
+        // muat_general dengan argumen function pointer milik Game
+        muat_general("plant", &Game::readPlant);
+        muat_general("animal", &Game::readAnimal);
+        muat_general("product", &Game::readProduct);
+        muat_general("recipe", &Game::readRecipe);
+        initialMisc();
+    }
+
+    void cetak_state()
+    {
+        for (auto &p : plantMap)
+        {
+            p.second.cetak();
             cout << endl;
-            for(auto &p: animalMap){
-                p.second.cetak();
-                cout << endl;
-            }
-            for(auto &p: productMap){
-                p.second.cetakBarang();
-                cout << endl;
-            }
+        }
+        cout << endl;
+        for (auto &p : animalMap)
+        {
+            p.second.cetak();
             cout << endl;
-            for(auto &p: recipeMap){
-                
-                //p.second.cetakBarang();
+        }
+        for (auto &p : productMap)
+        {
+            p.second.cetakBarang();
+            cout << endl;
+        }
+        cout << endl;
+        for (auto &p : recipeMap)
+        {
+
+            // p.second.cetakBarang();
+            cout << endl;
+        }
+        cout << endl;
+        cout << goalUang << " " << goalBerat << " " << rowPenyimpanan << " " << colPenyimpanan << " " << rowLahan << " " << colLahan << " " << rowLadang << " " << colLadang << endl;
+    }
+
+    void muat_player_state()
+    {
+        bool player_loaded = false;
+        bool valid_input = false;
+        string filePath;
+        // loading player
+        do
+        {
+            string input;
+            do
+            {
+                cout << "Apakah anda ingin memuat state? (y/n)";
+                cin >> input;
                 cout << endl;
+                input.erase(input.find_last_not_of(spaces) + 1);
+            } while (input != "y" && input != "n");
+
+            if (input == "n")
+            {
+                Player *petani1 = new Petani("Petani1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
+                Player *peternak1 = new Peternak("Peternak1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
+                Player *walikota = new Walikota("Walikota1", 40, 50, rowPenyimpanan, colPenyimpanan);
+                listPlayer.push_back(petani1);
+                listPlayer.push_back(peternak1);
+                listPlayer.push_back(walikota);
+                sort(listPlayer.begin(), listPlayer.end(), [](Player *p1, Player *p2)
+                     { return p1->getNama() < p2->getNama(); });
+                player_loaded = true;
+                valid_input = true;
             }
-            cout << endl;
-            cout << goalUang << " " << goalBerat << " " << rowPenyimpanan << " " << colPenyimpanan << " " << rowLahan << " " << colLahan << " " << rowLadang << " " << colLadang << endl;
-        }
-
-        void muat_player_state(){
-            bool player_loaded = false;
-            bool valid_input = false;
-            string filePath;
-            // loading player
-            do{
-                string input;
-                do{
-                    cout << "Apakah anda ingin memuat state? (y/n)";
-                    cin >> input;
-                    cout << endl;
-                    input.erase(input.find_last_not_of(spaces) + 1);
-                }while(input != "y" && input != "n");
-
-                if(input == "n"){
-                    Player* petani1 = new Petani("Petani1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
-                    Player* peternak1 = new Peternak("Peternak1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
-                    Player* walikota = new Walikota("Walikota1", 40, 50, rowPenyimpanan, colPenyimpanan);
-                    listPlayer.push_back(petani1);
-                    listPlayer.push_back(peternak1);
-                    listPlayer.push_back(walikota);
-                    sort(listPlayer.begin(), listPlayer.end(), [](Player* p1, Player* p2){
-                        return p1->getNama() < p2->getNama();
-                    });
-                    player_loaded = true;
-                    valid_input = true;
-                }else{
-                    cout << "Masukkan lokasi berkas state (b utk back): ";
-                    cin >> filePath;
-                    cout << endl;
-                    filePath.erase(filePath.find_last_not_of(spaces) + 1);
-                    if(filePath != "b"){
-                        ifstream playerFile(filePath);
-                        if(playerFile){
-                            valid_input = true;
-                        }else{
-                            cout << "File reading failed!" << endl;
-                        }
+            else
+            {
+                cout << "Masukkan lokasi berkas state (b utk back): ";
+                cin >> filePath;
+                cout << endl;
+                filePath.erase(filePath.find_last_not_of(spaces) + 1);
+                if (filePath != "b")
+                {
+                    ifstream playerFile(filePath);
+                    if (playerFile)
+                    {
+                        valid_input = true;
                     }
-                }
-            }while(!valid_input);
-
-            if(player_loaded) return;
-
-            ifstream currentFile(filePath);
-
-            if(!currentFile) throw strerror(errno);
-            
-            string allText = "";
-            string currentText;
-
-            // baca N
-            string NText;
-            getline(currentFile, NText);
-            NText.erase(NText.find_last_not_of(spaces) + 1);
-            int N = stoi(NText);
-            /*
-            while(getline(currentFile, currentText)){
-                allText += currentText + '\n';
-            }*/
-            //allText.erase(allText.find_last_not_of(spaces) + 1);
-            //vector<string> splitted = split(allText, '\n');
-            //int pVector = 0;
-            for(int i = 0; i < N; ++i){
-                string playerName;
-                getline(currentFile, playerName);
-                playerName.erase(playerName.find_last_not_of(spaces) + 1);
-                //splitted[i].erase(splitted[pVector].find_last_not_of(spaces) + 1);
-                vector<string> playerInfo = split(playerName, ' ');
-                int kodePlayer; // 0 bwt petani & peternak, 1 bwt walikota
-                Player* new_player;
-                if(playerInfo[1] == "Petani"){
-                    new_player = new Petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
-                    kodePlayer = 0;
-                }else if(playerInfo[1] == "Peternak"){
-                    new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
-                    kodePlayer = 0;
-                }else if(playerInfo[1] == "Walikota"){
-                    new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan);
-                    kodePlayer = 1;
-                }else{
-                    throw "muat_player_state(): tipe player tidak diketahui";
-                }
-                string numberM;
-                getline(currentFile, numberM);
-                numberM.erase(numberM.find_last_not_of(spaces) + 1);
-                int M = stoi(numberM);
-                for(int j = 0; j < M; ++j){
-                    string inventoryString;
-                    getline(currentFile, inventoryString);
-                    inventoryString.erase(inventoryString.find_last_not_of(spaces) + 1);
-                    bool notFound = 1;
-                    TradeObject* objInInv;
-                    for(auto it = plantMap.begin(); it != plantMap.end() && notFound; it++){
-                        if(it->second.getNama() == inventoryString){
-                            CultivatedObject copyPlantMap(it->second);
-                            objInInv = &copyPlantMap;
-                            notFound = 0;
-                        }
-                    }
-                    for(auto it = animalMap.begin(); it != animalMap.end() && notFound; it++){
-                        if(it->second.getNama() == inventoryString){
-                            CultivatedObject copyAnimalMap(it->second);
-                            objInInv = &copyAnimalMap;
-                            notFound = 0;
-                        }
-                    }
-                    for(auto it = productMap.begin(); it != productMap.end() && notFound; it++){
-                        if(it->second.getNama() == inventoryString){
-                            ProductObject copyProductMap(it->second);
-                            objInInv = &copyProductMap;
-                            notFound = 0;
-                        }
-                    }
-                    if(notFound){
-                        throw "muat_player_state(): notFound";
-                    }
-                    new_player->setBarangFirstPenyimpanan(objInInv);
-                }
-                if(!kodePlayer){
-                    string numberK;
-                    getline(currentFile, numberK);
-                    numberK.erase(numberK.find_last_not_of(spaces) + 1);
-                    int K = stoi(numberK);
-                    for(int k = 0; k < K; ++k){
-                        string lokasi_nama_berat;
-                        getline(currentFile, lokasi_nama_berat);
-                        lokasi_nama_berat.erase(lokasi_nama_berat.find_last_not_of(spaces) + 1);
-                        vector<string> barangInfo = split(lokasi_nama_berat, ' ');
-                        pair<int, int> pairCoord = this->stringToCoord(barangInfo[0]);
-                        CultivatedObject* cultObject;
-                        for(auto it = animalMap.begin(); it != animalMap.end(); it++){
-                            if(it->second.getNama() == barangInfo[1]){
-                                CultivatedObject copyCultObject(it->second);
-                                cultObject = &copyCultObject;
-                            }
-                        }
-                        for(auto it = plantMap.begin(); it != plantMap.end(); it++){
-                            if(it->second.getNama() == barangInfo[1]){
-                                CultivatedObject copyCultObject(it->second);
-                                cultObject = &copyCultObject;
-                            }
-                        }
-                        cultObject->setWeight(stoi(barangInfo[2]));
-                        new_player->setBarangPenyimpanan(pairCoord.first, pairCoord.second, cultObject);
+                    else
+                    {
+                        cout << "File reading failed!" << endl;
                     }
                 }
             }
-            string numberItemTokoM;
-            getline(currentFile, numberItemTokoM);
-            numberItemTokoM.erase(numberItemTokoM.find_last_not_of(spaces) + 1);
-            int numberItemM = stoi(numberItemTokoM);
-            vector<pair<string, int>> inisialisasiToko;
-            for(int m = 0; m < numberItemM; ++m){
-                string itemDanJumlah;
-                getline(currentFile, itemDanJumlah);
-                itemDanJumlah.erase(itemDanJumlah.find_last_not_of(spaces) + 1);
-                vector<string> itemJumlah = split(itemDanJumlah, ' ');
-                inisialisasiToko.push_back(make_pair(itemJumlah[0], stoi(itemJumlah[1])));
+        } while (!valid_input);
+
+        if (player_loaded)
+            return;
+
+        ifstream currentFile(filePath);
+
+        if (!currentFile)
+            throw strerror(errno);
+
+        string allText = "";
+        string currentText;
+
+        // baca N
+        string NText;
+        getline(currentFile, NText);
+        NText.erase(NText.find_last_not_of(spaces) + 1);
+        int N = stoi(NText);
+        /*
+        while(getline(currentFile, currentText)){
+            allText += currentText + '\n';
+        }*/
+        // allText.erase(allText.find_last_not_of(spaces) + 1);
+        // vector<string> splitted = split(allText, '\n');
+        // int pVector = 0;
+        for (int i = 0; i < N; ++i)
+        {
+            string playerName;
+            getline(currentFile, playerName);
+            playerName.erase(playerName.find_last_not_of(spaces) + 1);
+            // splitted[i].erase(splitted[pVector].find_last_not_of(spaces) + 1);
+            vector<string> playerInfo = split(playerName, ' ');
+            int kodePlayer; // 0 bwt petani & peternak, 1 bwt walikota
+            Player *new_player;
+            if (playerInfo[1] == "Petani")
+            {
+                new_player = new Petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
+                kodePlayer = 0;
             }
-
-        }
-
-        void simpan(){
-            string lokasi = "";    
-
-            cout << "Masukkan lokasi berkas state: ";
-            cin >> lokasi;
-            cout << endl;
-
-            ofstream file(lokasi);
-            
-            if(!file.good()){
-                cout << "Lokasi berkas tidak valid" << endl;
-            }else{
-                int jumlahPlayer = listPlayer.size();
-                file << jumlahPlayer << endl;
-                for(int i = 0; i < listPlayer.size(); ++i){
-                    string usrnm = listPlayer[i]->getNama();
-                    string tipe = listPlayer[i]->getPeran();
-                    int berat_badan = listPlayer[i]->getBerat();
-                    int uang = listPlayer[i]->getUang();
-                    file << usrnm << " " << tipe << " " << berat_badan << " " << uang << endl;
-                    vector<string> allNamaBarang = listPlayer[i]->getAllNamaBarang();
-                    file << allNamaBarang.size() << endl;
-                    for(auto &x: allNamaBarang){
-                        file << x << endl;
-                    }
-                    if(listPlayer[i]->getPeran() == "Peternak" || listPlayer[i]->getPeran() == "Petani"){
-                        vector<pair<pair<int, int>, pair<string, int>>> allPosisiNamaBerat = listPlayer[i]->getAllPosisiNamaBerat();
-                        file << allPosisiNamaBerat.size() << endl;
-                        for(auto &x: allPosisiNamaBerat){
-                            file << coordToString(x.first.first, x.first.second) << " " << x.second.first << " " << x.second.second << endl;
-                        }
+            else if (playerInfo[1] == "Peternak")
+            {
+                new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
+                kodePlayer = 0;
+            }
+            else if (playerInfo[1] == "Walikota")
+            {
+                new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan);
+                kodePlayer = 1;
+            }
+            else
+            {
+                throw "muat_player_state(): tipe player tidak diketahui";
+            }
+            string numberM;
+            getline(currentFile, numberM);
+            numberM.erase(numberM.find_last_not_of(spaces) + 1);
+            int M = stoi(numberM);
+            for (int j = 0; j < M; ++j)
+            {
+                string inventoryString;
+                getline(currentFile, inventoryString);
+                inventoryString.erase(inventoryString.find_last_not_of(spaces) + 1);
+                bool notFound = 1;
+                TradeObject *objInInv;
+                for (auto it = plantMap.begin(); it != plantMap.end() && notFound; it++)
+                {
+                    if (it->second.getNama() == inventoryString)
+                    {
+                        CultivatedObject copyPlantMap(it->second);
+                        objInInv = &copyPlantMap;
+                        notFound = 0;
                     }
                 }
-                // TODO: TULIS TOKO ABIS INI 
+                for (auto it = animalMap.begin(); it != animalMap.end() && notFound; it++)
+                {
+                    if (it->second.getNama() == inventoryString)
+                    {
+                        CultivatedObject copyAnimalMap(it->second);
+                        objInInv = &copyAnimalMap;
+                        notFound = 0;
+                    }
+                }
+                for (auto it = productMap.begin(); it != productMap.end() && notFound; it++)
+                {
+                    if (it->second.getNama() == inventoryString)
+                    {
+                        ProductObject copyProductMap(it->second);
+                        objInInv = &copyProductMap;
+                        notFound = 0;
+                    }
+                }
+                if (notFound)
+                {
+                    throw "muat_player_state(): notFound";
+                }
+                new_player->setBarangFirstPenyimpanan(objInInv);
+            }
+            if (!kodePlayer)
+            {
+                string numberK;
+                getline(currentFile, numberK);
+                numberK.erase(numberK.find_last_not_of(spaces) + 1);
+                int K = stoi(numberK);
+                for (int k = 0; k < K; ++k)
+                {
+                    string lokasi_nama_berat;
+                    getline(currentFile, lokasi_nama_berat);
+                    lokasi_nama_berat.erase(lokasi_nama_berat.find_last_not_of(spaces) + 1);
+                    vector<string> barangInfo = split(lokasi_nama_berat, ' ');
+                    pair<int, int> pairCoord = this->stringToCoord(barangInfo[0]);
+                    CultivatedObject *cultObject;
+                    for (auto it = animalMap.begin(); it != animalMap.end(); it++)
+                    {
+                        if (it->second.getNama() == barangInfo[1])
+                        {
+                            CultivatedObject copyCultObject(it->second);
+                            cultObject = &copyCultObject;
+                        }
+                    }
+                    for (auto it = plantMap.begin(); it != plantMap.end(); it++)
+                    {
+                        if (it->second.getNama() == barangInfo[1])
+                        {
+                            CultivatedObject copyCultObject(it->second);
+                            cultObject = &copyCultObject;
+                        }
+                    }
+                    cultObject->setWeight(stoi(barangInfo[2]));
+                    new_player->setBarangPenyimpanan(pairCoord.first, pairCoord.second, cultObject);
+                }
             }
         }
-
-        int getJumlahPlayer(){
-            return this->jumlahPlayer;
+        string numberItemTokoM;
+        getline(currentFile, numberItemTokoM);
+        numberItemTokoM.erase(numberItemTokoM.find_last_not_of(spaces) + 1);
+        int numberItemM = stoi(numberItemTokoM);
+        vector<pair<string, int>> inisialisasiToko;
+        for (int m = 0; m < numberItemM; ++m)
+        {
+            string itemDanJumlah;
+            getline(currentFile, itemDanJumlah);
+            itemDanJumlah.erase(itemDanJumlah.find_last_not_of(spaces) + 1);
+            vector<string> itemJumlah = split(itemDanJumlah, ' ');
+            inisialisasiToko.push_back(make_pair(itemJumlah[0], stoi(itemJumlah[1])));
         }
+    }
 
-        string getPlayerNama(int i){
-            return this->listPlayer[i]->getNama();
-        }
+    void simpan()
+    {
+        string lokasi = "";
 
-        int bayarPajakPlayer(int i){
-            return this->listPlayer[i]->bayarPajak();
+        cout << "Masukkan lokasi berkas state: ";
+        cin >> lokasi;
+        cout << endl;
 
-        }
-        string getPeranPlayer(int i){
-            return this->listPlayer[i]->getPeran();
-        }
+        ofstream file(lokasi);
 
-        void tambahGamePlayer(Player* player){
-            this->listPlayer[this->jumlahPlayer] = player;
-            this->jumlahPlayer++;
+        if (!file.good())
+        {
+            cout << "Lokasi berkas tidak valid" << endl;
         }
+        else
+        {
+            int jumlahPlayer = listPlayer.size();
+            file << jumlahPlayer << endl;
+            for (int i = 0; i < listPlayer.size(); ++i)
+            {
+                string usrnm = listPlayer[i]->getNama();
+                string tipe = listPlayer[i]->getPeran();
+                int berat_badan = listPlayer[i]->getBerat();
+                int uang = listPlayer[i]->getUang();
+                file << usrnm << " " << tipe << " " << berat_badan << " " << uang << endl;
+                vector<string> allNamaBarang = listPlayer[i]->getAllNamaBarang();
+                file << allNamaBarang.size() << endl;
+                for (auto &x : allNamaBarang)
+                {
+                    file << x << endl;
+                }
+                if (listPlayer[i]->getPeran() == "Peternak" || listPlayer[i]->getPeran() == "Petani")
+                {
+                    vector<pair<pair<int, int>, pair<string, int>>> allPosisiNamaBerat = listPlayer[i]->getAllPosisiNamaBerat();
+                    file << allPosisiNamaBerat.size() << endl;
+                    for (auto &x : allPosisiNamaBerat)
+                    {
+                        file << coordToString(x.first.first, x.first.second) << " " << x.second.first << " " << x.second.second << endl;
+                    }
+                }
+            }
+            // TODO: TULIS TOKO ABIS INI
+        }
+    }
+
+    int getJumlahPlayer()
+    {
+        return this->jumlahPlayer;
+    }
+
+    string getPlayerNama(int i)
+    {
+        return this->listPlayer[i]->getNama();
+    }
+
+    int bayarPajakPlayer(int i)
+    {
+        return this->listPlayer[i]->bayarPajak();
+    }
+    string getPeranPlayer(int i)
+    {
+        return this->listPlayer[i]->getPeran();
+    }
+
+    void tambahGamePlayer(Player *player)
+    {
+        this->listPlayer[this->jumlahPlayer] = player;
+        this->jumlahPlayer++;
+    }
 };
 
 #endif

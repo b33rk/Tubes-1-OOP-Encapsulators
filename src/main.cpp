@@ -8,14 +8,22 @@
 #include "Player/Player.hpp"
 #include "Player/Walikota.hpp"
 
-int main() {
+int main()
+{
     Game main;
     main.muat_semua_config();
-    try {
-        cout << main.listPlayer[main.turn - 1]->getPeran() << endl;
-        main.listPlayer[main.turn - 1]->pungutPajak(main.getListPlayer(), 3);
-        main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
-    } catch (invalidCommandException e) {
+    try
+    {
+        // cout << main.listPlayer[main.turn - 1]->getPeran() << endl;
+        // main.listPlayer[main.turn - 1]->pungutPajak(main.getListPlayer(), 3);
+        // main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
+
+        // cout << main.listPlayer[main.turn]->penyimpanan.getRow() << endl;
+        // cout << main.listPlayer[main.turn]->penyimpanan.getCol() << endl;
+        main.listPlayer[main.turn]->cetakPenyimpanan();
+    }
+    catch (invalidCommandException e)
+    {
         cout << e.message();
     }
     return 0;

@@ -20,12 +20,12 @@ public:
     Player(string, string, int, int, int, int);
     //~Player();
     void virtual next() {}
-    //void virtual muat();
-    //void virtual jual(int, int);
-    //void virtual beli(TradeObject *, int);
+    // void virtual muat();
+    // void virtual jual(int, int);
+    // void virtual beli(TradeObject *, int);
     void virtual makan(TradeObject *);
     void virtual cetakPenyimpanan();
-    //void virtual cetakLahan();
+    // void virtual cetakLahan();
     string getNama();
     string getPeran();
     int getUang();

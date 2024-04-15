@@ -22,7 +22,7 @@ string const pathConfig = "./config";
 const char* spaces = " \n\r\t";
 
 class Game {
-    private:
+    public:
         int goalUang;
         int goalBerat;
         int rowPenyimpanan;

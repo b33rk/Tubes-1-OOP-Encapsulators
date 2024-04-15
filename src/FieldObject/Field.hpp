@@ -192,10 +192,7 @@ public:
             {
                 if (storage[i][j]->getKodeHuruf() != "   ")
                 {
-                    hasil[inc].first.first = i;
-                    hasil[inc].first.second = j;
-                    hasil[inc].second.first = storage[i][j]->getNamaGameObject();
-                    hasil[inc].second.second = storage[i][j]->getCurrentBerat();
+                    hasil.push_back(make_pair(make_pair(i, j), make_pair(storage[i][j]->getNamaGameObject(), storage[i][j]->getCurrentBerat())));
                 }
             }
         }

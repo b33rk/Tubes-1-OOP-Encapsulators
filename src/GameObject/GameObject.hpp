@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 
+#include <string>
 // #include <string.h>
 
 using namespace std;
@@ -93,6 +94,12 @@ class TradeObject : public GameObject {
         string getType(){
             return this->type;
         }
+
+        virtual int getAddedWeight(){
+            throw invalidCommandException();
+            return -1;
+        }
+
 };
 
 class CultivatedObject : public TradeObject {
@@ -118,8 +125,14 @@ class CultivatedObject : public TradeObject {
             cultivateWeight++;
         }
 
-        virtual void addWeight(ProductObject* p = nullptr){
-            throw "BaseClass: addWeight";
+        void setWeight(int weight)
+        {
+            this->currentWeight = weight;
+        }
+
+        void addWeight(int weight)
+        {
+            this->setWeight(weight + this->currentWeight);
         }
 
         void cetak(){
@@ -127,71 +140,59 @@ class CultivatedObject : public TradeObject {
         }
 };
 
-class Tumbuhan : public CultivatedObject{
+class ProductObject : public TradeObject
+{
+private:
+    string origin;
+    int addedWeight;
+
 public:
-    void addWeight(ProductObject* p = nullptr) override{}
+    ProductObject(int prodId, string prodKode, string nama, int prodPrice,
+                  string prodType, string origin, int addedWeight) : TradeObject(prodId, prodKode, nama, prodPrice, prodType)
+    {
+        this->addedWeight = addedWeight;
+        this->origin = origin;
+    }
+
+    int getAddedWeight() override
+    {
+        return this->addedWeight;
+    }
 };
 
-class Hewan : public CultivatedObject{
+// recipe seharusnya bukan tradeobject, gabisa di trade soalnya
+class Recipe : public GameObject
+{
+private:
+    int price;
+    vector<string> listMaterial;
+    vector<int> materialQuantity;
+
 public:
-    void addWeight(ProductObject* p = nullptr) override{}
-};
-
-// TradeObject -> ProductObject
-
-class ProductObject : public TradeObject {
-    private:
-        string origin;
-        int added_weight; // APP -> herbivor, COM -> cow meat karnivor 
-    public:
-        ProductObject() : TradeObject(){
-            origin = "   ";
+    Recipe() : GameObject()
+    {
+        this->price = 0;
+    }
+    Recipe(const Recipe& other) : GameObject(other){
+        for(auto &material: other.listMaterial){
+            listMaterial.push_back(material);
         }
-        ProductObject(const ProductObject& other) : TradeObject(other){
-            this->origin = other.origin;
+        for(auto &quantity: other.materialQuantity){
+            materialQuantity.push_back(quantity);
         }
-        ProductObject(int id, string kode, string name, string type, string origin, int added_weight, int price) : TradeObject(id, kode, name, price, type){
-            this->origin = origin;
-            this->added_weight = added_weight;
+    }
+    Recipe(int id, string kode_huruf, string nama, int price, vector<string> listMaterials, vector<int> materialQuantity) : GameObject(id, kode_huruf, nama)
+    {
+        for (int i = 0; i < listMaterial.size(); i++)
+        {
+            this->listMaterial.push_back(listMaterials[i]);
+            this->materialQuantity.push_back(materialQuantity[i]);
         }
-        void cetak(){
-            cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << origin << " " << added_weight << " " << getPrice() ;
-        }
-};
-
-class Recipe : public GameObject {
-    private :
-        int price;
-        vector<string> listMaterial;
-        vector<int> materialQuantity;
-    public:
-        Recipe() : GameObject(){
-            listMaterial.clear();
-            materialQuantity.clear();
-        }
-        Recipe(const Recipe& other) : GameObject(other){
-            for(auto &material: other.listMaterial){
-                listMaterial.push_back(material);
-            }
-            for(auto &quantity: other.materialQuantity){
-                materialQuantity.push_back(quantity);
-            }
-        }
-        Recipe(int id, string kode_huruf, string nama, int price, vector<string>listMaterials, vector<int> materialQuantity) : GameObject(id,kode_huruf,nama){
-            for (int i = 0; i < listMaterial.size() ; i++){
-                this->listMaterial.push_back(listMaterials[i]);
-                this->materialQuantity.push_back(materialQuantity[i]);
-            }
-        }
-        int getPrice(){
-            return this->price;
-        }
-        void cetak(){
-            cout << id << " " << kode_huruf << " " << nama << " " << price << " ";
-            for(int i = 0; i < listMaterial.size(); ++i){
-                cout << listMaterial[i] << " " << materialQuantity[i] << " ";
-            }
-        }
+    }
+    int getPrice()
+    {
+        return this->price;
+    }
 };
 
 #endif

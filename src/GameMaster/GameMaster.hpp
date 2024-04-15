@@ -10,6 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include <string.h>
+
 #include <vector>
 #include <algorithm>
 #include <map>
@@ -61,7 +62,7 @@ class Game {
 
         void readProduct(vector<string> tokens){
             if(tokens.size() != 7) throw "readProduct: panjang token != 7";
-            ProductObject product(stoi(tokens[0]), tokens[1], tokens[2], tokens[3], tokens[4], stoi(tokens[5]), stoi(tokens[6]));
+            ProductObject product(stoi(tokens[0]), tokens[1], tokens[2], stoi(tokens[6]), tokens[3], tokens[4], stoi(tokens[5]));
             productMap[tokens[1]] = product;
         }
 
@@ -168,12 +169,13 @@ class Game {
                 cout << endl;
             }
             for(auto &p: productMap){
-                p.second.cetak();
+                p.second.cetakBarang();
                 cout << endl;
             }
             cout << endl;
             for(auto &p: recipeMap){
-                p.second.cetak();
+                
+                //p.second.cetakBarang();
                 cout << endl;
             }
             cout << endl;
@@ -195,9 +197,9 @@ class Game {
                 }while(input != "y" && input != "n");
 
                 if(input == "n"){
-                    Player* petani1 = new Petani("Petani1");
-                    Player* peternak1 = new Peternak("Peternak1");
-                    Player* walikota = new Walikota("Walikota");
+                    Player* petani1 = new Petani("Petani1", 40, 50);
+                    Player* peternak1 = new Peternak("Peternak1", 40, 50);
+                    Player* walikota = new Walikota("Walikota1", 40, 50);
                     listPlayer.push_back(petani1);
                     listPlayer.push_back(peternak1);
                     listPlayer.push_back(walikota);
@@ -236,15 +238,19 @@ class Game {
             getline(currentFile, NText);
             NText.erase(NText.find_last_not_of(spaces) + 1);
             int N = stoi(NText);
-
+            /*
             while(getline(currentFile, currentText)){
                 allText += currentText + '\n';
-            }
-            allText.erase(allText.find_last_not_of(spaces) + 1);
-            vector<string> splitted = split(allText, '\n');
-            int pVector = 0;
+            }*/
+            //allText.erase(allText.find_last_not_of(spaces) + 1);
+            //vector<string> splitted = split(allText, '\n');
+            //int pVector = 0;
             for(int i = 0; i < N; ++i){
-                splitted[i].erase(splitted[pVector].find_last_not_of(spaces) + 1);
+                string playerName;
+                getline(currentFile, playerName);
+                playerName.erase(playerName.find_last_not_of(spaces) + 1);
+                //splitted[i].erase(splitted[pVector].find_last_not_of(spaces) + 1);
+                getline(currentFile, );
                 vector<string> playerInfo = split(splitted[pVector], ' ');
                 pVector++;
                 int kodePlayer; // 0 bwt petani & peternak, 1 bwt walikota

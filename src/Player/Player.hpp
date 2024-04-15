@@ -37,6 +37,8 @@ public:
     virtual void setBarangFirstLahan(CultivatedObject *);
     virtual void setBarangPenyimpanan(int, int, TradeObject *);
     virtual void setBarangLahan(int, int, CultivatedObject *);
+    virtual void pungutPajak(vector<Player *>, int);
+    virtual void bangunBangunan(Recipe);
     int getBerat();
     void setBerat(int);
     virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();

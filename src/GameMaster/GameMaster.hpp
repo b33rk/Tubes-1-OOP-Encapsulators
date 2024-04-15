@@ -22,7 +22,7 @@ string const pathConfig = "./config";
 const char* spaces = " \n\r\t";
 
 class Game {
-    private:
+    public:
         int goalUang;
         int goalBerat;
         int rowPenyimpanan;
@@ -46,6 +46,15 @@ class Game {
             } else {
                 turn++;
             }
+            cout << turn << endl;
+        }
+
+        Player* getCurrentPlayer() {
+            return this->listPlayer[turn - 1];
+        }
+
+        vector<Player*> getListPlayer() {
+            return this->listPlayer;
         }
 
        // return pair p, p.first = row, p.second = col
@@ -141,6 +150,17 @@ class Game {
                     break;
                 }                
             }
+            this->turn = 1;
+            this->rowLadang = 10;
+            this->colLadang = 8;
+            this->rowLahan = 10;
+            this->colLahan = 8;
+            this->colPenyimpanan = 10;
+            this->rowPenyimpanan = 8;
+            this->listPlayer.push_back(new Walikota("Walikota", 40, 50, this->rowPenyimpanan, this->colPenyimpanan));
+            this->listPlayer.push_back(new Petani("Petani1", 40, 50, this->rowPenyimpanan,this->colPenyimpanan, this->rowLahan, this->colLahan));
+            this->listPlayer.push_back(new Peternak("Peternak1", 40, 50, this->rowPenyimpanan, this->colPenyimpanan, this->rowLadang, this->colLadang));
+            this->jumlahPlayer = listPlayer.size();
         }
 
         vector<string> split(const string &s, char delim){

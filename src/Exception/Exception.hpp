@@ -51,13 +51,11 @@ public:
 
 class penyimpananPenuhException : public exception
 {
-private:
-    string type;
 
 public:
-    string message()
+    const char* message()
     {
-        return this->type + " sudah penuh\n";
+        return "Penyimpanan sudah penuh\n";
     }
     //     penyimpananPenuhException(  )
 };

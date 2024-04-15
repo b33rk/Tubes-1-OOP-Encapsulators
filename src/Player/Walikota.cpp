@@ -13,22 +13,27 @@ int Walikota :: bayarPajak(){
 void Walikota :: pungutPajak(vector<Player*> listPlayer, int num_of_players){
 
     int pajak_temp;
-    int total = this->getUang();
+    int total = 0;
     cout << "Cring cring cring...\n";
     cout << "Pajak sudah dipungut!\n\n";
     cout << "Berikut adalah detil dari pemungutan pajak:\n";
-    
+    int j = 1;
     for (int i = 0 ; i < num_of_players ; i++){
+        cout << listPlayer[i]->getPeran() << endl;
         if (listPlayer[i]->getPeran() != "Walikota"){
             pajak_temp = listPlayer[i]->bayarPajak();
-            cout << i + 1 << ". "<< listPlayer[i]->getNama() << " - " <<  listPlayer[i]->getPeran() << ": " << pajak_temp << " gulden\n";
+            cout << listPlayer[i]->getPeran() << endl;
+            cout << j << ". "<< listPlayer[i]->getNama() << " - " <<  listPlayer[i]->getPeran() << ": " << pajak_temp << " gulden\n";
+            cout << listPlayer[i]->getPeran() << endl;
             total += pajak_temp;
+            j++;
         }
 
     }
     cout << "\n";
     cout << "Negara mendapatkan pemasukan sebesar " << total << " gulden.\n";
     cout << "Gunakan dengan baik dan jangan dikorupsi ya!\n";
+    total += this->getUang();
     this->setUang(total);
 }
 

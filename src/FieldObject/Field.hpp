@@ -55,7 +55,7 @@ public:
             this->storage[i].resize(this->col); // make inner vector col size;
             for (int j = 0; j < this->col; j++)
             {
-                this->storage[i][j] = new T();
+                this->storage[i][j] = new T;
             }
         }
     }

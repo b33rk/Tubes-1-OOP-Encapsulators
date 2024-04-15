@@ -1,28 +1,44 @@
 #include "Farmers.hpp"
 
-Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan)
+Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : lahan(rowLahan,colLahan), Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan)
 {
-    Field<CultivatedObject> lahanTemp;
+
     this->penguranganKKP = penguranganKKP;
-    this->lahan = lahanTemp;
+
 }
 
 int Farmers::hitungKekayaan()
 {
     int total = 0;
+
     vector<vector<CultivatedObject *>> barang = this->lahan.getStorage();
+    cout << "Barang szie outer" << endl;
+    cout << barang.size() << endl;
+
+    cout << "Barang size inner" << endl;
+    cout << barang[0].size() << endl;
+    cout << "Hello" << endl;
+    cout << lahan.getRow() << endl;
+    cout << lahan.getCol() << endl;
     for (int i = 0; i < lahan.getRow(); i++)
     {
+        cout << "row" << endl;
+        cout << i << endl;
         for (int j = 0; j < lahan.getCol(); j++)
         {
+            cout << "col" << endl;
+            
             if (barang[i][j]->getKodeHuruf() != "  ")
             {
+
+                cout << barang[i][j]->getKodeHuruf() << endl;
                 int price = barang[i][j]->getPrice();
                 total += price;
             }
         }
     }
     vector<vector<TradeObject *>> penyimpanan = this->penyimpanan.getStorage();
+    
     for (int i = 0; i < this->penyimpanan.getRow(); i++)
     {
         for (int j = 0; j < this->penyimpanan.getCol(); j++)

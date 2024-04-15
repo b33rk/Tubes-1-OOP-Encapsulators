@@ -84,17 +84,25 @@ void Player::setBarangLahan(int row, int col, CultivatedObject *c)
     throw invalidCommandException();
 }
 
-void Player::setBarangPenyimpanan(int row, int col, TradeObject *t)
-{
-}
-
-void Player::setBarangLahan(int row, int col, CultivatedObject *c)
-{
-}
-
 vector<string> Player::getAllNamaBarang()
 {
     return this->penyimpanan.getAllNamaBarang();
+}
+
+int Player::getBerat()
+{
+    return berat;
+}
+
+void Player::setBerat(int x)
+{
+    this->berat = x;
+}
+
+vector<pair<pair<int, int>, pair<string, int>>> Player::getAllPosisiNamaBerat()
+{
+    throw invalidCommandException();
+    return {};
 }
 
 void Player::makan(TradeObject *makanan)

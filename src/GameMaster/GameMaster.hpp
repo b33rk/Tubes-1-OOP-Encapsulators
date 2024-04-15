@@ -57,6 +57,18 @@ class Game {
             return make_pair(rowNum, colNum);
         }
 
+        string coordToString(int row, int col){
+            char colChar = col + 'A';
+            row++;
+            char fi = '0' + (row / 10);
+            char se = '0' + (row % 10);
+            string ans = "";
+            ans += colChar;
+            ans += fi;
+            ans += se;
+            return ans;
+        }
+
         void readPlant(vector<string> tokens){
             if(tokens.size() != 6) throw "readPlant: panjang token != 6";
             CultivatedObject plant(stoi(tokens[0]), tokens[1], tokens[2], tokens[3], stoi(tokens[4]), stoi(tokens[5]));
@@ -208,7 +220,7 @@ class Game {
                 if(input == "n"){
                     Player* petani1 = new Petani("Petani1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
                     Player* peternak1 = new Peternak("Peternak1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
-                    Player* walikota = new Walikota("Walikota1", 40, 50);
+                    Player* walikota = new Walikota("Walikota1", 40, 50, rowPenyimpanan, colPenyimpanan);
                     listPlayer.push_back(petani1);
                     listPlayer.push_back(peternak1);
                     listPlayer.push_back(walikota);
@@ -269,7 +281,7 @@ class Game {
                     new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Walikota"){
-                    new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
+                    new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan);
                     kodePlayer = 1;
                 }else{
                     throw "muat_player_state(): tipe player tidak diketahui";
@@ -366,11 +378,29 @@ class Game {
             if(!file.good()){
                 cout << "Lokasi berkas tidak valid" << endl;
             }else{
-
+                int jumlahPlayer = listPlayer.size();
+                file << jumlahPlayer << endl;
+                for(int i = 0; i < listPlayer.size(); ++i){
+                    string usrnm = listPlayer[i]->getNama();
+                    string tipe = listPlayer[i]->getPeran();
+                    int berat_badan = listPlayer[i]->getBerat();
+                    int uang = listPlayer[i]->getUang();
+                    file << usrnm << " " << tipe << " " << berat_badan << " " << uang << endl;
+                    vector<string> allNamaBarang = listPlayer[i]->getAllNamaBarang();
+                    file << allNamaBarang.size() << endl;
+                    for(auto &x: allNamaBarang){
+                        file << x << endl;
+                    }
+                    if(listPlayer[i]->getPeran() == "Peternak" || listPlayer[i]->getPeran() == "Petani"){
+                        vector<pair<pair<int, int>, pair<string, int>>> allPosisiNamaBerat = listPlayer[i]->getAllPosisiNamaBerat();
+                        file << allPosisiNamaBerat.size() << endl;
+                        for(auto &x: allPosisiNamaBerat){
+                            file << coordToString(x.first.first, x.first.second) << " " << x.second.first << " " << x.second.second << endl;
+                        }
+                    }
+                }
+                // TODO: TULIS TOKO ABIS INI 
             }
-            
-
-
         }
 
         int getJumlahPlayer(){

@@ -11,7 +11,7 @@ using namespace std;
 
 class Walikota : public Player {
     public:
-        Walikota(string nama, int berat, int uang) ;
+        Walikota(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan);
         void pungutPajak(vector<Player*> listPlayer, int num_of_players){
         }
         void bangunBangunan(Recipe recipe);

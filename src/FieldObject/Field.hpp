@@ -178,8 +178,16 @@ public:
                 }
             }
         }
+<<<<<<< HEAD
+    
+    vector<string> getAllNamaBarang(){
+        return {};
+    }
+};
+=======
         return namaBarang;
     }
+>>>>>>> 785da94bb520b850eb8babb4843831fd989ad69a
 
     vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat()
     {

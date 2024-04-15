@@ -46,7 +46,6 @@ class Game {
             } else {
                 turn++;
             }
-            cout << turn << endl;
         }
 
         Player* getCurrentPlayer() {

@@ -39,13 +39,15 @@ void Walikota :: pungutPajak(vector<Player*> listPlayer, int num_of_players){
 
 void Walikota :: bangunBangunan(Recipe recipe){
     // Anggap building adalah tradeobject dengan id yang sama dengan recipe, dan atribut yang sama dengan recipe
+    bool found = false;
     TradeObject* T = new TradeObject(recipe.getId(),recipe.getKodeHuruf(),recipe.getNamaGameObject(),recipe.getPrice(),"BANGUNAN");
     vector<vector<TradeObject*>> temp_penyimpanan = this->penyimpanan.getStorage();
-    for (int row = 0 ; row <  this->penyimpanan.getRow() ; row++){
-        for (int col = 0 ; col <  this->penyimpanan.getCol() ; col++){
+    for (int row = 0 ; row <  this->penyimpanan.getRow() && !found ; row++){
+        for (int col = 0 ; col <  this->penyimpanan.getCol() && !found; col++){
             if (temp_penyimpanan[row][col]->getKodeHuruf() == "   "){
                 this->penyimpanan.setBarang(row,col, T); // Membuat fungsi untuk set barang pada peyimpanan pada row col 
-                this->penyimpanan.incrementJumlahIsi(); // membuat fungsi untuk increment jumlahIsi
+                cout << this->penyimpanan.getJumlahIsi() << endl;
+                found = true;
             }
         }
     }

@@ -19,8 +19,3 @@ void Petani::tanam(CultivatedObject *tanaman, int row, int col)
 {
     this->lahan.setBarang(row, col, tanaman);
 }
-
-void Petani::cetakLadang()
-{
-    this->lahan.cetak();
-}

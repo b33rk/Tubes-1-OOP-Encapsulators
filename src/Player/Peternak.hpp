@@ -1,14 +1,19 @@
-#include "Player.hpp"
+#ifndef PETERNAK_HPP
+#define PETERNAK_HPP
 
-class Petani : public Player {
-    private:
-        Field lahan;
-    public:
-        void beriMakan();
-        void ternak();
-        void bayarPajak();
-        void cetakLahan(){
-            lahan.cetak();
-        }
+#include "Player.hpp"
+#include "../GameObject/GameObject.hpp"
+#include "Farmers.hpp"
+
+class Peternak : public Farmers
+{
+public:
+    Peternak(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan);
+    void beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan);
+
+    void ternak(CultivatedObject *hewan, int row, int col);
+
+    void cetakLahan();
 };
 
+#endif

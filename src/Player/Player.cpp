@@ -1,6 +1,13 @@
 #include "Player.hpp"
 #include "../Exception/Exception.hpp"
 
+Player::Player(){
+    berat = 0;
+    uang = 0;
+    nama = "   ";
+    peran = "   ";
+}
+
 Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpanan, int colPenyimpanan)
 {
     // this->id = id;
@@ -116,4 +123,8 @@ void Player::makan(TradeObject *makanan)
         int addedWeight = makanan->getAddedWeight();
         this->setBerat(this->getBerat() + addedWeight);
     }
+}
+
+int Player::bayarPajak(){
+    throw invalidCommandException();
 }

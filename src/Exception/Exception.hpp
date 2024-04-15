@@ -71,4 +71,13 @@ public:
     }
 };
 
+class BarangKosongException : public exception
+{
+public:
+    const char *message()
+    {
+        return "Barang tersebut kosong mass!!\n";
+    }
+};
+
 #endif

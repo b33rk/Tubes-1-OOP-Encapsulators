@@ -1,4 +1,7 @@
-#include "../GameObject/gameObject.hpp"
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
+#include "../GameObject/GameObject.hpp"
 #include "../FieldObject/Field.hpp"
 
 class Player
@@ -15,14 +18,14 @@ protected:
 public:
     Player();
     Player(string, string, int, int, int, int);
-    ~Player();
+    //~Player();
     void virtual next() {}
-    void virtual muat();
-    void virtual jual(int, int);
-    void virtual beli(TradeObject *, int);
+    //void virtual muat();
+    //void virtual jual(int, int);
+    //void virtual beli(TradeObject *, int);
     void virtual makan(TradeObject *);
     void virtual cetakPenyimpanan();
-    void virtual cetakLahan();
+    //void virtual cetakLahan();
     string getNama();
     string getPeran();
     int getUang();
@@ -39,3 +42,5 @@ public:
     virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();
     vector<string> getAllNamaBarang();
 };
+
+#endif

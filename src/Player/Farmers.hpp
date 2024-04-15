@@ -1,3 +1,6 @@
+#ifndef FARMERS_HPP
+#define FARMERS_HPP
+
 #include "Player.hpp"
 #include <vector>
 
@@ -16,3 +19,5 @@ public:
     void setBarangLahan(int row, int col, CultivatedObject *) override;
     vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat() override;
 };
+
+#endif

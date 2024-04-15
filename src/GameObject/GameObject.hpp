@@ -102,6 +102,11 @@ class TradeObject : public GameObject {
             throw invalidCommandException();
         }
 
+        virtual int getCurrentBerat(){
+            throw invalidCommandException();
+            return -1;
+        }
+
         virtual int getAddedWeight(){
             throw invalidCommandException();
             return -1;
@@ -142,6 +147,10 @@ class CultivatedObject : public TradeObject {
             this->setWeight(weight + this->currentWeight);
         }
 
+        int getCurrentBerat() override{
+            return currentWeight;
+        }
+
         void cetak(){
             cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
         }
@@ -154,6 +163,12 @@ private:
     int addedWeight;
 
 public:
+
+    ProductObject() : TradeObject(){
+        origin = "   ";
+        addedWeight = 0;
+    }
+
     ProductObject(int prodId, string prodKode, string nama, int prodPrice,
                   string prodType, string origin, int addedWeight) : TradeObject(prodId, prodKode, nama, prodPrice, prodType)
     {

@@ -1,5 +1,6 @@
 #include "Walikota.hpp"
 #include <vector>
+#include "Player.hpp"
 
 
 Walikota :: Walikota(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan) : Player(nama, "Walikota",berat,uang, rowPenyimpanan,colPenyimpanan){}

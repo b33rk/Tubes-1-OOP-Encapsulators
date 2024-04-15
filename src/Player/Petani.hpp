@@ -1,3 +1,6 @@
+#ifndef PETANI_HPP
+#define PETANI_HPP
+
 #include "Farmers.hpp"
 
 class Petani : public Farmers
@@ -12,3 +15,5 @@ public:
 };
 
 // ask for get in fields
+
+#endif

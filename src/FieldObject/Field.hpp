@@ -2,6 +2,7 @@
 #define FIELD_HPP
 
 #include "../GameObject/GameObject.hpp"
+#include "../Exception/Exception.hpp"
 
 template <class T>
 class Field
@@ -40,7 +41,7 @@ public:
             for (int j = 0; j < this->col; j++)
             {
                 delete this->storage[i][j];
-                this->storage[i][j] = origin[i][j]
+                this->storage[i][j] = origin.storage[i][j];
             }
         }
         return *this;
@@ -78,7 +79,7 @@ public:
             cout << " 0" << i << " |";
             for (int j = 0; j < col; j++)
             {
-                storage[i][j].cetakBarang();
+                storage[i][j]->cetakBarang();
             }
             cout << endl;
             cout << "    +";
@@ -116,13 +117,13 @@ public:
 
     void setBarang(int row, int col, T *object)
     {
-        if (this->storage[row][col].getKodeHuruf() != "   ")
+        if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
             throw BarangKosongException();
         }
         delete this->storage[row][col];
         this->storage[row][col] = object;
-        if (T->getKodeHuruf() != "   ")
+        if (object->getKodeHuruf() != "   ")
         {
             this->jumlahIsi++;
         }
@@ -139,7 +140,7 @@ public:
         {
             for (int j = 0; j < this->col; j++)
             {
-                if (this->storage[i][j].getKodeHuruf() == "   ")
+                if (this->storage[i][j]->getKodeHuruf() == "   ")
                 {
                     this->setBarang(i, j, object);
                     return;
@@ -148,15 +149,15 @@ public:
         }
         throw penyimpananPenuhException();
     }
-    vector<TradeObject> getUniqueValue()
+    vector<TradeObject*> getUniqueValue()
     {
-        vector<TradeObject> listBarang;
+        vector<TradeObject*> listBarang;
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
             {
-                if (storage[i][j].getKode() != "   " &&
-                    find(listBarang.begin(), listBarang.end(), storage[i][j]) == listBarang.end())
+                if (storage[i][j]->getKodeHuruf() != "   " 
+                    )
                 {
                     listBarang.push_back(storage[i][j]);
                 }
@@ -194,7 +195,7 @@ public:
                     hasil[inc].first.first = i;
                     hasil[inc].first.second = j;
                     hasil[inc].second.first = storage[i][j]->getNamaGameObject();
-                    hasil[inc].second.second = storage[i][j]->getBerat();
+                    hasil[inc].second.second = storage[i][j]->getCurrentBerat();
                 }
             }
         }
@@ -208,10 +209,10 @@ public:
     void cetak()
     {
         Field::cetak();
-        vector<TradeObject> listUnik = getUniqueValue();
-        for (TradeObject elmt : listUnik)
+        vector<TradeObject*> listUnik = getUniqueValue();
+        for (TradeObject* elmt : listUnik)
         {
-            cout << " - " << elmt.getKodeHuruf() << ": " << elmt.getNama() << endl;
+            cout << " - " << elmt->getKodeHuruf() << ": " << elmt->getNama() << endl;
         }
     }
 };

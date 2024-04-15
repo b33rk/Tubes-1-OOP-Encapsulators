@@ -2,7 +2,6 @@
 #define WALIKOTA_HPP
 
 #include "Player.hpp"
-#include "../GameMaster/GameMaster.hpp"
 #include "Petani.hpp"
 #include "Peternak.hpp"
 #include "../Exception/Exception.hpp"
@@ -12,11 +11,9 @@ using namespace std;
 class Walikota : public Player {
     public:
         Walikota(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan);
-        void pungutPajak(vector<Player*> listPlayer, int num_of_players){
-        }
+        void pungutPajak(vector<Player*> listPlayer, int num_of_players);
         void bangunBangunan(Recipe recipe);
-        void tambahPlayer(string peran ) {
-        }
+        void tambahPlayer(string peran );
         int bayarPajak() override;
 };
 

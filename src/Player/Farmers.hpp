@@ -12,6 +12,7 @@ public:
     int hitungKekayaan();
     int bayarPajak();
     void panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight);
-    void setBarangFirstLahan(CultivatedObject*) override;
-    void setBarangLahan(int row, int col, CultivatedObject*) override;
+    void setBarangFirstLahan(CultivatedObject *) override;
+    void setBarangLahan(int row, int col, CultivatedObject *) override;
+    vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();
 };

@@ -4,7 +4,7 @@
 class Player
 {
 protected:
-    //int id;
+    // int id;
     int kekayaan;
     int berat;
     int uang;
@@ -20,7 +20,7 @@ public:
     void virtual muat();
     void virtual jual(int, int);
     void virtual beli(TradeObject *, int);
-    void virtual makan();
+    void virtual makan(ProductObject);
     void virtual cetakPenyimpanan();
     void virtual cetakLahan();
     string getNama();
@@ -30,10 +30,12 @@ public:
     void setKekayaan(int kekayaan);
     float persentasePajak(int KKP);
     int virtual bayarPajak();
-    virtual void setBarangFirstPenyimpanan(TradeObject*);
-    virtual void setBarangFirstLahan(CultivatedObject*);
-    virtual void setBarangPenyimpanan(int, int, TradeObject*);
-    virtual void setBarangLahan(int, int, CultivatedObject*);
+    virtual void setBarangFirstPenyimpanan(TradeObject *);
+    virtual void setBarangFirstLahan(CultivatedObject *);
+    virtual void setBarangPenyimpanan(int, int, TradeObject *);
+    virtual void setBarangLahan(int, int, CultivatedObject *);
     int getBerat();
     void setBerat(int);
+    virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();
+    vector<string> getAllNamaBarang();
 };

@@ -1,6 +1,7 @@
 #include "Farmers.hpp"
 
-Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Player(nama, tipe, berat, uang,rowPenyimpanan,colPenyimpanan) {
+Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan)
+{
     Field<CultivatedObject> lahanTemp;
     this->penguranganKKP = penguranganKKP;
     this->lahan = lahanTemp;
@@ -37,8 +38,6 @@ int Farmers::hitungKekayaan()
     return total;
 }
 
-
-
 void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight)
 {
     ProductObject *product = new ProductObject(prodId, prodKode, nama, prodPrice, prodType, origin, addedWeight);
@@ -71,11 +70,17 @@ int Farmers::bayarPajak()
     return pajak;
 }
 
-void Farmers :: setBarangFirstLahan(CultivatedObject* object){
+void Farmers ::setBarangFirstLahan(CultivatedObject *object)
+{
     this->lahan.insertFirst(object);
 }
 
-void Farmers :: setBarangLahan(int row, int col, CultivatedObject* object){
-    this->lahan.setBarang(row,col,object);
+void Farmers ::setBarangLahan(int row, int col, CultivatedObject *object)
+{
+    this->lahan.setBarang(row, col, object);
 }
 
+vector<pair<pair<int, int>, pair<string, int>>> Farmers::getAllPosisiNamaBerat()
+{
+    return this->lahan.getAllPosisiNamaBerat();
+}

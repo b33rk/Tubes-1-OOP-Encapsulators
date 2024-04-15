@@ -14,22 +14,27 @@ int Walikota :: bayarPajak(){
 void Walikota :: pungutPajak(vector<Player*> listPlayer, int num_of_players){
 
     int pajak_temp;
-    int total = this->getUang();
+    int total = 0;
     cout << "Cring cring cring...\n";
     cout << "Pajak sudah dipungut!\n\n";
     cout << "Berikut adalah detil dari pemungutan pajak:\n";
-    
+    int j = 1;
     for (int i = 0 ; i < num_of_players ; i++){
+        cout << listPlayer[i]->getPeran() << endl;
         if (listPlayer[i]->getPeran() != "Walikota"){
             pajak_temp = listPlayer[i]->bayarPajak();
-            cout << i + 1 << ". "<< listPlayer[i]->getNama() << " - " <<  listPlayer[i]->getPeran() << ": " << pajak_temp << " gulden\n";
+            cout << listPlayer[i]->getPeran() << endl;
+            cout << j << ". "<< listPlayer[i]->getNama() << " - " <<  listPlayer[i]->getPeran() << ": " << pajak_temp << " gulden\n";
+            cout << listPlayer[i]->getPeran() << endl;
             total += pajak_temp;
+            j++;
         }
 
     }
     cout << "\n";
     cout << "Negara mendapatkan pemasukan sebesar " << total << " gulden.\n";
     cout << "Gunakan dengan baik dan jangan dikorupsi ya!\n";
+    total += this->getUang();
     this->setUang(total);
 }
 
@@ -37,9 +42,10 @@ void Walikota :: bangunBangunan(Recipe recipe){
     // Anggap building adalah tradeobject dengan id yang sama dengan recipe, dan atribut yang sama dengan recipe
     vector<pair<int,int>> location;
     vector<string> materials = recipe.getListMaterial();
-    vector<int> materialQuantity = recipe.getMaterialQuantity();
+    vector<int> materialQuantity = recipe.getMaterialQuantity();    
     bool complete = true;
     bool allComplete = true;
+    bool found = false;
     for (int i = 0 ; i < materials.size() ; i++){
         complete = false;
         for (int r = 0 ; r < this->penyimpanan.getRow() && !complete ; r++){
@@ -58,7 +64,9 @@ void Walikota :: bangunBangunan(Recipe recipe){
     }
 
     if (!allComplete){
-        throw KurangMaterialException(materials,materialQuantity) ;
+        
+        throw KurangMaterialException(materials,materialQuantity);
+
     }
 
     for (auto &pair : location){
@@ -67,14 +75,16 @@ void Walikota :: bangunBangunan(Recipe recipe){
 
     TradeObject* T = new TradeObject(recipe.getId(),recipe.getKodeHuruf(),recipe.getNamaGameObject(),recipe.getPrice(),"BANGUNAN");
     vector<vector<TradeObject*>> temp_penyimpanan = this->penyimpanan.getStorage();
-    for (int row = 0 ; row <  this->penyimpanan.getRow() ; row++){
-        for (int col = 0 ; col <  this->penyimpanan.getCol() ; col++){
-            if (temp_penyimpanan[row][col]->getKodeHuruf() == "   "){
-                this->penyimpanan.setBarang(row,col, T); // Membuat fungsi untuk set barang pada peyimpanan pada row col 
-                this->penyimpanan.incrementJumlahIsi(); // membuat fungsi untuk increment jumlahIsi
-            }
-        }
-    }
+    this->penyimpanan.insertFirst(T);
+    // for (int row = 0 ; row <  this->penyimpanan.getRow() && !found ; row++){
+    //     for (int col = 0 ; col <  this->penyimpanan.getCol() && !found; col++){
+    //         if (temp_penyimpanan[row][col]->getKodeHuruf() == "   "){
+    //             this->penyimpanan.setBarang(row,col, T); // Membuat fungsi untuk set barang pada peyimpanan pada row col 
+    //             cout << this->penyimpanan.getJumlahIsi() << endl;
+    //             found = true;
+    //         }
+    //     }
+    // }
 }
 
 void Walikota :: tambahPlayer(string peran ){

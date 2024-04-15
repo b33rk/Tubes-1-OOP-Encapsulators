@@ -15,6 +15,7 @@ Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpana
     this->peran = peran;
     this->berat = berat;
     this->uang = uang;
+
 }
 
 string Player::getNama()
@@ -24,6 +25,7 @@ string Player::getNama()
 
 string Player::getPeran()
 {
+    return this->peran;
     return this->peran;
 }
 
@@ -127,6 +129,30 @@ int Player::bayarPajak(){
     throw invalidCommandException();
 }
 
-void Player::tambahPlayer(string){
+void Player::pungutPajak(vector<Player *> l, int x){
+    throw invalidCommandException();
+}
+
+void Player::bangunBangunan(Recipe recipe){
+    throw invalidCommandException();
+}
+
+void Player::tambahPlayer(string peran){
+    throw invalidCommandException();
+}
+
+void Player::cetakLadangLahan(){
+    throw invalidCommandException();
+}
+
+void Player::tanam(CultivatedObject *tanaman, int row, int col){
+    throw invalidCommandException();
+}
+
+void Player::ternak(CultivatedObject *hewan, int row, int col){
+    throw invalidCommandException();
+}
+
+void Player::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject* product){
     throw invalidCommandException();
 }

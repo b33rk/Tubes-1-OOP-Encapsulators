@@ -12,148 +12,178 @@ using namespace std;
 
 // TODO : Buat copy constructor buat smw kelas
 
-class GameObject {
-    protected:
-        int id;
-        string kode_huruf;
-        string nama;
-    public:
-        GameObject(){
-            id = 0;
-            kode_huruf = "   ";
-            nama = "   ";
-        }
-        GameObject(const GameObject& other){
-            this->id = other.id;
-            this->kode_huruf = other.kode_huruf;
-            this->nama = other.nama;
-        }
-        GameObject(int id, string kode, string name){
-            this->id = id;
-            kode_huruf = kode;
-            nama = name;
-        }
-        int getId(){
-            return this->id;
-        }
+class GameObject
+{
+public:
+    int id;
+    string kode_huruf;
+    string nama;
 
-        string getKodeHuruf(){
-            return this->kode_huruf;
-        }
+public:
+    GameObject()
+    {
+        id = 0;
+        kode_huruf = "   ";
+        nama = "   ";
+    }
+    GameObject(const GameObject &other)
+    {
+        this->id = other.id;
+        this->kode_huruf = other.kode_huruf;
+        this->nama = other.nama;
+    }
+    GameObject(int id, string kode, string name)
+    {
+        this->id = id;
+        kode_huruf = kode;
+        nama = name;
+    }
+    int getId()
+    {
+        return this->id;
+    }
 
-        string getNamaGameObject(){
-            return this->nama;
-        }
+    string getKodeHuruf()
+    {
+        return this->kode_huruf;
+    }
 
-        bool notExist(){
-            return this->kode_huruf == "   ";
-        }
+    string getNamaGameObject()
+    {
+        return this->nama;
+    }
+
+    bool notExist()
+    {
+        return this->kode_huruf == "   ";
+    }
 };
 
-class TradeObject : public GameObject {
-    private:
-        int price;
-        string type;
-        //vector<string> ngasilin; // KODE HURUF PRODUCT OBJECT NYA 
-    public:
-        TradeObject() : GameObject(){
-            price = 0;
-            type = "   ";
-        }
-        TradeObject(int p, string t) : GameObject(){
-            price = p;
-            t = type;
-        }
-        TradeObject(const TradeObject& other) : GameObject(other){
-            this->price = other.price;
-            this->type = other.type;
-        }
-        TradeObject(int id, string kode, string name, int p, string t) : GameObject(id, kode, name){
-            price = p;
-            type = t;
-        }
-        void cetakBarang(){
-            cout << " " << kode_huruf <<" |";
-        }
-        void setNama(string newNama) {
-            nama = newNama;
-        }
-        void setKode(string newKode) {
-            kode_huruf = newKode;
-        }
-        // string getKode() {
-        //     return kode_huruf;
-        // }
-        string getNama() {
-            return nama;
-        }
-        int getPrice(){
-            return this->price;
-        }
-        string getType(){
-            return this->type;
-        }
+class TradeObject : public GameObject
+{
+private:
+    int price;
+    string type;
+    // vector<string> ngasilin; // KODE HURUF PRODUCT OBJECT NYA
+public:
+    TradeObject() : GameObject()
+    {
+        price = 0;
+        type = "   ";
+    }
+    TradeObject(int p, string t) : GameObject()
+    {
+        price = p;
+        type = t;
+    }
+    TradeObject(const TradeObject &other) : GameObject(other)
+    {
+        this->price = other.price;
+        this->type = other.type;
+    }
+    TradeObject(int id, string kode, string name, int p, string t) : GameObject(id, kode, name)
+    {
+        price = p;
+        type = t;
+    }
+    void cetakBarang()
+    {
+        cout << " " << this->kode_huruf << " |";
+    }
+    void setNama(string newNama)
+    {
+        nama = newNama;
+    }
+    void setKode(string newKode)
+    {
+        kode_huruf = newKode;
+    }
+    // string getKode() {
+    //     return kode_huruf;
+    // }
+    string getNama()
+    {
+        return nama;
+    }
+    int getPrice()
+    {
+        return this->price;
+    }
+    string getType()
+    {
+        return this->type;
+    }
 
-        virtual void incrementWeight(){
-            throw invalidCommandException();
-        }
+    virtual void incrementWeight()
+    {
+        throw invalidCommandException();
+    }
 
-        virtual void addWeight(int weight){
-            throw invalidCommandException();
-        }
+    virtual void addWeight(int weight)
+    {
+        throw invalidCommandException();
+    }
 
-        virtual int getCurrentBerat(){
-            throw invalidCommandException();
-            return -1;
-        }
+    virtual int getCurrentBerat()
+    {
+        throw invalidCommandException();
+        return -1;
+    }
 
-        virtual int getAddedWeight(){
-            throw invalidCommandException();
-            return -1;
-        }
-
+    virtual int getAddedWeight()
+    {
+        throw invalidCommandException();
+        return -1;
+    }
 };
 
-class CultivatedObject : public TradeObject {
-    private:
-        int cultivateWeight;
-        int currentWeight;
-        //string type; // string "hewan" / "tumbuhan"
-    public:
-        CultivatedObject() : TradeObject(){
-            cultivateWeight = 0;
-            currentWeight = 0;
-        }
-        CultivatedObject(const CultivatedObject& other) : TradeObject(other){
-            this->cultivateWeight = other.cultivateWeight;
-            this->currentWeight = other.currentWeight;
-        }
-        CultivatedObject(int id, string kode, string name, string type, int dur, int price) : TradeObject(id, kode, name, price, type){
-            this->cultivateWeight = dur;
-            this->currentWeight = 0;
-        }
-        
-        void incrementWeight() override{
-            cultivateWeight++;
-        }
+class CultivatedObject : public TradeObject
+{
+private:
+    int cultivateWeight;
+    int currentWeight;
+    // string type; // string "hewan" / "tumbuhan"
+public:
+    CultivatedObject() : TradeObject()
+    {
+        cultivateWeight = 0;
+        currentWeight = 0;
+    }
+    CultivatedObject(const CultivatedObject &other) : TradeObject(other)
+    {
+        this->cultivateWeight = other.cultivateWeight;
+        this->currentWeight = other.currentWeight;
+    }
+    CultivatedObject(int id, string kode, string name, string type, int dur, int price) : TradeObject(id, kode, name, price, type)
+    {
+        this->cultivateWeight = dur;
+        this->currentWeight = 0;
+    }
 
-        void setWeight(int weight)
-        {
-            this->currentWeight = weight;
-        }
+    void incrementWeight() override
+    {
+        cultivateWeight++;
+    }
 
-        void addWeight(int weight)
-        {
-            this->setWeight(weight + this->currentWeight);
-        }
+    void setWeight(int weight)
+    {
+        this->currentWeight = weight;
+    }
 
-        int getCurrentBerat() override{
-            return currentWeight;
-        }
+    void addWeight(int weight)
+    {
+        this->setWeight(weight + this->currentWeight);
+    }
 
-        void cetak(){
-            cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
-        }
+    int getCurrentBerat() override
+    {
+        return currentWeight;
+    }
+
+    void cetak()
+    {
+        cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
+    }
 };
 
 class ProductObject : public TradeObject
@@ -163,8 +193,8 @@ private:
     int addedWeight;
 
 public:
-
-    ProductObject() : TradeObject(){
+    ProductObject() : TradeObject()
+    {
         origin = "   ";
         addedWeight = 0;
     }
@@ -195,11 +225,14 @@ public:
     {
         this->price = 0;
     }
-    Recipe(const Recipe& other) : GameObject(other){
-        for(auto &material: other.listMaterial){
+    Recipe(const Recipe &other) : GameObject(other)
+    {
+        for (auto &material : other.listMaterial)
+        {
             listMaterial.push_back(material);
         }
-        for(auto &quantity: other.materialQuantity){
+        for (auto &quantity : other.materialQuantity)
+        {
             materialQuantity.push_back(quantity);
         }
     }

@@ -139,7 +139,7 @@ public:
     {
         if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
-            throw BarangKosongException();
+            throw petakTidakKosongException();
         }
         delete this->storage[row][col];
         this->storage[row][col] = object;

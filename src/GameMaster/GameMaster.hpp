@@ -52,7 +52,6 @@ public:
         {
             turn++;
         }
-        cout << turn << endl;
     }
 
     Player *getCurrentPlayer()

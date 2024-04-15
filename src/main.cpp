@@ -16,18 +16,21 @@ int main()
     {
         // // main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
         CultivatedObject *hewan = new CultivatedObject(main.animalMap["COW"]);
-        // main.listPlayer[2]->ternak(hewan, 0,0);
+        main.listPlayer[2]->ternak(hewan, 0, 0);
+        main.listPlayer[2]->cetakPenyimpanan();
+
+        // main.listPlayer[2]->ternak(hewan, 1, 0);
         main.listPlayer[2]->cetakLadangLahan();
+        // main.listPlayer[2]->penyimpanan.getBarang(0, 0)->cetakBarang();
         main.listPlayer[2]->panen(0, 0, 0, 0, &main.productMap["COM"]);
         // // main.listPlayer[main.turn]->tanam(&main.plantMap["ORG"], 0,0);
         main.listPlayer[2]->cetakLadangLahan();
         main.listPlayer[2]->cetakPenyimpanan();
 
-        main.nextTurn();
+        // main.nextTurn();
 
         // cout << main.listPlayer[main.turn]->penyimpanan.getRow() << endl;
         // cout << main.listPlayer[main.turn]->penyimpanan.getCol() << endl;
-        main.listPlayer[main.turn]->cetakPenyimpanan();
     }
     catch (invalidCommandException e)
     {

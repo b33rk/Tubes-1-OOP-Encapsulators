@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
-#include "../src/GameMaster/GameMaster.hpp"
+#include <fstream>
+//#include "../src/GameMaster/GameMaster.hpp"
 
 using namespace std;
 
@@ -15,6 +16,10 @@ class B : public A {
 };
 
 int main() {
+    ofstream file("/bin/tes/uwu.txt");
+    file << "kekekekkeke";
+    file.close();
+    /*
     try{
         Game g;
         g.muat_semua_config();
@@ -23,5 +28,5 @@ int main() {
         cout << c << endl;
     }catch(const char* c){
         cout << c << endl;
-    }
+    }*/
 }

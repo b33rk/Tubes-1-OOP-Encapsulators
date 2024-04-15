@@ -113,14 +113,14 @@ class Game {
                     switch(i){
                         case 2:
                             rowPenyimpanan = stoi(splittedSpace[0]); // GAK YAKIN, BISA JADI KEBALIK SAMA YANG BAWAH
-                            colPenyimpanan = stoi(splittedSpace[1]);  // GAK TAU MANA ROW MANA COL
+                            colPenyimpanan = stoi(splittedSpace[1]);  // GAK TAU MANA ROW MANA COL // UPD: BENER
                             break;
                         case 3:
                             rowLahan = stoi(splittedSpace[0]);
                             colLahan = stoi(splittedSpace[1]);
                             break;
                         case 4:
-                            rowLadang = stoi(splittedSpace[0]);
+                            rowLadang = stoi(splittedSpace[0]); // peternakan = ladang
                             colLadang = stoi(splittedSpace[1]);
                             break;
                         default:
@@ -206,8 +206,8 @@ class Game {
                 }while(input != "y" && input != "n");
 
                 if(input == "n"){
-                    Player* petani1 = new Petani("Petani1", 40, 50);
-                    Player* peternak1 = new Peternak("Peternak1", 40, 50);
+                    Player* petani1 = new Petani("Petani1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
+                    Player* peternak1 = new Peternak("Peternak1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
                     Player* walikota = new Walikota("Walikota1", 40, 50);
                     listPlayer.push_back(petani1);
                     listPlayer.push_back(peternak1);
@@ -263,10 +263,10 @@ class Game {
                 int kodePlayer; // 0 bwt petani & peternak, 1 bwt walikota
                 Player* new_player;
                 if(playerInfo[1] == "Petani"){
-                    new_player = new Petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
+                    new_player = new Petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Peternak"){
-                    new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
+                    new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Walikota"){
                     new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
@@ -351,7 +351,26 @@ class Game {
                 vector<string> itemJumlah = split(itemDanJumlah, ' ');
                 inisialisasiToko.push_back(make_pair(itemJumlah[0], stoi(itemJumlah[1])));
             }
+
+        }
+
+        void simpan(){
+            string lokasi = "";    
+
+            cout << "Masukkan lokasi berkas state: ";
+            cin >> lokasi;
+            cout << endl;
+
+            ofstream file(lokasi);
             
+            if(!file.good()){
+                cout << "Lokasi berkas tidak valid" << endl;
+            }else{
+
+            }
+            
+
+
         }
 
         int getJumlahPlayer(){

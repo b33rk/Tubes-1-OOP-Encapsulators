@@ -45,9 +45,8 @@ int Farmers::hitungKekayaan()
     return total;
 }
 
-void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight)
+void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject* product)
 {
-    ProductObject *product = new ProductObject(prodId, prodKode, nama, prodPrice, prodType, origin, addedWeight);
     this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
     delete this->lahan.getBarang(rowLahan, colLahan);
     CultivatedObject *kosong = new CultivatedObject();
@@ -77,6 +76,10 @@ int Farmers::bayarPajak()
         this->setUang(this->uang - pajak);
     }
     return pajak;
+}
+
+void Farmers::cetakLadangLahan() {
+    this->lahan.cetak();
 }
 
 void Farmers ::setBarangFirstLahan(CultivatedObject *object)

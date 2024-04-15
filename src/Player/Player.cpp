@@ -138,3 +138,23 @@ void Player::bangunBangunan(Recipe recipe)
 {
     throw invalidCommandException();
 }
+
+void Player::tambahPlayer(string peran){
+    throw invalidCommandException();
+}
+
+void Player::cetakLadangLahan(){
+    throw invalidCommandException();
+}
+
+void Player::tanam(CultivatedObject *tanaman, int row, int col){
+    throw invalidCommandException();
+}
+
+void Player::ternak(CultivatedObject *hewan, int row, int col){
+    throw invalidCommandException();
+}
+
+void Player::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject* product){
+    throw invalidCommandException();
+}

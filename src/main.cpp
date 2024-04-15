@@ -14,15 +14,26 @@ int main()
     main.muat_semua_config();
     try
     {
-        // cout << main.listPlayer[main.turn - 1]->getPeran() << endl;
-        // main.listPlayer[main.turn - 1]->pungutPajak(main.getListPlayer(), 3);
-        // main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
+        // // main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
+        CultivatedObject *hewan = new CultivatedObject(main.animalMap["COW"]);
+        // main.listPlayer[2]->ternak(hewan, 0,0);
+        main.listPlayer[2]->cetakLadangLahan();
+        main.listPlayer[2]->panen(0, 0, 0, 0, &main.productMap["COM"]);
+        // // main.listPlayer[main.turn]->tanam(&main.plantMap["ORG"], 0,0);
+        main.listPlayer[2]->cetakLadangLahan();
+        main.listPlayer[2]->cetakPenyimpanan();
+
+        main.nextTurn();
 
         // cout << main.listPlayer[main.turn]->penyimpanan.getRow() << endl;
         // cout << main.listPlayer[main.turn]->penyimpanan.getCol() << endl;
         main.listPlayer[main.turn]->cetakPenyimpanan();
     }
     catch (invalidCommandException e)
+    {
+        cout << e.message();
+    }
+    catch (BarangKosongException e)
     {
         cout << e.message();
     }

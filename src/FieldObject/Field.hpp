@@ -59,12 +59,13 @@ public:
                 this->storage[i][j] = new T;
             }
         }
-        cout << "PRINT" << endl;
+        //cout << "PRINT" << endl;
+        /*
         for(int i = 0; i < this->row; ++i){
             for(int j = 0; j < this->col; ++j){
                 cout << this->storage[i][j]->getKodeHuruf() << endl;
             }
-        }
+        }*/
     }
     void virtual cetak()
     {
@@ -124,16 +125,16 @@ public:
 
     void setBarang(int row, int col, T *object)
     {
-        cout << "SAMPAI BARANG" << endl;
-        cout << this->storage[0].size() << endl;
-        cout << this->storage[0][0] << endl;
+        //cout << "SAMPAI BARANG" << endl;
+        //cout << this->storage[0].size() << endl;
+        //cout << this->storage[0][0]->getKodeHuruf() << endl;
         if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
             throw BarangKosongException();
         }
-        cout << "SIAP2 DELTE" << endl;
+        //cout << "SIAP2 DELTE" << endl;
         delete this->storage[row][col];
-        cout << "SELESAI EDE" << endl;
+        //cout << "SELESAI EDE" << endl;
         this->storage[row][col] = object;
         if (object->getKodeHuruf() != "   ")
         {
@@ -141,7 +142,7 @@ public:
         }
     }
 
-    vector<vector<T *>> getStorage()
+    vector<vector<T*>> getStorage()
     {
         return this->storage;
     }
@@ -204,10 +205,7 @@ public:
             {
                 if (storage[i][j]->getKodeHuruf() != "   ")
                 {
-                    hasil[inc].first.first = i;
-                    hasil[inc].first.second = j;
-                    hasil[inc].second.first = storage[i][j]->getNamaGameObject();
-                    hasil[inc].second.second = storage[i][j]->getCurrentBerat();
+                    hasil.push_back(make_pair(make_pair(i, j), make_pair(storage[i][j]->getNamaGameObject(), storage[i][j]->getCurrentBerat())));
                 }
             }
         }

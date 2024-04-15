@@ -8,7 +8,7 @@ Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int ua
 int Farmers::hitungKekayaan()
 {
     int total = 0;
-    vector<vector<CultivatedObject *>> barang = this->lahan.getStorage();
+    vector<vector<CultivatedObject*>> barang = this->lahan.getStorage();
     for (int i = 0; i < lahan.getRow(); i++)
     {
         for (int j = 0; j < lahan.getCol(); j++)

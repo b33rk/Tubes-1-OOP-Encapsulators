@@ -24,7 +24,7 @@ string Player::getNama()
 
 string Player::getPeran()
 {
-    return this->getPeran();
+    return this->peran;
 }
 
 int Player::getUang()
@@ -124,5 +124,9 @@ void Player::makan(TradeObject *makanan)
 }
 
 int Player::bayarPajak(){
+    throw invalidCommandException();
+}
+
+void Player::tambahPlayer(string){
     throw invalidCommandException();
 }

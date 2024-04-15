@@ -145,6 +145,10 @@ public:
             }
             
         }
+    
+    vector<string> getAllNamaBarang(){
+        return {};
+    }
 };
 
 class cultivateField: public Field<CultivatedObject> {

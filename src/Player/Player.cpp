@@ -84,10 +84,10 @@ void Player::setBarangLahan(int row, int col, CultivatedObject* c){
     throw invalidCommandException();
 }
 
-void Player::setBarangPenyimpanan(int row, int col, TradeObject* t){
-
+int Player::getBerat(){
+    return berat;
 }
 
-void Player::setBarangLahan(int row, int col, CultivatedObject* c){
-    
+void Player::setBerat(int x){
+    this->berat = x;
 }

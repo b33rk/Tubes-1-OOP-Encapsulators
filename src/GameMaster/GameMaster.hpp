@@ -57,6 +57,18 @@ class Game {
             return make_pair(rowNum, colNum);
         }
 
+        string coordToString(int row, int col){
+            char colChar = col + 'A';
+            row++;
+            char fi = '0' + (row / 10);
+            char se = '0' + (row % 10);
+            string ans = "";
+            ans += colChar;
+            ans += fi;
+            ans += se;
+            return ans;
+        }
+
         void readPlant(vector<string> tokens){
             if(tokens.size() != 6) throw "readPlant: panjang token != 6";
             CultivatedObject plant(stoi(tokens[0]), tokens[1], tokens[2], tokens[3], stoi(tokens[4]), stoi(tokens[5]));
@@ -366,11 +378,29 @@ class Game {
             if(!file.good()){
                 cout << "Lokasi berkas tidak valid" << endl;
             }else{
-
+                int jumlahPlayer = listPlayer.size();
+                file << jumlahPlayer << endl;
+                for(int i = 0; i < listPlayer.size(); ++i){
+                    string usrnm = listPlayer[i]->getNama();
+                    string tipe = listPlayer[i]->getPeran();
+                    int berat_badan = listPlayer[i]->getBerat();
+                    int uang = listPlayer[i]->getUang();
+                    file << usrnm << " " << tipe << " " << berat_badan << " " << uang << endl;
+                    vector<string> allNamaBarang = listPlayer[i]->getAllNamaBarangPenyimpanan();
+                    file << allNamaBarang.size() << endl;
+                    for(auto &x: allNamaBarang){
+                        file << x << endl;
+                    }
+                    if(listPlayer[i]->getPeran() == "Peternak" || listPlayer[i]->getPeran() == "Petani"){
+                        vector<pair<pair<int, int>, pair<string, int>>> allPosisiNamaBerat = listPlayer[i]->getAllPosisiNamaBeratLahan();
+                        file << allPosisiNamaBerat.size() << endl;
+                        for(auto &x: allPosisiNamaBerat){
+                            file << coordToString(x.first.first, x.first.second) << " " << x.second.first << " " << x.second.second << endl;
+                        }
+                    }
+                }
+                // TODO: TULIS TOKO ABIS INI 
             }
-            
-
-
         }
 
         int getJumlahPlayer(){

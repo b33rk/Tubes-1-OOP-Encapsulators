@@ -22,7 +22,7 @@ string const pathConfig = "./config";
 const char* spaces = " \n\r\t";
 
 class Game {
-    private:
+    public:
         int goalUang;
         int goalBerat;
         int rowPenyimpanan;
@@ -38,6 +38,13 @@ class Game {
         map<string, CultivatedObject> animalMap;
         map<string, ProductObject> productMap;
         map<string, Recipe> recipeMap;
+        vector<TradeObject> tradeObjMemory;
+        vector<CultivatedObject> cultObjMemory;
+        vector<ProductObject> prodObjMemory;
+        vector<Recipe> recObjMemory;
+        vector<Petani> petaniMemory;
+        vector<Peternak> peternakMemory;
+        vector<Walikota> walkotMemory;
     public:
         Game(){}
         void nextTurn() {
@@ -51,7 +58,7 @@ class Game {
        // return pair p, p.first = row, p.second = col
         pair<int, int> stringToCoord(string s){
             char col = s[0];
-            char row = 10 * s[1] + s[2];
+            char row = 10 * (s[1] - '0') + (s[2] - '0');
             int colNum = col - 'A';
             int rowNum = row - 1;
             return make_pair(rowNum, colNum);
@@ -196,7 +203,7 @@ class Game {
             cout << endl;
             for(auto &p: recipeMap){
                 
-                //p.second.cetakBarang();
+                p.second.cetak();
                 cout << endl;
             }
             cout << endl;
@@ -218,12 +225,15 @@ class Game {
                 }while(input != "y" && input != "n");
 
                 if(input == "n"){
-                    Player* petani1 = new Petani("Petani1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
-                    Player* peternak1 = new Peternak("Peternak1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
-                    Player* walikota = new Walikota("Walikota1", 40, 50, rowPenyimpanan, colPenyimpanan);
-                    listPlayer.push_back(petani1);
-                    listPlayer.push_back(peternak1);
-                    listPlayer.push_back(walikota);
+                    Petani new_petani1("Petani1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
+                    Peternak new_peternak1("Peternak1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
+                    Walikota new_walikota1("Walikota1", 40, 50, rowPenyimpanan, colPenyimpanan);
+                    petaniMemory.push_back(new_petani1);
+                    peternakMemory.push_back(new_peternak1);
+                    walkotMemory.push_back(new_walikota1);
+                    listPlayer.push_back(&petaniMemory.back());
+                    listPlayer.push_back(&peternakMemory.back());
+                    listPlayer.push_back(&walkotMemory.back());
                     sort(listPlayer.begin(), listPlayer.end(), [](Player* p1, Player* p2){
                         return p1->getNama() < p2->getNama();
                     });
@@ -275,13 +285,19 @@ class Game {
                 int kodePlayer; // 0 bwt petani & peternak, 1 bwt walikota
                 Player* new_player;
                 if(playerInfo[1] == "Petani"){
-                    new_player = new Petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
+                    Petani new_petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
+                    petaniMemory.push_back(new_petani);
+                    new_player = &petaniMemory.back();
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Peternak"){
-                    new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
+                    Peternak new_peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);                    
+                    peternakMemory.push_back(new_peternak);
+                    new_player = &peternakMemory.back();
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Walikota"){
-                    new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan);
+                    Walikota new_walkot(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan);
+                    walkotMemory.push_back(new_walkot);
+                    new_player = &walkotMemory.back();
                     kodePlayer = 1;
                 }else{
                     throw "muat_player_state(): tipe player tidak diketahui";
@@ -299,35 +315,54 @@ class Game {
                     for(auto it = plantMap.begin(); it != plantMap.end() && notFound; it++){
                         if(it->second.getNama() == inventoryString){
                             CultivatedObject copyPlantMap(it->second);
-                            objInInv = &copyPlantMap;
+                            cultObjMemory.push_back(copyPlantMap);
+                            objInInv = &cultObjMemory.back();
                             notFound = 0;
                         }
                     }
                     for(auto it = animalMap.begin(); it != animalMap.end() && notFound; it++){
                         if(it->second.getNama() == inventoryString){
                             CultivatedObject copyAnimalMap(it->second);
-                            objInInv = &copyAnimalMap;
+                            cultObjMemory.push_back(copyAnimalMap);
+                            objInInv = &cultObjMemory.back();
                             notFound = 0;
                         }
                     }
                     for(auto it = productMap.begin(); it != productMap.end() && notFound; it++){
                         if(it->second.getNama() == inventoryString){
                             ProductObject copyProductMap(it->second);
-                            objInInv = &copyProductMap;
+                            prodObjMemory.push_back(copyProductMap);
+                            objInInv = &prodObjMemory.back();
+                            notFound = 0;
+                        }
+                    }
+                    for(auto it = recipeMap.begin(); it != recipeMap.end() && notFound; it++){
+                        if(it->second.getNamaGameObject() == inventoryString){
+                            Recipe copyRecipe(it->second);
+                            cout << "MAKING NEW OBJ" << endl;
+                            TradeObject newTradeObj(copyRecipe.getId(),copyRecipe.getKodeHuruf(),copyRecipe.getNamaGameObject(),copyRecipe.getPrice(),"BANGUNAN");
+                            tradeObjMemory.push_back(newTradeObj);
+                            objInInv = &tradeObjMemory.back();
+                            cout << "DONE MAKING NEW OBJ" << endl;
                             notFound = 0;
                         }
                     }
                     if(notFound){
+                        cout << inventoryString << endl;
                         throw "muat_player_state(): notFound";
                     }
                     new_player->setBarangFirstPenyimpanan(objInInv);
+                    cout << j << endl;
                 }
+                cout << "SELESAI AMBIL PENYIMPANAN " << i << endl;
                 if(!kodePlayer){
+                    cout << "SIANJING" << endl;
                     string numberK;
                     getline(currentFile, numberK);
                     numberK.erase(numberK.find_last_not_of(spaces) + 1);
                     int K = stoi(numberK);
                     for(int k = 0; k < K; ++k){
+                        cout << "K: HERE" << k << endl;
                         string lokasi_nama_berat;
                         getline(currentFile, lokasi_nama_berat);
                         lokasi_nama_berat.erase(lokasi_nama_berat.find_last_not_of(spaces) + 1);
@@ -337,20 +372,24 @@ class Game {
                         for(auto it = animalMap.begin(); it != animalMap.end(); it++){
                             if(it->second.getNama() == barangInfo[1]){
                                 CultivatedObject copyCultObject(it->second);
-                                cultObject = &copyCultObject;
+                                cultObjMemory.push_back(copyCultObject);
+                                cultObject = &cultObjMemory.back();
                             }
                         }
                         for(auto it = plantMap.begin(); it != plantMap.end(); it++){
                             if(it->second.getNama() == barangInfo[1]){
                                 CultivatedObject copyCultObject(it->second);
-                                cultObject = &copyCultObject;
+                                cultObjMemory.push_back(copyCultObject);
+                                cultObject = &cultObjMemory.back();
                             }
                         }
                         cultObject->setWeight(stoi(barangInfo[2]));
+                        cout << pairCoord.first << " " << pairCoord.second << endl;
                         new_player->setBarangPenyimpanan(pairCoord.first, pairCoord.second, cultObject);
                     }
                 }
             }
+            cout << "HERE" << endl;
             string numberItemTokoM;
             getline(currentFile, numberItemTokoM);
             numberItemTokoM.erase(numberItemTokoM.find_last_not_of(spaces) + 1);

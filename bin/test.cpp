@@ -25,6 +25,11 @@ int main() {
         Game g;
         g.muat_semua_config();
         g.cetak_state();
+        g.muat_player_state();
+        cout << "PLAYER NOW: " << endl;
+        for(auto &x: g.listPlayer){
+            cout << x->getNama() << endl;
+        }
     }catch(const unsigned long c){
         cout << c << endl;
     }catch(const char* c){

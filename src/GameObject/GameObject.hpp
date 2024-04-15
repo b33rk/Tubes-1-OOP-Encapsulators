@@ -24,6 +24,7 @@ class GameObject {
             nama = "   ";
         }
         GameObject(const GameObject& other){
+            cout << "CCTOR GO" << endl;
             this->id = other.id;
             this->kode_huruf = other.kode_huruf;
             this->nama = other.nama;
@@ -196,20 +197,31 @@ public:
         this->price = 0;
     }
     Recipe(const Recipe& other) : GameObject(other){
+        this->price = other.price;
         for(auto &material: other.listMaterial){
             listMaterial.push_back(material);
+            cout << material << endl;
         }
         for(auto &quantity: other.materialQuantity){
             materialQuantity.push_back(quantity);
+            cout << quantity << endl;
         }
     }
-    Recipe(int id, string kode_huruf, string nama, int price, vector<string> listMaterials, vector<int> materialQuantity) : GameObject(id, kode_huruf, nama)
+    Recipe(int id, string kode_huruf, string nama, int price, vector<string> temp_materials, vector<int> materialQuantity) : GameObject(id, kode_huruf, nama)
     {
-        for (int i = 0; i < listMaterial.size(); i++)
+        this->price = price;
+        for (int i = 0; i < temp_materials.size(); i++)
         {
-            this->listMaterial.push_back(listMaterials[i]);
+            this->listMaterial.push_back(temp_materials[i]);
             this->materialQuantity.push_back(materialQuantity[i]);
         }
+    }
+    void cetak(){
+        cout << price << endl;
+        for(auto &x: listMaterial) cout << x << " ";
+        cout << endl;
+        for(auto &x: materialQuantity) cout << x << " ";
+        cout << endl;
     }
     int getPrice()
     {

@@ -32,6 +32,6 @@ public:
     int virtual bayarPajak();
     virtual void setBarangFirstPenyimpanan(TradeObject*);
     virtual void setBarangFirstLahan(CultivatedObject*);
-    virtual void setBarangPenyimpanan(int row, int col, TradeObject*);
-    virtual void setBarangLahan(int row, int col, CultivatedObject*);
+    virtual void setBarangPenyimpanan(int, int, TradeObject*);
+    virtual void setBarangLahan(int, int, CultivatedObject*);
 };

@@ -83,3 +83,11 @@ void Player::setBarangPenyimpanan(int row, int col, TradeObject* p){
 void Player::setBarangLahan(int row, int col, CultivatedObject* c){
     throw invalidCommandException();
 }
+
+void Player::setBarangPenyimpanan(int row, int col, TradeObject* t){
+
+}
+
+void Player::setBarangLahan(int row, int col, CultivatedObject* c){
+    
+}

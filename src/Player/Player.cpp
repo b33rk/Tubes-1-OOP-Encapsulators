@@ -96,3 +96,16 @@ vector<string> Player::getAllNamaBarang()
 {
     return this->penyimpanan.getAllNamaBarang();
 }
+
+void Player::makan(TradeObject *makanan)
+{
+    if (makanan->getType() != "PRODUCT_ANIMAL" || makanan->getType() != "PRODUCT_PLANT_FRUIT")
+    {
+        throw BukanMakananException();
+    }
+    else
+    {
+        int addedWeight = makanan->getAddedWeight();
+        this->setBerat(this->getBerat() + addedWeight);
+    }
+}

@@ -1,5 +1,5 @@
 # Set the compiler executable
-COMPILER = gcc
+COMPILER = g++
 LIN = ld
 
 # Source files

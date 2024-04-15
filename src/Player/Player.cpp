@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "../Exception/Exception.hpp"
 
 Player::Player(string nama, string peran, int berat, int uang)
 {
@@ -60,4 +61,12 @@ float Player::persentasePajak(int KKP)
     {
         return 0.35;
     }
+}
+
+void Player::setBarangPenyimpanan(TradeObject* p){
+    
+}
+
+void Player::setBarangLahan(CultivatedObject* c){
+    throw invalidCommandException();
 }

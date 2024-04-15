@@ -250,30 +250,37 @@ class Game {
                 getline(currentFile, playerName);
                 playerName.erase(playerName.find_last_not_of(spaces) + 1);
                 //splitted[i].erase(splitted[pVector].find_last_not_of(spaces) + 1);
-                getline(currentFile, );
-                vector<string> playerInfo = split(splitted[pVector], ' ');
-                pVector++;
+                vector<string> playerInfo = split(playerName, ' ');
                 int kodePlayer; // 0 bwt petani & peternak, 1 bwt walikota
                 Player* new_player;
                 if(playerInfo[1] == "Petani"){
-                    new_player = new Petani(playerInfo[0]);
-                    new_player->setBerat(stoi(playerInfo[2]));
-                    new_player->setKekayaan(stoi(playerInfo[3]));
+                    new_player = new Petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
+                    //new_player->setBerat(stoi(playerInfo[2]));
+                    //new_player->setKekayaan(stoi(playerInfo[3]));
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Peternak"){
-                    new_player = new Peternak(playerInfo[0]);
-                    new_player->setBerat(stoi(playerInfo[2]));
-                    new_player->setKekayaan(stoi(playerInfo[3]));
+                    new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
+                    //new_player->setBerat(stoi(playerInfo[2]));
+                    //new_player->setKekayaan(stoi(playerInfo[3]));
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Walikota"){
-                    new_player = new Walikota(playerInfo[0]);
-                    new_player->setBerat(stoi(playerInfo[2]));
-                    new_player->setKekayaan(stoi(playerInfo[3]));
+                    new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
+                    //new_player->setBerat(stoi(playerInfo[2]));
+                    //new_player->setKekayaan(stoi(playerInfo[3]));
                     kodePlayer = 1;
                 }else{
                     throw "muat_player_state(): tipe player tidak diketahui";
                 }
-                
+                string numberM;
+                getline(currentFile, numberM);
+                numberM.erase(numberM.find_last_not_of(spaces) + 1);
+                int M = stoi(numberM);
+                for(int j = 0; j < M; ++j){
+                    string inventoryString;
+                    getline(currentFile, inventoryString);
+                    inventoryString.erase(inventoryString.find_last_not_of(spaces) + 1);
+                    new_player->setBarangPenyimpanan()
+                }
             }
             
         }

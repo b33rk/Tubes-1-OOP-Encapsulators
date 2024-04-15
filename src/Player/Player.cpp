@@ -31,10 +31,10 @@ void Player::setUang(int uang)
 {
     this->uang = uang;
 }
-void Player::setKekayaan(int kekayaan)
-{
-    this->kekayaan = kekayaan;
-}
+// void Player::setKekayaan(int kekayaan)
+// {
+//     this->kekayaan = kekayaan;
+// }
 
 void Player::cetakPenyimpanan()
 {

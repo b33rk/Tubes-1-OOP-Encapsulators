@@ -5,7 +5,7 @@ class Player
 {
 protected:
     // int id;
-    int kekayaan;
+    // int kekayaan;
     int berat;
     int uang;
     string nama;
@@ -27,7 +27,7 @@ public:
     string getPeran();
     int getUang();
     void setUang(int uangBaru);
-    void setKekayaan(int kekayaan);
+    // void setKekayaan(int kekayaan);
     float persentasePajak(int KKP);
     int virtual bayarPajak();
     virtual void setBarangFirstPenyimpanan(TradeObject *);

@@ -34,7 +34,7 @@ int Farmers::hitungKekayaan()
             }
         }
     }
-    total += this->kekayaan;
+    total += this->uang;
     return total;
 }
 
@@ -43,6 +43,8 @@ void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int co
     ProductObject *product = new ProductObject(prodId, prodKode, nama, prodPrice, prodType, origin, addedWeight);
     this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
     delete this->lahan.getBarang(rowLahan, colLahan);
+    CultivatedObject *kosong = new CultivatedObject();
+    this->setBarangLahan(rowLahan, colLahan, kosong);
 }
 
 int Farmers::bayarPajak()
@@ -58,14 +60,14 @@ int Farmers::bayarPajak()
     {
         pajak = 0;
     }
-    if (pajak > this->kekayaan)
+    if (pajak > this->uang)
     {
-        pajak = this->kekayaan;
-        this->setKekayaan(0);
+        pajak = this->uang;
+        this->setUang(0);
     }
     else
     {
-        this->setKekayaan(this->kekayaan - pajak);
+        this->setUang(this->uang - pajak);
     }
     return pajak;
 }

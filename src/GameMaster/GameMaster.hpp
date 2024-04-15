@@ -48,6 +48,15 @@ class Game {
             }
         }
 
+       // return pair p, p.first = row, p.second = col
+        pair<int, int> stringToCoord(string s){
+            char col = s[0];
+            char row = 10 * s[1] + s[2];
+            int colNum = col - 'A';
+            int rowNum = row - 1;
+            return make_pair(rowNum, colNum);
+        }
+
         void readPlant(vector<string> tokens){
             if(tokens.size() != 6) throw "readPlant: panjang token != 6";
             CultivatedObject plant(stoi(tokens[0]), tokens[1], tokens[2], tokens[3], stoi(tokens[4]), stoi(tokens[5]));
@@ -310,9 +319,37 @@ class Game {
                         string lokasi_nama_berat;
                         getline(currentFile, lokasi_nama_berat);
                         lokasi_nama_berat.erase(lokasi_nama_berat.find_last_not_of(spaces) + 1);
-                        
+                        vector<string> barangInfo = split(lokasi_nama_berat, ' ');
+                        pair<int, int> pairCoord = this->stringToCoord(barangInfo[0]);
+                        CultivatedObject* cultObject;
+                        for(auto it = animalMap.begin(); it != animalMap.end(); it++){
+                            if(it->second.getNama() == barangInfo[1]){
+                                CultivatedObject copyCultObject(it->second);
+                                cultObject = &copyCultObject;
+                            }
+                        }
+                        for(auto it = plantMap.begin(); it != plantMap.end(); it++){
+                            if(it->second.getNama() == barangInfo[1]){
+                                CultivatedObject copyCultObject(it->second);
+                                cultObject = &copyCultObject;
+                            }
+                        }
+                        cultObject->setWeight(stoi(barangInfo[2]));
+                        new_player->setBarangPenyimpanan(pairCoord.first, pairCoord.second, cultObject);
                     }
                 }
+            }
+            string numberItemTokoM;
+            getline(currentFile, numberItemTokoM);
+            numberItemTokoM.erase(numberItemTokoM.find_last_not_of(spaces) + 1);
+            int numberItemM = stoi(numberItemTokoM);
+            vector<pair<string, int>> inisialisasiToko;
+            for(int m = 0; m < numberItemM; ++m){
+                string itemDanJumlah;
+                getline(currentFile, itemDanJumlah);
+                itemDanJumlah.erase(itemDanJumlah.find_last_not_of(spaces) + 1);
+                vector<string> itemJumlah = split(itemDanJumlah, ' ');
+                inisialisasiToko.push_back(make_pair(itemJumlah[0], stoi(itemJumlah[1])));
             }
             
         }

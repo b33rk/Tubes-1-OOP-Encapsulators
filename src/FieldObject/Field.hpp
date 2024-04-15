@@ -1,95 +1,86 @@
-#include "../GameObject/GameObject.hpp"
-#include <vector>
-#include <bits/stdc++.h>
+#ifndef FIELD_HPP
+#define FIELD_HPP
 
+#include "../GameObject/GameObject.hpp"
+
+template<class T>
 class Field {
     private:
         int row;
         int col;
         int static jumlahIsi;
-        string tipe;
-        TradeObject** barang;
+        vector<vector<T*>> barang;
     public:
+        Field(){
+            this->row = 0;
+            this->col = 0;
+            this->jumlahIsi = 0;
+            this->initBarang();
+        }
+        
         Field(int row, int col) {
             this->row = row;
             this->col = col;
-            for (int i = 0; i < row; i++){
-                for (int j = 0; j < col; j++) {
-                    // barang[i][j].setNama("kosong");
-                    barang[i][j].setKode("   ");
+            this->jumlahIsi = 0;
+            this->initBarang();
+
+        }
+
+        void initBarang(){
+            this->barang.resize(this->row);// make outer vector row size
+            for (int i = 0 ; i < this->row ; i++){
+                this->barang[i].resize(this->col); // make inner vector col size;
+                for (int j = 0 ; j < this->col ; j++ ){
+                    this->barang[i][j] = new T(); 
                 }
             }
         }
-        void virtual cetak(){
-            cout << "     ================[ " << tipe << "]=================" << endl;
-            cout << "   ";
-            for (int i = 0; i < col; i++){
-                cout << (char)(i + 40) << "     ";
-            }
-            cout << endl;
-            cout << "    +";
-            for (int i = 0; i < col; i++){
-                cout << "-----+";
-            }
-            cout << endl;
+        
+        void cetak(){
+            cout << "    ================[ Penyimpanan ]==================" << endl;
+            cout << "   A     B     C     D     E     F     G     H   " << endl;
+            cout << "    +-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
             for (int i = 0; i < row; i++){
                 cout << " 0" << i << " |";
                 for (int j = 0; j < col; j++){
-                    barang[i][j].cetakBarang();
+                    barang[i][j]->cetakBarang();
                 }
                 cout << endl;
-                cout << "    +";
-                for (int i = 0; i < col; i++){
-                    cout << "-----+";
-                }
-                cout << endl;
+                cout << "    +-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
             }
+            cout << "Total slot kosong: " << row*col - jumlahIsi << endl;
         }
+
         int getJumlahIsi(){
-            return jumlahIsi;
+            return this->jumlahIsi;
         }
-        int getrow(){
-            return row;
+
+        vector<vector<T*>> getBarang(){
+            return this->barang;
         }
-        int getcol(){
-            return col;
+
+        int getRow(){
+            return this->row;
         }
-        vector<TradeObject> getUniqueValue() {
-            vector<TradeObject> listBarang;
-            for (int i = 0; i < row; i++){
-                for (int j = 0; j < col; j++) {
-                    if (barang[i][j].getKode() != "   " && 
-                        find(listBarang.begin(), listBarang.end(), barang[i][j]) == listBarang.end()) {
-                        listBarang.push_back(barang[i][j]);
-                    }
-                }
-            }
-            
+
+        int getCol(){
+            return this->col;
+        }
+
+        void incrementJumlahIsi(){
+            this->jumlahIsi++;
+        }
+
+        void setBarang(int row, int col, T* object){
+            delete this->barang[row][col];
+            this->barang[row][col] = object;
         }
 };
 
-class cultivateField: public Field {
-    public:
-        void cetak() {
-            Field::cetak();
-            vector<TradeObject> listUnik = getUniqueValue();
-            for (TradeObject elmt : listUnik) {
-                cout << " - " << elmt.getKode() << ": " << elmt.getNama() << endl;
-            }
-        }
-};
+// class ladang: Field {
+// };
 
-class penyimpanan: public Field {
-    public:
-        void cetak() {
-            Field::cetak();
-            cout << "Total slot kosong: " << getrow()*getcol() - getJumlahIsi() << endl;
-        }
-};
+// class lahan: Field {
+// };
 
-// class peternakan: public Field {
-//     public:
-//         void cetak() {
-//             cout << "     ================[ Peternakan ]===================" << endl;
-//             Field::cetak();
-//         }
+#endif

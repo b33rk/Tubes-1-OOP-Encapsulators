@@ -1,10 +1,17 @@
-//#include "../Player/Player.hpp"
+#ifndef GAMEMASTER_HPP
+#define GAMEMASTER_HPP
+
+#include "../Player/Player.hpp"
+#include "../Player/Petani.hpp"
+#include "../Player/Peternak.hpp"
+#include "../Player/Walikota.hpp"
 #include "../GameObject/GameObject.hpp"
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string.h>
 #include <vector>
+#include <algorithm>
 #include <map>
 
 using namespace std;
@@ -23,9 +30,9 @@ class Game {
         int colLadang;
         int rowLahan;
         int colLahan;
-        //Player* listPlayer;
         int jumlahPlayer;
         int turn;
+        vector<Player*> listPlayer;
         map<string, CultivatedObject> plantMap;
         map<string, CultivatedObject> animalMap;
         map<string, ProductObject> productMap;
@@ -174,10 +181,117 @@ class Game {
         }
 
         void muat_player_state(){
+            bool player_loaded = false;
+            bool valid_input = false;
+            string filePath;
+            // loading player
+            do{
+                string input;
+                do{
+                    cout << "Apakah anda ingin memuat state? (y/n)";
+                    cin >> input;
+                    cout << endl;
+                    input.erase(input.find_last_not_of(spaces) + 1);
+                }while(input != "y" && input != "n");
+
+                if(input == "n"){
+                    Player* petani1 = new Petani("Petani1");
+                    Player* peternak1 = new Peternak("Peternak1");
+                    Player* walikota = new Walikota("Walikota");
+                    listPlayer.push_back(petani1);
+                    listPlayer.push_back(peternak1);
+                    listPlayer.push_back(walikota);
+                    sort(listPlayer.begin(), listPlayer.end(), [](Player* p1, Player* p2){
+                        return p1->getNama() < p2->getNama();
+                    });
+                    player_loaded = true;
+                    valid_input = true;
+                }else{
+                    cout << "Masukkan lokasi berkas state (b utk back): ";
+                    cin >> filePath;
+                    cout << endl;
+                    filePath.erase(filePath.find_last_not_of(spaces) + 1);
+                    if(filePath != "b"){
+                        ifstream playerFile(filePath);
+                        if(playerFile){
+                            valid_input = true;
+                        }else{
+                            cout << "File reading failed!" << endl;
+                        }
+                    }
+                }
+            }while(!valid_input);
+
+            if(player_loaded) return;
+
+            ifstream currentFile(filePath);
+
+            if(!currentFile) throw strerror(errno);
+            
+            string allText = "";
+            string currentText;
+
+            // baca N
+            string NText;
+            getline(currentFile, NText);
+            NText.erase(NText.find_last_not_of(spaces) + 1);
+            int N = stoi(NText);
+
+            while(getline(currentFile, currentText)){
+                allText += currentText + '\n';
+            }
+            allText.erase(allText.find_last_not_of(spaces) + 1);
+            vector<string> splitted = split(allText, '\n');
+            int pVector = 0;
+            for(int i = 0; i < N; ++i){
+                splitted[i].erase(splitted[pVector].find_last_not_of(spaces) + 1);
+                vector<string> playerInfo = split(splitted[pVector], ' ');
+                pVector++;
+                int kodePlayer; // 0 bwt petani & peternak, 1 bwt walikota
+                Player* new_player;
+                if(playerInfo[1] == "Petani"){
+                    new_player = new Petani(playerInfo[0]);
+                    new_player->setBerat(stoi(playerInfo[2]));
+                    new_player->setKekayaan(stoi(playerInfo[3]));
+                    kodePlayer = 0;
+                }else if(playerInfo[1] == "Peternak"){
+                    new_player = new Peternak(playerInfo[0]);
+                    new_player->setBerat(stoi(playerInfo[2]));
+                    new_player->setKekayaan(stoi(playerInfo[3]));
+                    kodePlayer = 0;
+                }else if(playerInfo[1] == "Walikota"){
+                    new_player = new Walikota(playerInfo[0]);
+                    new_player->setBerat(stoi(playerInfo[2]));
+                    new_player->setKekayaan(stoi(playerInfo[3]));
+                    kodePlayer = 1;
+                }else{
+                    throw "muat_player_state(): tipe player tidak diketahui";
+                }
+                
+            }
             
         }
 
-        void tambah() {
+        int getJumlahPlayer(){
+            return this->jumlahPlayer;
+        }
+
+        string getPlayerNama(int i){
+            return this->listPlayer[i]->getNama();
+        }
+
+        int bayarPajakPlayer(int i){
+            return this->listPlayer[i]->bayarPajak();
 
         }
+        string getPeranPlayer(int i){
+            return this->listPlayer[i]->getPeran();
+        }
+
+        void tambahGamePlayer(Player* player){
+            this->listPlayer[this->jumlahPlayer] = player;
+            this->jumlahPlayer++;
+        }
 };
+
+#endif

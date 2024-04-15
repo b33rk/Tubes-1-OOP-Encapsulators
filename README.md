@@ -1,4 +1,4 @@
-# Tubes-1-OOP-Encapsulators
+# Branch kristo
 
 Fitur di branch ini:
 1. muat_semua_config() Done, tested

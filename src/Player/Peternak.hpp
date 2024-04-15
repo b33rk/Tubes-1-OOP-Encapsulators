@@ -8,7 +8,7 @@
 class Peternak : public Farmers
 {
 public:
-    Peternak(string nama, int berat, int uang);
+    Peternak(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan);
     void beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan);
 
     void ternak(CultivatedObject *hewan, int row, int col);

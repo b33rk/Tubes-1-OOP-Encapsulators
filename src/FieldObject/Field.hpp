@@ -10,6 +10,7 @@ private:
     int row;
     int col;
     int static jumlahIsi;
+    string tipe;
     vector<vector<T *>> storage;
 
 public:
@@ -28,6 +29,21 @@ public:
         this->initBarang();
     }
 
+    Field& operator=(const Field& origin){
+        this->row = origin.row;
+        this->col = origin.col;
+        this->jumlahIsi = origin.jumlahIsi;
+        this->initBarang();
+        for (int i = 0 ; i < this->row ; i++){
+            for (int j = 0 ; j < this->col ; j++){
+                delete this->storage[i][j];
+                this->storage[i][j] = origin[i][j]
+            }
+        }
+        return *this;
+        
+    }
+
     void initBarang()
     {
         this->storage.resize(this->row); // make outer vector row size
@@ -40,23 +56,31 @@ public:
             }
         }
     }
-    void cetak()
-    {
-        cout << "    ================[ Penyimpanan ]==================" << endl;
-        cout << "   A     B     C     D     E     F     G     H   " << endl;
-        cout << "    +-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
-        for (int i = 0; i < row; i++)
-        {
-            cout << " 0" << i << " |";
-            for (int j = 0; j < col; j++)
-            {
-                this->storage[i][j].cetakBarang();
+  void virtual cetak(){
+            cout << "     ================[ " << tipe << "]=================" << endl;
+            cout << "   ";
+            for (int i = 0; i < col; i++){
+                cout << (char)(i + 40) << "     ";
             }
             cout << endl;
-            cout << "    +-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
-        }
-        cout << "Total slot kosong: " << row * col - jumlahIsi << endl;
-    }
+            cout << "    +";
+            for (int i = 0; i < col; i++){
+                cout << "-----+";
+            }
+            cout << endl;
+            for (int i = 0; i < row; i++){
+                cout << " 0" << i << " |";
+                for (int j = 0; j < col; j++){
+                    barang[i][j].cetakBarang();
+                }
+                cout << endl;
+                cout << "    +";
+                for (int i = 0; i < col; i++){
+                    cout << "-----+";
+                }
+                cout << endl;
+            }
+        }   
     int getJumlahIsi()
     {
         return jumlahIsi;
@@ -84,7 +108,7 @@ public:
 
     void setBarang(int row, int col, T *object)
     {
-        if (kosong)
+        if (this->storage[row][col].getKodeHuruf() != "   ")
         {
             throw BarangKosongException();
         }
@@ -96,12 +120,50 @@ public:
     {
         return this->storage;
     }
+
+    void insertFirst(T* object){
+        for (int i = 0 ; i < this->row ; i++){
+            for (int j = 0 ; j < this->col ; j++){
+                if (this->storage[i][j].getKodeHuruf() == "   "){
+                    this->setBarang(i,j,object);
+                    return;
+                }
+            }
+
+        }
+        throw  penyimpananPenuhException();
+    }
+    vector<TradeObject> getUniqueValue() {
+            vector<TradeObject> listBarang;
+            for (int i = 0; i < row; i++){
+                for (int j = 0; j < col; j++) {
+                    if (barang[i][j].getKode() != "   " && 
+                        find(listBarang.begin(), listBarang.end(), barang[i][j]) == listBarang.end()) {
+                        listBarang.push_back(barang[i][j]);
+                    }
+                }
+            }
+            
+        }
 };
 
-// class ladang: Field {
-// };
+class cultivateField: public Field<CultivatedObject> {
+    public:
+        void cetak() {
+            Field::cetak();
+            vector<TradeObject> listUnik = getUniqueValue();
+            for (TradeObject elmt : listUnik) {
+                cout << " - " << elmt.getKodeHuruf() << ": " << elmt.getNama() << endl;
+            }
+        }
+};
 
-// class lahan: Field {
-// };
+class penyimpanan: public Field<TradeObject> {
+    public:
+        void cetak() {
+            Field::cetak();
+            cout << "Total slot kosong: " << getRow()*getCol() - getJumlahIsi() << endl;
+        }
+};
 
 #endif

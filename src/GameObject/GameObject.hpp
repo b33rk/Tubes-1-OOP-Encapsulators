@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <string>
+#include "../Exception/Exception.hpp"
 // #include <string.h>
 
 using namespace std;
@@ -80,9 +81,9 @@ class TradeObject : public GameObject {
         void setKode(string newKode) {
             kode_huruf = newKode;
         }
-        string getKode() {
-            return kode_huruf;
-        }
+        // string getKode() {
+        //     return kode_huruf;
+        // }
         string getNama() {
             return nama;
         }

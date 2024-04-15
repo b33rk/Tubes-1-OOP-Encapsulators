@@ -2,7 +2,7 @@
 
 
 
-Walikota :: Walikota(string nama, int berat, int uang) : Player(nama, "Walikota",berat,uang){}
+Walikota :: Walikota(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan) : Player(nama, "Walikota",berat,uang, rowPenyimpanan,colPenyimpanan){}
 
 int Walikota :: bayarPajak(){
     throw invalidCommandException();

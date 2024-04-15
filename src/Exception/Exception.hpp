@@ -36,5 +36,22 @@ class invalidCommandException  : public exception{
         }
 };
 
+class petakTidakKosongException : public exception{
+    public:
+        const char* message(){
+            return "Petak tersebut tidak kosong !\n";
+        }
+};
+
+class penyimpananPenuhException : public exception{
+    private:
+        string type;
+    public:
+        string message(){
+            return this->type+ " sudah penuh\n";
+        }
+    //     penyimpananPenuhException(  )
+
+};
 
 #endif

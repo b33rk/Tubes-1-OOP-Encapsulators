@@ -2,7 +2,7 @@
 #include "../Exception/Exception.hpp"
 #include "../GameObject/GameObject.hpp"
 
-Peternak::Peternak(string nama, int berat, int uang) : Farmers(nama, "Peternak", 11, berat, uang){};
+Peternak::Peternak(string nama, int berat, int uang, int rowPenyimpanan,int colPenyimpanan, int rowLahan, int colLahan) : Farmers(nama, "Peternak", 11, berat, uang, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan){};
 
 void Peternak::beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan)
 {

@@ -13,7 +13,8 @@ protected:
     Field<TradeObject> penyimpanan;
 
 public:
-    Player(string nama, string peran, int berat, int uang);
+    Player();
+    Player(string, string, int, int, int, int);
     ~Player();
     void virtual next() {}
     void virtual muat();
@@ -29,6 +30,8 @@ public:
     void setKekayaan(int kekayaan);
     float persentasePajak(int KKP);
     int virtual bayarPajak();
-    virtual void setBarangPenyimpanan(TradeObject*);
-    virtual void setBarangLahan(CultivatedObject*);
+    virtual void setBarangFirstPenyimpanan(TradeObject*);
+    virtual void setBarangFirstLahan(CultivatedObject*);
+    virtual void setBarangPenyimpanan(int row, int col, TradeObject*);
+    virtual void setBarangLahan(int row, int col, CultivatedObject*);
 };

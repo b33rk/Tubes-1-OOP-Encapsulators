@@ -30,7 +30,6 @@ int main() {
         for(auto &x: g.listPlayer){
             cout << x->getNama() << endl;
         }
-        
         g.simpan();
     }catch(const unsigned long c){
         cout << c << endl;

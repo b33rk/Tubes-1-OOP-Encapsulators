@@ -13,6 +13,7 @@ private:
     int jumlahIsi;
     string tipe;
     vector<vector<T *>> storage;
+    vector<T> memory;
 
 public:
     Field()
@@ -55,9 +56,16 @@ public:
             this->storage[i].resize(this->col); // make inner vector col size;
             for (int j = 0; j < this->col; j++)
             {
-                this->storage[i][j] = new T();
+                this->storage[i][j] = new T;
             }
         }
+        //cout << "PRINT" << endl;
+        /*
+        for(int i = 0; i < this->row; ++i){
+            for(int j = 0; j < this->col; ++j){
+                cout << this->storage[i][j]->getKodeHuruf() << endl;
+            }
+        }*/
     }
     void virtual cetak()
     {
@@ -117,11 +125,16 @@ public:
 
     void setBarang(int row, int col, T *object)
     {
+        //cout << "SAMPAI BARANG" << endl;
+        //cout << this->storage[0].size() << endl;
+        //cout << this->storage[0][0]->getKodeHuruf() << endl;
         if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
             throw BarangKosongException();
         }
+        //cout << "SIAP2 DELTE" << endl;
         delete this->storage[row][col];
+        //cout << "SELESAI EDE" << endl;
         this->storage[row][col] = object;
         if (object->getKodeHuruf() != "   ")
         {
@@ -129,7 +142,7 @@ public:
         }
     }
 
-    vector<vector<T *>> getStorage()
+    vector<vector<T*>> getStorage()
     {
         return this->storage;
     }

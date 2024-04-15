@@ -1,22 +1,20 @@
 #include "Player.hpp"
 #include "../Exception/Exception.hpp"
 
-Player::Player(){
+Player::Player() : penyimpanan(){
     berat = 0;
     uang = 0;
     nama = "   ";
     peran = "   ";
 }
 
-Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpanan, int colPenyimpanan)
+Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpanan, int colPenyimpanan) : penyimpanan(rowPenyimpanan, colPenyimpanan)
 {
     // this->id = id;
-    Field<TradeObject> penyimpananTemp(rowPenyimpanan, colPenyimpanan);
     this->nama = nama;
     this->peran = peran;
     this->berat = berat;
     this->uang = uang;
-    this->penyimpanan = penyimpananTemp;
 }
 
 string Player::getNama()
@@ -26,7 +24,7 @@ string Player::getNama()
 
 string Player::getPeran()
 {
-    return this->getPeran();
+    return this->peran;
 }
 
 int Player::getUang()
@@ -126,5 +124,9 @@ void Player::makan(TradeObject *makanan)
 }
 
 int Player::bayarPajak(){
+    throw invalidCommandException();
+}
+
+void Player::tambahPlayer(string){
     throw invalidCommandException();
 }

@@ -41,6 +41,7 @@ public:
     void setBerat(int);
     virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();
     vector<string> getAllNamaBarang();
+    virtual void tambahPlayer(string);
 };
 
 #endif

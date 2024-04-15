@@ -1,7 +1,7 @@
-// #include "src/FieldObject/Field.hpp"
-// #include "src/GameMaster/GameMaster.hpp"
-// #include "src/GameObject/GameObject.hpp"
-// #include "src/Player/Player.hpp"
+#include "FieldObject/Field.hpp"
+#include "GameMaster/GameMaster.hpp"
+#include "GameObject/GameObject.hpp"
+#include "Player/Player.hpp"
 
 #include <iostream>
 using namespace std;

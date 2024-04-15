@@ -179,3 +179,4 @@ LICENSE
 RULES.md
 yarn.lock
 .DS_Store
+*.o

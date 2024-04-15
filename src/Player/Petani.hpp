@@ -1,23 +1,19 @@
-#include "Player.hpp"
-#include "../GameMaster/GameMaster.hpp"
+#ifndef PETANI_HPP
+#define PETANI_HPP
 
-class Petani : public Player {
-    private:
-        Field ladang;
-    public:
-        void next(){
-            for (int i = 0; i < ladang.getJumlahIsi(); i++){
-                tanaman[i].incrementWeight();
-            }
-            nextTurn();
-        }
-        void panen(int, int) {
-            // a;
-            // product b(nama)
-        }
-        void tanam();
-        void bayarPajak();
-        void cetakLadang(){
-            ladang.cetak();
-        }
+#include "Farmers.hpp"
+
+class Petani : public Farmers
+{
+public:
+    Petani(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan);
+    void next();
+    void panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight);
+    void tanam(CultivatedObject *tanaman, int row, int col);
+
+    void cetakLadang();
 };
+
+// ask for get in fields
+
+#endif

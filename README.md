@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-# Branch kristo
-
-Fitur di branch ini:
-1. muat_semua_config() Done, tested
-2. muat_state_player(), Not done
-3. makan(), Not done
-4. tambah_player(), Not done
-=======
 # Encapsulators - ENC
 Tugas Besar 1 IF2210 Pemrograman Berorientasi Objek : Kelola Kerajaan
 
@@ -33,4 +24,3 @@ make
 3. Maximilian Sulistiyo - 13522061
 4. Marvel Pangondian - 13522075
 5. Abdullah Mubarak - 13522101
->>>>>>> 82f9aef146264f2dc41433a7ed6dc1f741c67e30

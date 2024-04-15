@@ -1,7 +1,7 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 #include <exception>
-
+#include <stdexcept>
 using namespace std;
 
 class MakananSalahException : public exception
@@ -78,6 +78,35 @@ public:
     {
         return "Barang tersebut kosong mass!!\n";
     }
+};
+
+class KurangMaterialException : public exception{
+    private:
+        vector<string> materials;
+        vector<int> quantity;
+        string finalMessage;
+    public:
+        KurangMaterialException(const vector<string>& materials, const vector<int>& quantity) : materials(materials) , quantity(quantity), exception(){
+            finalMessage = "Kamu tidak punya sumber daya yang cukup! Masih memerlukan ";
+            for (int i = 0 ; i < materials.size() ; i++){
+                if (quantity[i] > 0){
+                    finalMessage.append(to_string(quantity[i]));
+                    finalMessage.append(" ");
+                    finalMessage.append(materials[i]);
+                    if (i != materials.size() - 1){
+                        finalMessage.append(", ");
+                    }
+                    else {
+                        finalMessage.append(" ");
+                    }
+                }
+            }
+            finalMessage.append("\n");
+        }
+        const char* message() {
+            return finalMessage.c_str();
+        }
+
 };
 
 #endif

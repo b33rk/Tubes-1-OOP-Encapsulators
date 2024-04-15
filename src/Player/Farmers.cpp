@@ -1,16 +1,14 @@
 #include "Farmers.hpp"
 
-Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan)
+Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan), lahan(rowLahan, colLahan)
 {
-    Field<CultivatedObject> lahanTemp;
     this->penguranganKKP = penguranganKKP;
-    this->lahan = lahanTemp;
 }
 
 int Farmers::hitungKekayaan()
 {
     int total = 0;
-    vector<vector<CultivatedObject *>> barang = this->lahan.getStorage();
+    vector<vector<CultivatedObject*>> barang = this->lahan.getStorage();
     for (int i = 0; i < lahan.getRow(); i++)
     {
         for (int j = 0; j < lahan.getCol(); j++)

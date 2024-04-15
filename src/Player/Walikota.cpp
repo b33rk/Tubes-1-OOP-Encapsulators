@@ -1,5 +1,6 @@
 #include "Walikota.hpp"
 #include <vector>
+#include <utility>
 #include "Player.hpp"
 
 
@@ -34,6 +35,36 @@ void Walikota :: pungutPajak(vector<Player*> listPlayer, int num_of_players){
 
 void Walikota :: bangunBangunan(Recipe recipe){
     // Anggap building adalah tradeobject dengan id yang sama dengan recipe, dan atribut yang sama dengan recipe
+    vector<pair<int,int>> location;
+    vector<string> materials = recipe.getListMaterial();
+    vector<int> materialQuantity = recipe.getMaterialQuantity();
+    bool complete = true;
+    bool allComplete = true;
+    for (int i = 0 ; i < materials.size() ; i++){
+        complete = false;
+        for (int r = 0 ; r < this->penyimpanan.getRow() && !complete ; r++){
+            for (int c = 0 ; c < this->penyimpanan.getCol()  && !complete; c++){
+                if (this->penyimpanan.getBarang(r,c)->getNama() == materials[i]){
+                    materialQuantity[i] -= 1;
+                    location.push_back(make_pair(r,c));
+                    if (materialQuantity[i] == 0){
+                        complete = true;
+                    }
+                }
+            }
+        }
+        allComplete = allComplete && complete;
+        
+    }
+
+    if (!allComplete){
+        throw KurangMaterialException(materials,materialQuantity) ;
+    }
+
+    for (auto &pair : location){
+        this->penyimpanan.setKosong(pair.first,pair.second);
+    }
+
     TradeObject* T = new TradeObject(recipe.getId(),recipe.getKodeHuruf(),recipe.getNamaGameObject(),recipe.getPrice(),"BANGUNAN");
     vector<vector<TradeObject*>> temp_penyimpanan = this->penyimpanan.getStorage();
     for (int row = 0 ; row <  this->penyimpanan.getRow() ; row++){

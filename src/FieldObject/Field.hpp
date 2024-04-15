@@ -86,7 +86,7 @@ public:
     {
         if (kosong)
         {
-            throw BarangKosongExveption
+            throw BarangKosongException();
         }
         delete this->storage[row][col];
         this->storage[row][col] = object;

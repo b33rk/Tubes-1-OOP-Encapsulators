@@ -29,4 +29,6 @@ public:
     void setKekayaan(int kekayaan);
     float persentasePajak(int KKP);
     int virtual bayarPajak();
+    virtual void setBarangPenyimpanan(TradeObject*);
+    virtual void setBarangLahan(CultivatedObject*);
 };

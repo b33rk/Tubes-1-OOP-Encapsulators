@@ -47,8 +47,6 @@ class GameObject {
         bool notExist(){
             return this->kode_huruf == "   ";
         }
-        
-        virtual void incrementWeight(){};
 };
 
 class TradeObject : public GameObject {
@@ -93,6 +91,14 @@ class TradeObject : public GameObject {
         }
         string getType(){
             return this->type;
+        }
+
+        virtual void incrementWeight(){
+            throw invalidCommandException();
+        }
+
+        virtual void addWeight(int weight){
+            throw invalidCommandException();
         }
 
         virtual int getAddedWeight(){

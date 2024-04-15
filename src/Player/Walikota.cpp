@@ -1,5 +1,5 @@
 #include "Walikota.hpp"
-
+#include <vector>
 
 
 Walikota :: Walikota(string nama, int berat, int uang) : Player(nama, "Walikota",berat,uang){}
@@ -9,7 +9,7 @@ int Walikota :: bayarPajak(){
     
 }
 
-void Walikota :: pungutPajak(Player** listPlayer, int num_of_players){
+void Walikota :: pungutPajak(vector<Player*> listPlayer, int num_of_players){
 
     int pajak_temp;
     int total = this->getUang();

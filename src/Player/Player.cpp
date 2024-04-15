@@ -63,10 +63,18 @@ float Player::persentasePajak(int KKP)
     }
 }
 
-void Player::setBarangPenyimpanan(TradeObject* p){
-    
+void Player::setBarangFirstPenyimpanan(TradeObject* p){
+
 }
 
-void Player::setBarangLahan(CultivatedObject* c){
+void Player::setBarangFirstLahan(CultivatedObject* c){
     throw invalidCommandException();
+}
+
+void Player::setBarangPenyimpanan(int row, int col, TradeObject* t){
+
+}
+
+void Player::setBarangLahan(int row, int col, CultivatedObject* c){
+    
 }

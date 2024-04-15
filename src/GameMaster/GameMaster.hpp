@@ -255,18 +255,12 @@ class Game {
                 Player* new_player;
                 if(playerInfo[1] == "Petani"){
                     new_player = new Petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
-                    //new_player->setBerat(stoi(playerInfo[2]));
-                    //new_player->setKekayaan(stoi(playerInfo[3]));
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Peternak"){
                     new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
-                    //new_player->setBerat(stoi(playerInfo[2]));
-                    //new_player->setKekayaan(stoi(playerInfo[3]));
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Walikota"){
                     new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]));
-                    //new_player->setBerat(stoi(playerInfo[2]));
-                    //new_player->setKekayaan(stoi(playerInfo[3]));
                     kodePlayer = 1;
                 }else{
                     throw "muat_player_state(): tipe player tidak diketahui";
@@ -279,7 +273,45 @@ class Game {
                     string inventoryString;
                     getline(currentFile, inventoryString);
                     inventoryString.erase(inventoryString.find_last_not_of(spaces) + 1);
-                    new_player->setBarangPenyimpanan()
+                    bool notFound = 1;
+                    TradeObject* objInInv;
+                    for(auto it = plantMap.begin(); it != plantMap.end() && notFound; it++){
+                        if(it->second.getNama() == inventoryString){
+                            CultivatedObject copyPlantMap(it->second);
+                            objInInv = &copyPlantMap;
+                            notFound = 0;
+                        }
+                    }
+                    for(auto it = animalMap.begin(); it != animalMap.end() && notFound; it++){
+                        if(it->second.getNama() == inventoryString){
+                            CultivatedObject copyAnimalMap(it->second);
+                            objInInv = &copyAnimalMap;
+                            notFound = 0;
+                        }
+                    }
+                    for(auto it = productMap.begin(); it != productMap.end() && notFound; it++){
+                        if(it->second.getNama() == inventoryString){
+                            ProductObject copyProductMap(it->second);
+                            objInInv = &copyProductMap;
+                            notFound = 0;
+                        }
+                    }
+                    if(notFound){
+                        throw "muat_player_state(): notFound";
+                    }
+                    new_player->setBarangFirstPenyimpanan(objInInv);
+                }
+                if(!kodePlayer){
+                    string numberK;
+                    getline(currentFile, numberK);
+                    numberK.erase(numberK.find_last_not_of(spaces) + 1);
+                    int K = stoi(numberK);
+                    for(int k = 0; k < K; ++k){
+                        string lokasi_nama_berat;
+                        getline(currentFile, lokasi_nama_berat);
+                        lokasi_nama_berat.erase(lokasi_nama_berat.find_last_not_of(spaces) + 1);
+                        
+                    }
                 }
             }
             

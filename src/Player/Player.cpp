@@ -105,7 +105,7 @@ void Player::setBerat(int x)
     this->berat = x;
 }
 
-vector<pair<pair<int, int>, pair<string, int>>> Player::getAllPosisiNamaBerat()
+vector<pair<pair<int, int>, pair<string, int> > > Player::getAllPosisiNamaBerat()
 {
     throw invalidCommandException();
     return {};
@@ -139,22 +139,32 @@ void Player::bangunBangunan(Recipe recipe)
     throw invalidCommandException();
 }
 
-void Player::tambahPlayer(string peran){
+void Player::tambahPlayer(string peran)
+{
     throw invalidCommandException();
 }
 
-void Player::cetakLadangLahan(){
+void Player::cetakLadangLahan()
+{
     throw invalidCommandException();
 }
 
-void Player::tanam(CultivatedObject *tanaman, int row, int col){
+void Player::tanam(CultivatedObject *tanaman, int row, int col)
+{
     throw invalidCommandException();
 }
 
-void Player::ternak(CultivatedObject *hewan, int row, int col){
+void Player::ternak(CultivatedObject *hewan, int row, int col)
+{
     throw invalidCommandException();
 }
 
-void Player::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject* product){
+void Player::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject *product)
+{
+    throw invalidCommandException();
+}
+
+Field<CultivatedObject> Player::getLahan()
+{
     throw invalidCommandException();
 }

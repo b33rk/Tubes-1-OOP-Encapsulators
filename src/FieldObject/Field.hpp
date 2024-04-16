@@ -7,12 +7,12 @@
 template <class T>
 class Field
 {
-private:
+public:
     int row;
     int col;
     int jumlahIsi;
     string tipe;
-    vector<vector<T *>> storage;
+    vector<vector<T *> > storage;
 
 public:
     Field()
@@ -141,7 +141,9 @@ public:
         {
             throw petakTidakKosongException();
         }
-        delete this->storage[row][col];
+        cout << "INI POINTER SEBELUM DELET " << this->storage[row][col] << endl;
+        // delete this->storage[row][col];
+        // this->storage[row][col] = nullptr;
         this->storage[row][col] = object;
         if (object->getKodeHuruf() != "   ")
         {
@@ -149,7 +151,7 @@ public:
         }
     }
 
-    vector<vector<T *>> getStorage()
+    vector<vector<T *> > getStorage()
     {
         return this->storage;
     }
@@ -201,9 +203,9 @@ public:
         return namaBarang;
     }
 
-    vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat()
+    vector<pair<pair<int, int>, pair<string, int> > > getAllPosisiNamaBerat()
     {
-        vector<pair<pair<int, int>, pair<string, int>>> hasil;
+        vector<pair<pair<int, int>, pair<string, int> > > hasil;
         int inc = 0;
         for (int i = 0; i < this->row; i++)
         {

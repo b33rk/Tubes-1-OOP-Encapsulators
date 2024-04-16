@@ -38,6 +38,16 @@ public:
         kode_huruf = kode;
         nama = name;
     }
+
+    ~GameObject() {}
+
+    GameObject &operator=(const GameObject &other)
+    {
+        this->id = other.id;
+        this->kode_huruf = other.kode_huruf;
+        this->nama = other.nama;
+        return *this;
+    }
     int getId()
     {
         return this->id;
@@ -76,6 +86,7 @@ public:
         price = p;
         type = t;
     }
+    ~TradeObject() {}
     TradeObject(const TradeObject &other) : GameObject(other)
     {
         this->price = other.price;
@@ -85,6 +96,16 @@ public:
     {
         price = p;
         type = t;
+    }
+
+    TradeObject &operator=(const TradeObject &other)
+    {
+
+        GameObject::operator=(other);
+        this->price = other.price;
+        this->type = other.type;
+
+        return *this;
     }
     void cetakBarang()
     {
@@ -158,6 +179,17 @@ public:
     {
         this->cultivateWeight = dur;
         this->currentWeight = 0;
+    }
+
+    ~CultivatedObject() {}
+
+    CultivatedObject &operator=(const CultivatedObject &other)
+    {
+        TradeObject::operator=(other);
+        this->cultivateWeight = other.cultivateWeight;
+        this->currentWeight = other.currentWeight;
+
+        return *this;
     }
 
     void incrementWeight() override

@@ -46,8 +46,9 @@ public:
     virtual void ternak(CultivatedObject *, int, int);
     int getBerat();
     void setBerat(int);
-    virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();
+    virtual vector<pair<pair<int, int>, pair<string, int> > > getAllPosisiNamaBerat();
     vector<string> getAllNamaBarang();
+    virtual Field<CultivatedObject> getLahan();
 };
 
 #endif

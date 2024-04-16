@@ -27,6 +27,17 @@ int main()
         main.listPlayer[2]->cetakLadangLahan();
         main.listPlayer[2]->cetakPenyimpanan();
 
+        main.listPlayer[2]->cetakLadangLahan();
+        cout << "POINTER STORAGE 0,0 " << main.listPlayer[2]->getLahan().storage[0][0] << endl;
+        CultivatedObject *hewan2 = new CultivatedObject(main.animalMap["SNK"]);
+        cout << "POINTER HEWAN 2  " << hewan2 << endl;
+        CultivatedObject *hewan3 = new CultivatedObject(main.animalMap["CHK"]);
+        cout << "POINTER HEWAN 3  " << hewan2 << endl;
+        main.listPlayer[2]->cetakLadangLahan();
+        cout << "POINTER STORAGE 0,0 " << main.listPlayer[2]->getLahan().storage[0][0] << endl;
+        main.listPlayer[2]->ternak(hewan2, 1, 1);
+        main.listPlayer[2]->cetakLadangLahan();
+
         // main.nextTurn();
 
         // cout << main.listPlayer[main.turn]->penyimpanan.getRow() << endl;

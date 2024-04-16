@@ -107,9 +107,13 @@ vector<pair<pair<int, int>, pair<string, int>>> Player::getAllPosisiNamaBerat()
     return {};
 }
 
-void Player::makan(TradeObject *makanan)
-{
-    if (makanan->getType() != "PRODUCT_ANIMAL" || makanan->getType() != "PRODUCT_PLANT_FRUIT")
+void Player::makan(int row, int col)
+{   
+    TradeObject* makanan = this->getPenyimpanan()[row][col];
+    // if (makanan->getType() == "   "){
+    //     throw "Makan tersebut adalah petak kosong !"
+    // }
+    if (makanan->getType() != "PRODUCT_ANIMAL" && makanan->getType() != "PRODUCT_FRUIT_PLANT")
     {
         throw BukanMakananException();
     }
@@ -117,6 +121,7 @@ void Player::makan(TradeObject *makanan)
     {
         int addedWeight = makanan->getAddedWeight();
         this->setBerat(this->getBerat() + addedWeight);
+        this->setBarangPenyimpananKosong(row, col);
     }
 }
 

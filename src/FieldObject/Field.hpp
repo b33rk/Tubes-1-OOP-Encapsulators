@@ -160,7 +160,6 @@ public:
     {
         if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
-            cout << "delete" << row << " " << col << endl;
             delete this->storage[row][col];
             T *object = new T();
             this->storage[row][col] = object;

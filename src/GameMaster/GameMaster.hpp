@@ -1273,6 +1273,56 @@ public:
             cout << "Error occured. Returning..." << endl;
         }
     }
+
+ void makan(){
+            vector<vector<TradeObject*>> penyimpanan_pemain = listPlayer[turn - 1]->getPenyimpanan();
+            bool foodExist = false;
+            for(auto &row_penyimpanan_pemain: penyimpanan_pemain){
+                for(auto &elem_penyimpanan: row_penyimpanan_pemain){
+                    for(auto &product: productMap){
+                        if(elem_penyimpanan->getKodeHuruf() != "   " && product.second.getAddedWeight() != 0 && elem_penyimpanan->getKodeHuruf() == product.second.getKodeHuruf()){
+                            foodExist = true;
+                        }
+                    }
+                }
+            }
+            if(!foodExist){
+                cout << "Anda tidak punya makanan yang bisa dimakan!" << endl;
+                return;
+            }
+
+            cout << "Pilih makanan dari penyimpanan\n\n";
+            string input_petak;
+            bool notValid = 1;
+            pair<int, int> coord_input;
+            this->listPlayer[turn - 1]->cetakPenyimpanan();
+            
+            do{
+                notValid = 0;
+                cout << "Slot: ";
+                cin >> input_petak;
+                coord_input = stringToCoord(input_petak);
+                if (!(coord_input.first < 0 || coord_input.second < 0 || coord_input.first >= rowPenyimpanan || coord_input.second >= colPenyimpanan)){
+                 
+                    try{
+
+                        listPlayer[turn - 1]->makan(coord_input.first,coord_input.second);
+                        notValid = 0;
+                        // cout << new_tr_obj->getType();
+                    }catch( BukanMakananException e){
+                        // cout << new_tr_obj->getType();
+                        cout << e.message();
+                        notValid = 1;
+                    }
+                }
+
+            }while(notValid || (coord_input.first < 0 || coord_input.second < 0 || coord_input.first >= rowPenyimpanan || coord_input.second >= colPenyimpanan) || penyimpanan_pemain[coord_input.first][coord_input.second]->getKodeHuruf() == "   " || productMap.find(penyimpanan_pemain[coord_input.first][coord_input.second]->getKodeHuruf()) == productMap.end() || productMap[penyimpanan_pemain[coord_input.first][coord_input.second]->getKodeHuruf()].getAddedWeight() == 0);
+
+            cout << "Dengan lahapnya, kamu memakanan hidangan itu" << endl;
+            cout << "Alhasil, berat badan kamu naik menjadi " << listPlayer[turn - 1]->getBerat() << endl;
+        }
+
+
 };
 
 #endif

@@ -23,7 +23,7 @@ public:
     // void virtual muat();
     // void virtual jual(int, int);
     // void virtual beli(TradeObject *, int);
-    void virtual makan(TradeObject *);
+    void virtual makan(int, int);
     void virtual cetakPenyimpanan();
     // void virtual cetakLahan();
     string getNama();

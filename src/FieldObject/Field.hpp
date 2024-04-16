@@ -13,6 +13,7 @@ private:
     int jumlahIsi;
     string tipe;
     vector<vector<T *>> storage;
+    vector<T> memory;
 
 public:
     Field()
@@ -58,8 +59,15 @@ public:
                 this->storage[i][j] = new T;
             }
         }
+        //cout << "PRINT" << endl;
+        /*
+        for(int i = 0; i < this->row; ++i){
+            for(int j = 0; j < this->col; ++j){
+                cout << this->storage[i][j]->getKodeHuruf() << endl;
+            }
+        }*/
     }
-    void virtual cetak()
+    void virtual cetak(bool cetak_warna = false)
     {
         cout << "     ================[ " << tipe << "]=================" << endl;
         cout << "   ";
@@ -79,7 +87,7 @@ public:
             cout << " 0" << i << " |";
             for (int j = 0; j < col; j++)
             {
-                storage[i][j]->cetakBarang();
+                storage[i][j]->cetakBarang(cetak_warna);
             }
             cout << endl;
             cout << "    +";
@@ -117,11 +125,16 @@ public:
 
     void setBarang(int row, int col, T *object)
     {
+        //cout << "SAMPAI BARANG" << endl;
+        //cout << this->storage[0].size() << endl;
+        //cout << this->storage[0][0]->getKodeHuruf() << endl;
         if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
             throw BarangKosongException();
         }
+        //cout << "SIAP2 DELTE" << endl;
         delete this->storage[row][col];
+        //cout << "SELESAI EDE" << endl;
         this->storage[row][col] = object;
         if (object->getKodeHuruf() != "   ")
         {
@@ -129,7 +142,16 @@ public:
         }
     }
 
-    vector<vector<T *>> getStorage()
+    void setKosong(int row, int col){
+        if (this->storage[row][col]->getKodeHuruf() != "   "){
+            delete this->storage[row][col];
+            this->jumlahIsi--;
+        }
+        T* object = new T;
+        this->storage[row][col] = object;
+    }
+
+    vector<vector<T*>> getStorage()
     {
         return this->storage;
     }
@@ -192,10 +214,7 @@ public:
             {
                 if (storage[i][j]->getKodeHuruf() != "   ")
                 {
-                    hasil[inc].first.first = i;
-                    hasil[inc].first.second = j;
-                    hasil[inc].second.first = storage[i][j]->getNamaGameObject();
-                    hasil[inc].second.second = storage[i][j]->getCurrentBerat();
+                    hasil.push_back(make_pair(make_pair(i, j), make_pair(storage[i][j]->getNamaGameObject(), storage[i][j]->getCurrentBerat())));
                 }
             }
         }

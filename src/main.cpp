@@ -7,38 +7,74 @@
 #include "Player/Peternak.hpp"
 #include "Player/Player.hpp"
 #include "Player/Walikota.hpp"
+#include "Command/Command.hpp"
+// #include "Shop/Shop.hpp"
 
-// bool finishGame(vector<Player*> listPlayer;, int goalUang, int goalBerat) {
+bool finishGame(vector<Player*> listPlayer, int goalUang, int goalBerat) {
+    for(int i = 0; i < listPlayer.size(); i++) {
+        if(listPlayer[i]->getUang() >= goalUang && listPlayer[i]->getBerat() >= goalBerat) {
+            return true;
+        }
+    }
 
-// }
+    return false;
+}
+
 
 int main() {
     // welcoming
     const string ENCAPSULATORS = "▄▄▄▄▄▄▄ ▄▄    ▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄   ▄▄ ▄▄▄     ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄   ▄▄▄▄▄▄▄\n█       █  █  █ █       █       █       █       █  █ █  █   █   █       █       █       █   ▄  █ █       █\n█    ▄▄▄█   █▄█ █       █   ▄   █    ▄  █  ▄▄▄▄▄█  █ █  █   █   █   ▄   █▄     ▄█   ▄   █  █ █ █ █  ▄▄▄▄▄█\n█   █▄▄▄█       █     ▄▄█  █▄█  █   █▄█ █ █▄▄▄▄▄█  █▄█  █   █   █  █▄█  █ █   █ █  █ █  █   █▄▄█▄█ █▄▄▄▄▄ \n█    ▄▄▄█  ▄    █    █  █       █    ▄▄▄█▄▄▄▄▄  █       █   █▄▄▄█       █ █   █ █  █▄█  █    ▄▄  █▄▄▄▄▄  █\n█   █▄▄▄█ █ █   █    █▄▄█   ▄   █   █    ▄▄▄▄▄█ █       █       █   ▄   █ █   █ █       █   █  █ █▄▄▄▄▄█ █\n█▄▄▄▄▄▄▄█▄█  █▄▄█▄▄▄▄▄▄▄█▄▄█ █▄▄█▄▄▄█   █▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄█ █▄▄█ █▄▄▄█ █▄▄▄▄▄▄▄█▄▄▄█  █▄█▄▄▄▄▄▄▄█\n";
     cout << ENCAPSULATORS;
 
-    // // inisiasi game
-    // Game main;
-
-    // // memuat semua config
-    // main.muat_semua_config();
-    // main.muat_player_state();
-
-    // while(!finishGame(main.getListPlayer(), game.goalUang, game.goalBerat)) {
-        
-    // }
-
-
-    // return 0;
-
+    // inisiasi game
     Game main;
+
+    // memuat semua config
     main.muat_semua_config();
-    try {
-        cout << main.listPlayer[main.turn - 1]->getPeran() << endl;
-        main.listPlayer[main.turn - 1]->pungutPajak(main.getListPlayer(), 3);
-        main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
-    } catch (invalidCommandException e) {
-        cout << e.message();
+    main.muat_player_state();
+
+    // Command
+    Command command(main.getCurrentPlayer());
+
+    while(!finishGame(main.getListPlayer(), main.goalUang, main.goalBerat)) {
+        try {
+            command.terimaCommand();
+            // cout << "Ini command : " << command.getPerintah() << "\n";
+            if(command.getPerintah() == "NEXT") {
+                main.nextTurn();
+            } else if(command.getPerintah() == "CETAK_PENYIMPANAN") {
+
+            } else if(command.getPerintah() == "MAKAN") {
+
+            } else if(command.getPerintah() == "BELI") {
+
+            } else if(command.getPerintah() == "JUAL") {
+
+            } else if(command.getPerintah() == "SIMPAN") {
+
+            } else if(command.getPerintah() == "PUNGUT_PAJAK") {
+
+            } else if(command.getPerintah() == "BANGUN") {
+
+            } else if(command.getPerintah() == "TAMBAH_PEMAIN") {
+
+            } else if(command.getPerintah() == "CETAK_LADANG") {
+
+            } else if(command.getPerintah() == "CETAK_PETERNAKAN") {
+
+            } else if(command.getPerintah() == "TANAM") {
+
+            } else if(command.getPerintah() == "PANEN") {
+
+            } else if(command.getPerintah() == "TERNAK") {
+
+            } else if(command.getPerintah() == "KASIH_MAKAN") {
+
+            }
+        } catch (invalidCommandException e) {
+            cout << e.message();
+        }
     }
+
     return 0;
 }

@@ -1,3 +1,4 @@
+
 #ifndef PETANI_HPP
 #define PETANI_HPP
 
@@ -10,8 +11,6 @@ public:
     void next();
     void panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight);
     void tanam(CultivatedObject *tanaman, int row, int col);
-
-    void cetakLadang();
 };
 
 // ask for get in fields

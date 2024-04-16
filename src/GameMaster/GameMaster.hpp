@@ -38,6 +38,15 @@ class Game {
         map<string, CultivatedObject> animalMap;
         map<string, ProductObject> productMap;
         map<string, Recipe> recipeMap;
+        /*
+        vector<TradeObject> tradeObjMemory;
+        vector<CultivatedObject> cultObjMemory;
+        vector<ProductObject> prodObjMemory;
+        vector<Recipe> recObjMemory;
+        vector<Petani> petaniMemory;
+        vector<Peternak> peternakMemory;
+        vector<Walikota> walkotMemory;
+        */
     public:
         Game(){}
         void nextTurn() {
@@ -46,7 +55,6 @@ class Game {
             } else {
                 turn++;
             }
-            cout << turn << endl;
         }
 
         Player* getCurrentPlayer() {
@@ -59,8 +67,11 @@ class Game {
 
        // return pair p, p.first = row, p.second = col
         pair<int, int> stringToCoord(string s){
+            if(s.size() != 3){
+                return make_pair(-1, -1);
+            }
             char col = s[0];
-            char row = 10 * s[1] + s[2];
+            char row = 10 * (s[1] - '0') + (s[2] - '0');
             int colNum = col - 'A';
             int rowNum = row - 1;
             return make_pair(rowNum, colNum);
@@ -97,7 +108,7 @@ class Game {
         }
 
         void readRecipe(vector<string> tokens){
-            if(tokens.size() <= 4 || tokens.size() % 2 == 1) throw "readRecipe: panjang token <= 4 atau panjang token ganjil";
+            if(tokens.size() < 4 || tokens.size() % 2 == 1) throw "readRecipe: panjang token < 4 atau panjang token ganjil";
             vector<string> materials;
             vector<int> materialQuantity;
             for(int i = 4; i < tokens.size(); i += 2){
@@ -151,12 +162,13 @@ class Game {
                 }                
             }
             this->turn = 1;
+            /*
             this->rowLadang = 10;
             this->colLadang = 8;
             this->rowLahan = 10;
             this->colLahan = 8;
             this->colPenyimpanan = 10;
-            this->rowPenyimpanan = 8;
+            this->rowPenyimpanan = 8;*/
             this->listPlayer.push_back(new Walikota("Walikota", 40, 50, this->rowPenyimpanan, this->colPenyimpanan));
             this->listPlayer.push_back(new Petani("Petani1", 40, 50, this->rowPenyimpanan,this->colPenyimpanan, this->rowLahan, this->colLahan));
             this->listPlayer.push_back(new Peternak("Peternak1", 40, 50, this->rowPenyimpanan, this->colPenyimpanan, this->rowLadang, this->colLadang));
@@ -216,7 +228,7 @@ class Game {
             cout << endl;
             for(auto &p: recipeMap){
                 
-                //p.second.cetakBarang();
+                p.second.cetak();
                 cout << endl;
             }
             cout << endl;
@@ -238,12 +250,15 @@ class Game {
                 }while(input != "y" && input != "n");
 
                 if(input == "n"){
-                    Player* petani1 = new Petani("Petani1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
-                    Player* peternak1 = new Peternak("Peternak1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
-                    Player* walikota = new Walikota("Walikota1", 40, 50, rowPenyimpanan, colPenyimpanan);
-                    listPlayer.push_back(petani1);
-                    listPlayer.push_back(peternak1);
-                    listPlayer.push_back(walikota);
+                    Player* new_petani = new Petani ("Petani1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
+                    Player* new_peternak1 = new Peternak("Peternak1", 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
+                    Player* new_walikota1 = new Walikota("Walikota1", 40, 50, rowPenyimpanan, colPenyimpanan);
+                    //petaniMemory.push_back(new_petani1);
+                    //peternakMemory.push_back(new_peternak1);
+                    //walkotMemory.push_back(new_walikota1);
+                    listPlayer.push_back(new_petani);
+                    listPlayer.push_back(new_peternak1);
+                    listPlayer.push_back(new_walikota1);
                     sort(listPlayer.begin(), listPlayer.end(), [](Player* p1, Player* p2){
                         return p1->getNama() < p2->getNama();
                     });
@@ -296,12 +311,18 @@ class Game {
                 Player* new_player;
                 if(playerInfo[1] == "Petani"){
                     new_player = new Petani(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
+                    //petaniMemory.push_back(new_petani);
+                    //new_player = &petaniMemory.back();
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Peternak"){
-                    new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
+                    new_player = new Peternak(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);                    
+                    //peternakMemory.push_back(new_peternak);
+                    //new_player = &peternakMemory.back();
                     kodePlayer = 0;
                 }else if(playerInfo[1] == "Walikota"){
                     new_player = new Walikota(playerInfo[0], stoi(playerInfo[2]), stoi(playerInfo[3]), rowPenyimpanan, colPenyimpanan);
+                    //walkotMemory.push_back(new_walkot);
+                    //new_player = &walkotMemory.back();
                     kodePlayer = 1;
                 }else{
                     throw "muat_player_state(): tipe player tidak diketahui";
@@ -318,36 +339,55 @@ class Game {
                     TradeObject* objInInv;
                     for(auto it = plantMap.begin(); it != plantMap.end() && notFound; it++){
                         if(it->second.getNama() == inventoryString){
-                            CultivatedObject copyPlantMap(it->second);
-                            objInInv = &copyPlantMap;
+                            //CultivatedObject copyPlantMap(it->second);
+                            //cultObjMemory.push_back(copyPlantMap);
+                            objInInv = new CultivatedObject(it->second);
                             notFound = 0;
                         }
                     }
                     for(auto it = animalMap.begin(); it != animalMap.end() && notFound; it++){
                         if(it->second.getNama() == inventoryString){
-                            CultivatedObject copyAnimalMap(it->second);
-                            objInInv = &copyAnimalMap;
+                            //CultivatedObject copyAnimalMap(it->second);
+                            //cultObjMemory.push_back(copyAnimalMap);
+                            objInInv = new CultivatedObject(it->second);
                             notFound = 0;
                         }
                     }
                     for(auto it = productMap.begin(); it != productMap.end() && notFound; it++){
                         if(it->second.getNama() == inventoryString){
-                            ProductObject copyProductMap(it->second);
-                            objInInv = &copyProductMap;
+                            //ProductObject copyProductMap(it->second);
+                            //prodObjMemory.push_back(copyProductMap);
+                            objInInv = new ProductObject(it->second);
+                            notFound = 0;
+                        }
+                    }
+                    for(auto it = recipeMap.begin(); it != recipeMap.end() && notFound; it++){
+                        if(it->second.getNamaGameObject() == inventoryString){
+                            Recipe copyRecipe(it->second);
+                            //cout << "MAKING NEW OBJ" << endl;
+                            //TradeObject newTradeObj(copyRecipe.getId(),copyRecipe.getKodeHuruf(),copyRecipe.getNamaGameObject(),copyRecipe.getPrice(),"BANGUNAN");
+                            //tradeObjMemory.push_back(newTradeObj);
+                            objInInv = new TradeObject(copyRecipe.getId(),copyRecipe.getKodeHuruf(),copyRecipe.getNamaGameObject(),copyRecipe.getPrice(),"BANGUNAN");
+                            //cout << "DONE MAKING NEW OBJ" << endl;
                             notFound = 0;
                         }
                     }
                     if(notFound){
+                        //cout << inventoryString << endl;
                         throw "muat_player_state(): notFound";
                     }
                     new_player->setBarangFirstPenyimpanan(objInInv);
+                    //cout << j << endl;
                 }
+                //cout << "SELESAI AMBIL PENYIMPANAN " << i << endl;
                 if(!kodePlayer){
+                    //cout << "SING" << endl;
                     string numberK;
                     getline(currentFile, numberK);
                     numberK.erase(numberK.find_last_not_of(spaces) + 1);
                     int K = stoi(numberK);
                     for(int k = 0; k < K; ++k){
+                        //cout << "K: HERE" << k << endl;
                         string lokasi_nama_berat;
                         getline(currentFile, lokasi_nama_berat);
                         lokasi_nama_berat.erase(lokasi_nama_berat.find_last_not_of(spaces) + 1);
@@ -356,34 +396,104 @@ class Game {
                         CultivatedObject* cultObject;
                         for(auto it = animalMap.begin(); it != animalMap.end(); it++){
                             if(it->second.getNama() == barangInfo[1]){
-                                CultivatedObject copyCultObject(it->second);
-                                cultObject = &copyCultObject;
+                                //CultivatedObject copyCultObject(it->second);
+                                //cultObjMemory.push_back(copyCultObject);
+                                cultObject = new CultivatedObject(it->second);
                             }
                         }
                         for(auto it = plantMap.begin(); it != plantMap.end(); it++){
                             if(it->second.getNama() == barangInfo[1]){
-                                CultivatedObject copyCultObject(it->second);
-                                cultObject = &copyCultObject;
+                                //CultivatedObject copyCultObject(it->second);
+                                //cultObjMemory.push_back(copyCultObject);
+                                cultObject = new CultivatedObject(it->second);
                             }
                         }
                         cultObject->setWeight(stoi(barangInfo[2]));
-                        new_player->setBarangPenyimpanan(pairCoord.first, pairCoord.second, cultObject);
+                        //cout << pairCoord.first << " " << pairCoord.second << endl;
+                        new_player->setBarangLahan(pairCoord.first, pairCoord.second, cultObject);
                     }
                 }
+                listPlayer.push_back(new_player);
             }
+            sort(listPlayer.begin(), listPlayer.end(), [](Player* p1, Player* p2){
+                return p1->getNama() < p2->getNama();
+            });
+            //cout << "HERE" << endl;
             string numberItemTokoM;
             getline(currentFile, numberItemTokoM);
             numberItemTokoM.erase(numberItemTokoM.find_last_not_of(spaces) + 1);
             int numberItemM = stoi(numberItemTokoM);
-            vector<pair<string, int>> inisialisasiToko;
+            vector<pair<TradeObject, int>> inisialisasiToko;
             for(int m = 0; m < numberItemM; ++m){
                 string itemDanJumlah;
                 getline(currentFile, itemDanJumlah);
                 itemDanJumlah.erase(itemDanJumlah.find_last_not_of(spaces) + 1);
                 vector<string> itemJumlah = split(itemDanJumlah, ' ');
-                inisialisasiToko.push_back(make_pair(itemJumlah[0], stoi(itemJumlah[1])));
-            }
 
+                bool notFound = 1;
+                TradeObject* objInInv;
+                for(auto it = plantMap.begin(); it != plantMap.end() && notFound; it++){
+                    if(it->second.getNama() == itemJumlah[0]){
+                        objInInv = new CultivatedObject(it->second);
+                        notFound = 0;
+                    }
+                }
+                for(auto it = animalMap.begin(); it != animalMap.end() && notFound; it++){
+                    if(it->second.getNama() == itemJumlah[0]){
+                        objInInv = new CultivatedObject(it->second);
+                        notFound = 0;
+                    }
+                }
+                for(auto it = productMap.begin(); it != productMap.end() && notFound; it++){
+                    if(it->second.getNama() == itemJumlah[0]){
+                        objInInv = new ProductObject(it->second);
+                        notFound = 0;
+                    }
+                }
+                for(auto it = recipeMap.begin(); it != recipeMap.end() && notFound; it++){
+                    if(it->second.getNamaGameObject() == itemJumlah[0]){
+                        Recipe copyRecipe(it->second);
+                        objInInv = new TradeObject(copyRecipe.getId(),copyRecipe.getKodeHuruf(),copyRecipe.getNamaGameObject(),copyRecipe.getPrice(),"BANGUNAN");
+                        notFound = 0;
+                    }
+                }
+
+                TradeObject final_object(*objInInv);
+                delete objInInv;
+
+                inisialisasiToko.push_back(make_pair(final_object, stoi(itemJumlah[1])));
+            }
+            for(auto it = productMap.begin(); it != productMap.end(); it++){
+                bool found = 0;
+                for(auto &obj: inisialisasiToko){
+                    if(obj.first.getKodeHuruf() == it->second.getKodeHuruf()) found = 1;
+                }
+                if(!found){
+                    TradeObject copy_temp(it->second);
+                    inisialisasiToko.push_back(make_pair(copy_temp, 0));
+                }
+            }
+            for(auto it = recipeMap.begin(); it != recipeMap.end(); it++){
+                bool found = 0;
+                for(auto &obj: inisialisasiToko){
+                    if(obj.first.getKodeHuruf() == it->second.getKodeHuruf()) found = 1;
+                }
+                if(!found){
+                    Recipe copyRecipe(it->second);
+                    TradeObject copy_temp(copyRecipe.getId(),copyRecipe.getKodeHuruf(),copyRecipe.getNamaGameObject(),copyRecipe.getPrice(),"BANGUNAN");
+                    inisialisasiToko.push_back(make_pair(copy_temp, 0));
+                }
+            }
+            for(auto it = plantMap.begin(); it != plantMap.end(); it++){
+                TradeObject copy_temp(it->second);
+                inisialisasiToko.push_back(make_pair(copy_temp, -1));
+            }
+            for(auto it = animalMap.begin(); it != animalMap.end(); it++){
+                TradeObject copy_temp(it->second);
+                inisialisasiToko.push_back(make_pair(copy_temp, -1));
+            }
+            turn = 1;
+            jumlahPlayer = listPlayer.size();
         }
 
         void simpan(){
@@ -401,25 +511,33 @@ class Game {
                 int jumlahPlayer = listPlayer.size();
                 file << jumlahPlayer << endl;
                 for(int i = 0; i < listPlayer.size(); ++i){
+                    //cout << i << endl;
                     string usrnm = listPlayer[i]->getNama();
+                    //cout << "i" << endl;
                     string tipe = listPlayer[i]->getPeran();
+                    //cout << "10" << endl;
                     int berat_badan = listPlayer[i]->getBerat();
+                    //cout << "4" << endl;
                     int uang = listPlayer[i]->getUang();
+                    //cout << i << endl;
                     file << usrnm << " " << tipe << " " << berat_badan << " " << uang << endl;
                     vector<string> allNamaBarang = listPlayer[i]->getAllNamaBarang();
                     file << allNamaBarang.size() << endl;
                     for(auto &x: allNamaBarang){
                         file << x << endl;
                     }
+                    //cout << i << " " << i << endl;
                     if(listPlayer[i]->getPeran() == "Peternak" || listPlayer[i]->getPeran() == "Petani"){
                         vector<pair<pair<int, int>, pair<string, int>>> allPosisiNamaBerat = listPlayer[i]->getAllPosisiNamaBerat();
                         file << allPosisiNamaBerat.size() << endl;
+                        //cout << "PENYIMPANAN" << i << endl;
                         for(auto &x: allPosisiNamaBerat){
                             file << coordToString(x.first.first, x.first.second) << " " << x.second.first << " " << x.second.second << endl;
                         }
                     }
                 }
                 // TODO: TULIS TOKO ABIS INI 
+                file.close();
             }
         }
 
@@ -439,9 +557,67 @@ class Game {
             return this->listPlayer[i]->getPeran();
         }
 
-        void tambahGamePlayer(Player* player){
-            this->listPlayer[this->jumlahPlayer] = player;
-            this->jumlahPlayer++;
+        void tanam(){
+            if(listPlayer[turn - 1]->getPeran() != "Petani"){
+                cout << "Anda bukan petani mass!" << endl;
+                throw invalidCommandException();
+            }
+            vector<string> allNamaBarang = listPlayer[turn - 1]->getAllNamaBarang();
+            bool notFound = 1;
+            for(auto it = allNamaBarang.begin(); it != allNamaBarang.end() && notFound; it++){
+                for(auto &plant: plantMap){
+                    if(plant.second.getNamaGameObject() == *it){
+                        notFound = 0;
+                    }
+                }
+            }
+            if(notFound){
+                cout << "Tidak ada tanaman di penyimpanan Anda!!" << endl;
+                throw invalidCommandException();
+            }
+            vector<pair<pair<int, int>, pair<string, int>>> isiLahan = listPlayer[turn - 1]->getAllPosisiNamaBerat();
+            if(isiLahan.size() == rowLahan * colLahan){
+                cout << "Lahan penuh!! Kosongkan dulu lahanmu :))" << endl;
+                throw invalidCommandException();
+            }
+            vector<vector<TradeObject*>> penyimpananSkrg = listPlayer[turn - 1]->getPenyimpanan();
+            cout << "Pilih tanaman dari penyimpanan" << endl;
+            listPlayer[turn - 1]->cetakPenyimpanan();
+            string slotTanam = "";
+            pair<int, int> currentCoord;
+            do{
+                cout << "Slot: ";
+                cin >> slotTanam;
+                currentCoord = stringToCoord(slotTanam);
+            }while(currentCoord.first < 0 || currentCoord.second < 0 || currentCoord.first >= rowPenyimpanan || currentCoord.second >= colPenyimpanan 
+            || penyimpananSkrg[currentCoord.first][currentCoord.second]->getKodeHuruf() == "   ");
+            cout << "Kamu memilih " << penyimpananSkrg[currentCoord.first][currentCoord.second]->getNama() << endl;
+            //listPlayer[turn - 1]->cetak
+        }
+
+        void tambahPlayer(){
+            string jenis_pemain;
+            string user;
+            cout << "Masukkan jenis pemain: ";
+            cin >> jenis_pemain;
+            cout << "Masukkan nama pemain: ";
+            cin >> user;
+            try{
+                listPlayer[turn - 1]->tambahPlayer(jenis_pemain);
+                Player* new_player;
+                if(jenis_pemain == "Peternak"){
+                    new_player = new Peternak(user, 40, 50, rowPenyimpanan, colPenyimpanan, rowLadang, colLadang);
+                }else{
+                    new_player = new Petani(user, 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);   
+                }
+                listPlayer.push_back(new_player);
+            }catch(const uangTidakCukupException& utc){
+                cout << "Uang tidak cukup!" << endl;
+            }catch(const invalidCommandException& ice){
+                cout << "Anda tidak dapat menambah pemain!" << endl;
+            }catch(...){
+                cout << "tambahPlayer: error lain ditemui" << endl;
+            }
         }
 };
 

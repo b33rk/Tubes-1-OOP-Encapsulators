@@ -10,20 +10,79 @@ using namespace std;
 
 class Command {
     private:   
-        string command;
-        vector<string> commandWalikota, commandPetani, commandPeternak;
+        string perintah, peran;
+        vector<string> commandWalikota = {
+            "NEXT",
+            "CETAK_PENYIMPANAN",
+            "MAKAN",
+            "BELI",
+            "JUAL",
+            "SIMPAN",
+            "PUNGUT_PAJAK",
+            "BANGUN",
+            "TAMBAH_PEMAIN"
+        };
+        
+        vector<string> commandPetani = {
+            "NEXT",
+            "CETAK_PENYIMPANAN",
+            "MAKAN",
+            "BELI",
+            "JUAL",
+            "SIMPAN",
+            "CETAK_LADANG",
+            "TANAM",
+            "PANEN"
+        };    
+        
+        vector<string> commandPeternak = {
+            "NEXT",
+            "CETAK_PENYIMPANAN",
+            "MAKAN",
+            "BELI",
+            "JUAL",
+            "SIMPAN",
+            "CETAK_PETERNAKAN",
+            "TERNAK",
+            "KASIH_MAKAN",
+            "PANEN"
+        };
     public:
-        Command() {
-
+        Command() {}
+        Command(Player* player) {
+            this->perintah = "";
+            this->peran = player->getPeran();
         }
 
         void terimaCommand() {
-            cin >> command;
+            cout << "> ";
+            cin >> perintah;
+
+            if(!isValid(this->peran)){
+                throw invalidCommandException();
+            }
+        }
+
+        bool validateCommand(vector<string> listCommand) {
+            bool valid = false;
+            for(int i = 0; i < listCommand.size(); i++) {
+                if(this->perintah == listCommand[i]) valid = true;
+            }
+
+            return valid;
+        }
+
+        string getPerintah() {
+            return this->perintah;
         }
 
         bool isValid(string peran) {
-            switch(turn) {
-                case : 
+            if(peran == "Walikota") {
+                return validateCommand(commandWalikota);
+            } else if(peran == "Petani") {
+                return validateCommand(commandPetani);
+            } else {
+                return validateCommand(commandPeternak);
             }
         }
 };

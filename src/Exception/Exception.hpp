@@ -207,6 +207,19 @@ public:
     }
 };
 
+class barangKosongException : public exception
+{ 
+public:
+    const char *message()
+    {
+        return "Barang sedang kosong!!\n";
+    }
+    const char *what() const noexcept override
+    {
+        return "Barang sedang kosong!!\n";
+    }
+};
+
 class itemTokoKosongException : public exception
 {
     public:

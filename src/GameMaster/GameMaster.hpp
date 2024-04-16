@@ -302,6 +302,29 @@ public:
                 currentPlayer = listPlayer[0];
                 player_loaded = true;
                 valid_input = true;
+                vector<pair<TradeObject, int>> inisialisasiToko;
+
+                for (auto it = productMap.begin(); it != productMap.end(); it++)
+                {
+                    TradeObject copy_temp(it->second);
+                    inisialisasiToko.push_back(make_pair(copy_temp, 0));
+                }
+                for (auto it = recipeMap.begin(); it != recipeMap.end(); it++)
+                {
+                    Recipe copyRecipe(it->second);
+                    TradeObject copy_temp(copyRecipe.getId(), copyRecipe.getKodeHuruf(), copyRecipe.getNamaGameObject(), copyRecipe.getPrice(), "BANGUNAN");
+                    inisialisasiToko.push_back(make_pair(copy_temp, 0));
+                }
+                for (auto it = plantMap.begin(); it != plantMap.end(); it++)
+                {
+                    TradeObject copy_temp(it->second);
+                    inisialisasiToko.push_back(make_pair(copy_temp, -1));
+                }
+                for (auto it = animalMap.begin(); it != animalMap.end(); it++)
+                {
+                    TradeObject copy_temp(it->second);
+                    inisialisasiToko.push_back(make_pair(copy_temp, -1));
+                }
                 shop.initToko(inisialisasiToko);
             }
             else

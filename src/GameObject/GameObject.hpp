@@ -175,7 +175,7 @@ public:
 
     void incrementWeight() override
     {
-        cultivateWeight++;
+        currentWeight++;
     }
 
     void setWeight(int weight)

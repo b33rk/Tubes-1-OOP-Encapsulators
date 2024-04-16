@@ -131,7 +131,7 @@ class pembelianLuarItemException : public exception
 public:
     const char *message()
     {
-        return "Pembelian barang di luar index!!\n";
+        return "Pembelian barang di luar daftar!!\n";
     }
 };
 
@@ -142,6 +142,24 @@ public:
     {
         return "Pembelian kuantitas barang melebihi stok!!\n";
     }
+};
+
+class itemTokoKosongException : public exception
+{
+    public:
+        const char *message()
+        {
+            return "Tidak ada barang yang bisa Anda beli!\n";
+        }
+};
+
+class invalidPetak : public exception
+{
+    public:
+        const char *message()
+        {
+            return "Pilihan petak di luar batas!\n";
+        }
 };
 
 class invalidPenjualanException : public exception

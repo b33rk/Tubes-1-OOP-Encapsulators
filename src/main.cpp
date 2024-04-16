@@ -83,26 +83,29 @@ int main()
             }
             else if (command.getPerintah() == "CETAK_PENYIMPANAN")
             {
-                // main.cetak_penyimpanan();
+                main.listPlayer[main.turn-1]->cetakPenyimpanan();
             }
             else if (command.getPerintah() == "MAKAN")
             {
             }
             else if (command.getPerintah() == "BELI")
             {
+                shop.Buy();
             }
             else if (command.getPerintah() == "JUAL")
             {
+                shop.Sell();
             }
             else if (command.getPerintah() == "SIMPAN")
             {
             }
             else if (command.getPerintah() == "PUNGUT_PAJAK")
             {
-                // main.pungutPajak();
+                main.pungutPajak();
             }
             else if (command.getPerintah() == "BANGUN")
             {
+                main.bangun();
             }
             else if (command.getPerintah() == "TAMBAH_PEMAIN")
             {
@@ -110,11 +113,11 @@ int main()
             }
             else if (command.getPerintah() == "CETAK_LADANG")
             {
-                // main.cetak_ladang();
-            }
+                main.listPlayer[main.turn-1]->cetakLadangLahan();
+            } 
             else if (command.getPerintah() == "CETAK_PETERNAKAN")
             {
-                // main.cetak_lahan();
+                main.listPlayer[main.turn-1]->cetakLadangLahan();
             }
             else if (command.getPerintah() == "TANAM")
             {
@@ -130,7 +133,7 @@ int main()
             }
             else if (command.getPerintah() == "KASIH_MAKAN")
             {
-                // main.beriPangan();
+                main.kasihMakan();
             }
         }
         catch (invalidCommandException e)

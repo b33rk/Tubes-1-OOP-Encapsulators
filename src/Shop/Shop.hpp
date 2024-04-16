@@ -44,6 +44,7 @@ class Shop {
 
         void displayShop() {
             if(this->numOfItems != 0) {
+                cout << "Berikut merupakan hal yang dapat Anda Beli\n";
                 for(int i = 0; i < this->numOfItems; i++) {
                     cout << i + 1 << "  " << this->items[i].first.getNama() << " - " << this->items[i].first.getPrice();
                     if(this->items[i].second >= 0) {
@@ -51,20 +52,19 @@ class Shop {
                     }
                 }
             } else {
-                cout << "Tidak ada barang yang bisa Anda beli!\n";
+                throw itemTokoKosongException();
             }
         }
         
         void Buy() {
             // validasi peran, uang, slot
             cout << "Selamat datang di toko!!\n";
-            cout << "Berikut merupakan hal yang dapat Anda Beli\n";
-
-            displayShop();
-
-            int pilihanBarang, kuantitas;
 
             try {
+                displayShop();
+
+                int pilihanBarang, kuantitas;
+
                 cout << "\nUang Anda : " << pelaku->getUang() << "\n";
                 pilihSlot();
  
@@ -85,10 +85,19 @@ class Shop {
                     string inputSlot;
                     cout << i+1 << ".   " << inputSlot << "\n";
                     pair<int, int> coord = stringToCoord(inputSlot);
-                    TradeObject * object = new TradeObject(items[pilihanBarang - 1].first);
-                    pelaku->setBarangPenyimpanan(coord.first, coord.second, object);
+
+                    // validasi
+                    if((coord.first >= 0 && coord.first < pelaku->getPenyimpananField().getRow()) && (coord.second >= 0  && coord.second < pelaku->getPenyimpananField().getCol())) {
+                        TradeObject * object = new TradeObject(items[pilihanBarang - 1].first);
+                        pelaku->setBarangPenyimpanan(coord.first, coord.second, object);
+                    } else {
+                        throw invalidPetak();
+                        cout << "Pembelian gagal!\n";
+                    }
                 }
-                cout << " berhasil disimpan dalam penyimpanan!\n\n";
+                cout << items[pilihanBarang - 1].first.getNamaGameObject() << " berhasil disimpan dalam penyimpanan!\n\n";
+            } catch (itemTokoKosongException e) {
+                cout << e.message();
             } catch (penyimpananPenuhException e) {
                 cout << e.message();
             } catch (invalidPembelianException e) {
@@ -96,6 +105,8 @@ class Shop {
             } catch (pembelianMelebihiStokException e) {
                 cout << e.message();
             } catch (uangTidakCukupException e) {
+                cout << e.message();
+            } catch (invalidPetak e) {
                 cout << e.message();
             } catch (...) {
                 cout << "Terjadi kesalahan saat pembelian\n";
@@ -131,13 +142,13 @@ class Shop {
                 pelaku->cetakPenyimpanan();
                 
                 cout << "\n\nSilahkan pilih petak yang ingin Anda jual!\n";
-                cout << "Ketik -1 apabila sudah cukup";
+                cout << "Ketik -1 apabila sudah cukup\n";
 
                 int j = 1;
                 bool terimaInput = true;
                 do {
                     string inputJual;
-                    cout << j << "  ";
+                    cout << j << ".  ";
                     // validasi input
                     cin >> inputJual;
                     if(inputJual == "-1"){
@@ -145,7 +156,6 @@ class Shop {
                     } else {
                         slotJual.push_back(inputJual);
                     }
-                    cout << "\n";
                     j++;
                 }while(terimaInput);
 
@@ -153,9 +163,16 @@ class Shop {
 
                 for(int i = 0; i < slotJual.size(); i++) {
                     pair<int, int> coord = stringToCoord(slotJual[i]);
-                    tempPrice = pelaku->getBarangPenyimpananPrice(coord.first, coord.second);
-                    pelaku->setBarangPenyimpananKosong(coord.first, coord.second);
-                    pelaku->setUang(pelaku->getUang() + tempPrice);
+
+                    if((coord.first >= 0 && coord.first < pelaku->getPenyimpananField().getRow()) && (coord.second >= 0  && coord.second < pelaku->getPenyimpananField().getCol())) {
+                        tempPrice = pelaku->getBarangPenyimpananPrice(coord.first, coord.second);
+                        pelaku->setBarangPenyimpananKosong(coord.first, coord.second);
+                        pelaku->setUang(pelaku->getUang() + tempPrice);
+                    } else {
+                        throw invalidPetak();
+                        cout << "Penjualan gagal!\n";
+                    }
+                    
                 }
 
                 cout << "Barang Anda berhasil dijual! Uang Anda bertambah " << tempPrice << " gulden!";

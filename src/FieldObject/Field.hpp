@@ -67,7 +67,7 @@ public:
             }
         }*/
     }
-    void virtual cetak()
+    void virtual cetak(bool cetak_warna = false)
     {
         cout << "     ================[ " << tipe << "]=================" << endl;
         cout << "   ";
@@ -87,7 +87,7 @@ public:
             cout << " 0" << i << " |";
             for (int j = 0; j < col; j++)
             {
-                storage[i][j]->cetakBarang();
+                storage[i][j]->cetakBarang(cetak_warna);
             }
             cout << endl;
             cout << "    +";

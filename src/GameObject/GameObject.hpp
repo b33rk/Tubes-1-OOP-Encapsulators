@@ -6,6 +6,7 @@
 
 #include <string>
 #include "../Exception/Exception.hpp"
+#include "pcolor.h"
 // #include <string.h>
 
 using namespace std;
@@ -73,7 +74,7 @@ class TradeObject : public GameObject {
             price = p;
             type = t;
         }
-        void cetakBarang(){
+        void cetakBarang(bool cetak_warna = false){
             cout << " " << kode_huruf <<" |";
         }
         void setNama(string newNama) {
@@ -150,6 +151,24 @@ class CultivatedObject : public TradeObject {
 
         int getCurrentBerat() override{
             return currentWeight;
+        }
+
+        void cetakBarang(bool cetak_warna = false){
+            if(!cetak_warna){
+                cout << " " << kode_huruf <<" |";
+            }else{
+                cout << " ";
+                if(currentWeight < cultivateWeight){
+                    print_red(kode_huruf[0]);
+                    print_red(kode_huruf[1]);
+                    print_red(kode_huruf[2]);
+                }else{
+                    print_green(kode_huruf[0]);
+                    print_green(kode_huruf[1]);
+                    print_green(kode_huruf[2]);
+                }
+                cout << " |";
+            }
         }
 
         void cetak(){

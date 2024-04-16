@@ -34,9 +34,9 @@ int Farmers::hitungKekayaan()
     {
         for (int j = 0; j < this->penyimpanan.getCol(); j++)
         {
-            if (barang[i][j]->getKodeHuruf() != "   ")
+            if (penyimpanan[i][j]->getKodeHuruf() != "   ")
             {
-                int price = barang[i][j]->getPrice();
+                int price = penyimpanan[i][j]->getPrice();
                 total += price;
             }
         }

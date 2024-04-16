@@ -4,7 +4,8 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <iostream>
+#include <iostream>#include <string>
+
 using namespace std;
 
 class MakananSalahException : public exception

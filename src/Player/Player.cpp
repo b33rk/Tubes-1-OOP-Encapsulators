@@ -156,3 +156,7 @@ void Player::ternak(CultivatedObject *hewan, int row, int col){
 void Player::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject* product){
     throw invalidCommandException();
 }
+
+vector<vector<TradeObject*>> Player::getPenyimpanan(){
+    return this->penyimpanan.getStorage();
+}

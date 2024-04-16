@@ -19,6 +19,12 @@ int main() {
         main.listPlayer[main.turn - 1]->cetakPenyimpanan();
         main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
         main.listPlayer[main.turn - 1]->cetakPenyimpanan();
+        int row = 0 ;
+        int col = 0 ;
+        TradeObject* p = new TradeObject();
+        main.listPlayer[main.turn - 1]->setBarangPenyimpanan(row,col,p);
+        main.listPlayer[main.turn - 1]->cetakPenyimpanan();
+        
 
 
         

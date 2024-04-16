@@ -48,7 +48,8 @@ public:
     void setBerat(int);
     virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();
     vector<string> getAllNamaBarang();
-
+    virtual void tambahPlayer(string);
+    vector<vector<TradeObject*>> getPenyimpanan();
 };
 
 #endif

@@ -97,8 +97,6 @@ class Shop {
                 cout << e.message();
             } catch (uangTidakCukupException e) {
                 cout << e.message();
-            } catch (penyimpananPenuhException e) {
-                cout << e.message();
             } catch (...) {
                 cout << "Terjadi kesalahan saat pembelian\n";
             }

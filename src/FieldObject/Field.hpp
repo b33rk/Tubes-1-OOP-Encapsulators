@@ -246,30 +246,9 @@ public:
         }
         return hasil;
     }
-};
 
-class cultivateField : public Field<CultivatedObject>
-{
-public:
-    void cetak()
-    {
-        Field::cetak();
-        vector<TradeObject *> listUnik = getUniqueValue();
-        for (TradeObject *elmt : listUnik)
-        {
-            cout << " - " << elmt->getKodeHuruf() << ": " << elmt->getNama() << endl;
-        }
+    bool isFull() {
+        return jumlahIsi == row * col;
     }
 };
-
-class penyimpanan : public Field<TradeObject>
-{
-public:
-    void cetak()
-    {
-        Field::cetak();
-        cout << "Total slot kosong: " << getRow() * getCol() - getJumlahIsi() << endl;
-    }
-};
-
 #endif

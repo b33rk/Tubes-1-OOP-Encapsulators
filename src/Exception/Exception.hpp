@@ -16,12 +16,20 @@ public:
     {
         return "Makanan tidak dapat dimakan oleh hewan ini\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Makanan tidak dapat dimakan oleh hewan ini\n";
+    }
 };
 
 class uangTidakCukupException : public exception
 {
 public:
     const char *message()
+    {
+        return "Uang tidak cukup!\n";
+    }
+    const char *what() const noexcept override
     {
         return "Uang tidak cukup!\n";
     }
@@ -34,12 +42,20 @@ public:
     {
         return "Peran player tidak valid\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Peran player tidak valid\n";
+    }
 };
 
 class invalidCommandException : public exception
 {
 public:
     const char *message()
+    {
+        return "Command tidak valid\n";
+    }
+    const char *what() const noexcept override
     {
         return "Command tidak valid\n";
     }
@@ -52,13 +68,20 @@ public:
     {
         return "Petak tersebut tidak kosong !\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Petak tersebut tidak kosong !\n";
+    }
 };
 
 class penyimpananPenuhException : public exception
 {
-
 public:
     const char* message()
+    {
+        return "Penyimpanan sudah penuh\n";
+    }
+    const char* what() const noexcept override
     {
         return "Penyimpanan sudah penuh\n";
     }
@@ -72,6 +95,10 @@ public:
     {
         return "Barang tersebut bukan makanan mass!!\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Barang tersebut bukan makanan mass!!\n";
+    }
 };
 
 class BarangKosongException : public exception
@@ -80,6 +107,23 @@ public:
     const char *message()
     {
         return "Barang tersebut kosong mass!!\n";
+    }
+    const char *what() const noexcept override
+    {
+        return "Barang tersebut kosong mass!!\n";
+    }
+};
+
+class PanenKosongException : public exception
+{
+public:
+    const char *message()
+    {
+        return "Tidak ada barang yang bisa dipanen!\n";
+    }
+    const char *what() const noexcept override
+    {
+        return "Tidak ada barang yang bisa dipanen!\n";
     }
 };
 
@@ -112,6 +156,9 @@ class KurangMaterialException : public exception{
  
         }
         const char* message() {
+            return this->finalMessage.c_str();
+        }
+        const char* what() const noexcept override {
             return this->finalMessage.c_str();
         }
 

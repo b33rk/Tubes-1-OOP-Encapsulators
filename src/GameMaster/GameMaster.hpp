@@ -38,6 +38,7 @@ class Game {
         map<string, CultivatedObject> animalMap;
         map<string, ProductObject> productMap;
         map<string, Recipe> recipeMap;
+        Player* currentPlayer;
         /*
         vector<TradeObject> tradeObjMemory;
         vector<CultivatedObject> cultObjMemory;
@@ -55,6 +56,7 @@ class Game {
             } else {
                 turn++;
             }
+            currentPlayer = listPlayer[turn - 1];
         }
 
         Player* getCurrentPlayer() {
@@ -494,6 +496,7 @@ class Game {
             }
             turn = 1;
             jumlahPlayer = listPlayer.size();
+            currentPlayer = listPlayer[0];
         }
 
         void simpan(){
@@ -556,6 +559,108 @@ class Game {
         string getPeranPlayer(int i){
             return this->listPlayer[i]->getPeran();
         }
+
+        void cetakLahanLadang() {
+            currentPlayer->cetakLadangLahan();
+            vector<TradeObject *> listUnik = currentPlayer->getLahan().getUniqueValue();
+            cout << endl;
+            for (TradeObject *elmt : listUnik)
+            {
+                cout << " - " << elmt->getKodeHuruf() << ": " << elmt->getNama() << endl;
+            }
+        }
+
+        void cetakPenyimpanan() {
+            currentPlayer->cetakPenyimpanan();
+            // cout << "Total slot kosong: " << currentPlayer->lahan.getRow() * getCol() - getJumlahIsi() << endl;
+        }
+
+        void panen(){
+            cetakLahanLadang();
+            cout << endl << endl;
+
+            map<string, int> mapPanenJumlah;
+            vector<string> kodeHurufSiapPanen;
+            vector<string> KoorPanen;
+            string tipe;
+            int noTanaman = 0;
+            int jumlahPanen = 0;
+            pair<int,int> koordinat;
+            string kodeKoordinat;
+
+            if (currentPlayer->getPeran() == "Petani") {
+                tipe = "tanaman";
+            } else {
+                tipe = "Hewan";
+            }
+
+            for ( auto &listObjek : currentPlayer->getLahan().getStorage() )
+            {
+                for ( auto &objek : listObjek )
+                {
+                    if (objek->getKodeHuruf() != "   " & objek->getCurrentBerat() >= objek->getCultivatedWeight())
+                    {
+                        mapPanenJumlah[objek->getKodeHuruf()]++;
+                    }
+                }
+            }
+
+            if ( mapPanenJumlah.size() == 0 ) {
+                throw PanenKosongException();
+            }
+
+            cout << "Pilih "<< tipe <<" siap panen yang kamu miliki" << endl;
+            int noPanen = 1;
+            for ( auto &objek : mapPanenJumlah )
+            {
+                cout << "   " << noPanen << ". " << objek.first << "(" << objek.second << " petak siap dipanen)" << endl;
+                kodeHurufSiapPanen.push_back(objek.first);
+                noPanen++;
+            }
+
+            while (noTanaman < 1 || noTanaman > mapPanenJumlah.size())
+            {
+                cout << "Nomor " << tipe <<" yang ingin dipanen: ";
+                cin >> noTanaman;
+            }
+
+            while (jumlahPanen < 1 || jumlahPanen > mapPanenJumlah[ kodeHurufSiapPanen[ noTanaman - 1 ] ])
+            {
+                cout << "Berapa petak yang ingin dipanen:: ";
+                cin >> jumlahPanen;
+            }
+
+            if (currentPlayer->getLahan().isFull())
+            {
+                throw penyimpananPenuhException();
+            }
+
+            cout << "Pilih petak yang ingin dipanen:" << endl;
+            for (int i = 0; i < kodeHurufSiapPanen.size(); i++)
+            {
+                do
+                {
+                    cout << "Petak le-" << i + 1 << ": ";
+                    cin >> kodeKoordinat;
+                    koordinat = stringToCoord(kodeKoordinat);
+                } 
+                while 
+                (
+                    currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getKodeHuruf() == kodeHurufSiapPanen[noTanaman - 1]
+                    &&
+                    currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getCurrentBerat() > currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getCultivatedWeight()
+                );
+                KoorPanen.push_back(kodeKoordinat);
+            }
+            cout << jumlahPanen << " petak " << tipe <<" " << kodeHurufSiapPanen[noTanaman - 1] << " pada cetak ";
+            for (int i = 0; i < kodeHurufSiapPanen.size() - 1; i++)
+            {
+                cout << kodeHurufSiapPanen[i] << ", ";
+            }
+            cout << kodeHurufSiapPanen[kodeHurufSiapPanen.size() - 1];
+            cout << " telah dipanen!" << endl;
+        }
+
 
         void tanam(){
             if(listPlayer[turn - 1]->getPeran() != "Petani"){

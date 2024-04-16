@@ -176,3 +176,7 @@ vector<vector<TradeObject*>> Player::getPenyimpanan(){
 void Player::beriPangan(int, int, int, int){
     throw invalidCommandException();
 }
+
+vector<TradeObject *> Player::ambilUniqueValueLahan(){
+    return {};
+}

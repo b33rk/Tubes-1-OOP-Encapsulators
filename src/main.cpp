@@ -12,6 +12,7 @@ int main()
 {
     Game main;
     main.muat_semua_config();
+    main.muat_player_state();
     string command;
     bool is = true;
     while(is) {
@@ -20,7 +21,7 @@ int main()
             // main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
             cin >> command;
             if (command  == "cetakLahan") {
-                main.listPlayer[main.turn-1]->cetakLadangLahan();
+                main.cetakLahanLadang();
             }
             else if (command  == "cetakPen")
             {
@@ -37,8 +38,7 @@ int main()
             }
             else if (command  == "panen")
             {
-                ProductObject *prod = new ProductObject(main.productMap["ORP"]);
-                main.listPlayer[main.turn-1]->panen(0, 0, 0, 0, prod);
+                main.panen();
             }
             else if (command  == "beriPakan")
             {
@@ -50,21 +50,9 @@ int main()
                 main.listPlayer[main.turn-1]->tanam(tumbuhan,0,0);
             }
         }
-        catch (invalidCommandException e)
+        catch (const exception& e)
         {
-            cout << e.message();
-        }
-        catch (BarangKosongException e)
-        {
-            cout << e.message();
-        }
-        catch (petakTidakKosongException e)
-        {
-            cout << e.message();
-        }
-        catch (MakananSalahException e)
-        {
-            cout << e.message();
+            cout << e.what();
         }
     }
 }

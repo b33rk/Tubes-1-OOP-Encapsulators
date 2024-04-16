@@ -19,6 +19,7 @@ public:
     void setBarangLahan(int row, int col, CultivatedObject *) override;
     vector<pair<pair<int, int>, pair<string, int> > > getAllPosisiNamaBerat() override;
     Field<CultivatedObject> getLahan();
+    virtual vector<TradeObject *> ambilUniqueValueLahan();
     void cetakLadangLahan();
 };
 

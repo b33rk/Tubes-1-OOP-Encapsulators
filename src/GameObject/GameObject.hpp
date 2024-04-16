@@ -197,6 +197,10 @@ public:
     {
         cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
     }
+
+    int getCultivatedWeight() {
+        return this->cultivateWeight;
+    }
 };
 
 class ProductObject : public TradeObject

@@ -58,7 +58,7 @@ public:
             this->storage[i].resize(this->col); // make inner vector col size;
             for (int j = 0; j < this->col; j++)
             {
-                this->storage[i][j] = new T;
+                this->storage[i][j] = new T();
             }
         }
         //cout << "PRINT" << endl;
@@ -148,12 +148,13 @@ public:
         //cout << "SAMPAI BARANG" << endl;
         //cout << this->storage[0].size() << endl;
         //cout << this->storage[0][0]->getKodeHuruf() << endl;
+        cout << this->storage[row][col] << endl;
         if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
             throw petakTidakKosongException();
         }
         cout << "INI POINTER SEBELUM DELET " << this->storage[row][col] << endl;
-        this->setKosong(row,col);
+        //this->setKosong(row,col);
         delete this->storage[row][col];
         
         // this->storage[row][col] = nullptr;
@@ -167,11 +168,14 @@ public:
 
     void setKosong(int row, int col){
         if (this->storage[row][col]->getKodeHuruf() != "   "){
+            cout << "delete" << row << " " << col << endl;
             delete this->storage[row][col];
+            T* object = new T();
+            this->storage[row][col] = object;
             this->jumlahIsi--;
-        }
-        T* object = new T;
-        this->storage[row][col] = object;
+        }/*
+        T* object = new T();
+        this->storage[row][col] = object;*/
     }
 
     vector<vector<T*>> getStorage()

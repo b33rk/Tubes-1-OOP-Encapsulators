@@ -49,9 +49,11 @@ void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int co
 {
     this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
     cout << "POINTER STORAGE 0,0 PANEN " << this->lahan.getBarang(rowLahan, colLahan) << endl;
-    delete this->lahan.getBarang(rowLahan, colLahan);
-    CultivatedObject *kosong = new CultivatedObject;
-    this->setBarangLahan(rowLahan, colLahan, kosong);
+    cout << "KODE: " << this->lahan.getBarang(rowLahan, colLahan)->getKodeHuruf() << endl;
+    this->lahan.setKosong(rowLahan, colLahan);
+    //delete this->lahan.getBarang(rowLahan, colLahan);
+    //CultivatedObject *kosong = new CultivatedObject();
+    //this->setBarangLahan(rowLahan, colLahan, kosong);
 }
 
 int Farmers::bayarPajak()

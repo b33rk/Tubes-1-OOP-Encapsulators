@@ -172,3 +172,7 @@ Field<CultivatedObject> Player::getLahan()
 vector<vector<TradeObject*>> Player::getPenyimpanan(){
     return this->penyimpanan.getStorage();
 }
+
+void Player::beriPangan(int, int, int, int){
+    throw invalidCommandException();
+}

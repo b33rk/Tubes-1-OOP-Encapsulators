@@ -12,8 +12,8 @@ void Peternak::beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, 
     {
         int weightTambah = makanan->getAddedWeight();
         (this->lahan.getBarang(rowLahan, colLahan))->addWeight(weightTambah);
-        TradeObject *kosong = new TradeObject();
-        this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, kosong);
+        //TradeObject *kosong = new TradeObject();
+        this->penyimpanan.setKosong(rowPenyimpanan, colPenyimpanan);
     }
     else
     {

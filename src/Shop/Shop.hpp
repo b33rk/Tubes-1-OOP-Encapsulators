@@ -43,12 +43,18 @@ class Shop {
         }
 
         void displayShop() {
+            const char *neonGreen = "\033[1;32m";
+            const char *reset = "\033[0m";
             if(this->numOfItems != 0) {
                 cout << "Berikut merupakan hal yang dapat Anda Beli\n";
                 for(int i = 0; i < this->numOfItems; i++) {
-                    cout << i + 1 << "  " << this->items[i].first.getNama() << " - " << this->items[i].first.getPrice();
-                    if(this->items[i].second >= 0) {
-                        cout << " berjumlah : " << this->items[i].second << "\n";
+                    cout << i + 1 << "  ";
+                    if(this->items[i].second == -1) {
+                        cout << neonGreen << this->items[i].first.getNama() << reset;
+                        cout << "\n   harga : " << this->items[i].first.getPrice() << "\n";
+                    } else {
+                        cout << neonGreen << this->items[i].first.getNama() << reset;
+                        cout << "\n   harga : " << this->items[i].first.getPrice() << "\n   jumlah : " << this->items[i].second << "\n";
                     }
                 }
             } else {
@@ -68,27 +74,29 @@ class Shop {
                 cout << "\nUang Anda : " << pelaku->getUang() << "\n";
                 pilihSlot();
  
-                cout << "\nBarang ingin dibeli : " << pilihanBarang << "\n";
-                if(this->items[pilihan-1].second == 0) {
+                cout << "\nNomor barang ingin dibeli : ";
+                cin >> pilihanBarang;
+                pilihBarang(pilihanBarang);
+                if(this->items[pilihanBarang-1].second == 0) {
                     throw barangKosongException();
                 }
-                pilihBarang(pilihanBarang);
 
-                cout << "Kuantitas : " << kuantitas << "\n";
-                if(isBangunan(this->items[pilihan-1].first.getNama()) && kuantitas > this->items[pilihan-1].second) {
+                cout << "Kuantitas : ";
+                cin >> kuantitas;
+                if(isBangunan(this->items[pilihanBarang-1].first.getNama()) && kuantitas > this->items[pilihanBarang-1].second) {
                     throw pembelianMelebihiStokException();
                 } else {
-                    int totalPengeluaran = kuantitas * this->items[pilihan-1].first.getPrice();
+                    int totalPengeluaran = kuantitas * this->items[pilihanBarang-1].first.getPrice();
 
                     if(totalPengeluaran > pelaku->getUang()) {
                         throw uangTidakCukupException();
                     } else{
-                        pelaku->getUang() -= totalPengluaran;
+                        pelaku->setUang(pelaku->getUang() - totalPengeluaran);
                     }
                 }
 
-                cout << "\nSelamat Anda behasil membeli " << kuantitas << this->items[pilihanBarang-1].first.getNama();
-                cout << ". Uang Anda tersisa" << pelaku->getUang() << " gulden.\n";
+                cout << "\nSelamat Anda behasil membeli " << kuantitas << " "<<  this->items[pilihanBarang-1].first.getNama();
+                cout << ". Uang Anda tersisa " << pelaku->getUang() << " gulden.\n";
                 // display penyimpanan
                 cout << "Pilih slot untuk menyimpan barang yang Anda beli!\n";
                 pelaku->cetakPenyimpanan();
@@ -96,7 +104,8 @@ class Shop {
                 cout << "\n\nPilih petak slot yang ingin diisi : \n";
                 for(int i = 0; i < kuantitas; i++) {
                     string inputSlot;
-                    cout << i+1 << ".   " << inputSlot << "\n";
+                    cout << i+1 << ".   ";
+                    cin >> inputSlot;
                     pair<int, int> coord = stringToCoord(inputSlot);
 
                     if((coord.first >= 0 && coord.first < pelaku->getPenyimpananField().getRow()) && (coord.second >= 0  && coord.second < pelaku->getPenyimpananField().getCol())) {
@@ -129,6 +138,8 @@ class Shop {
                 cout << e.message();
             } catch (barangKosongException e) {
                 cout << e.message();
+            } catch (pembelianLuarItemException e) {
+                cout << e.message();
             } catch (...) {
                 cout << "Terjadi kesalahan saat pembelian\n";
             }
@@ -142,21 +153,13 @@ class Shop {
         }
 
         void pilihBarang(int pilihan) {
-            if(pilihan <= 0 && pilihan >this->items.size()) {
+            if(pilihan <= 0 && pilihan > this->items.size()) {
                 throw pembelianLuarItemException();
             }
             if(pelaku->getPeran() == "Walikota" && isBangunan(this->items[pilihan-1].first.getNama())) {
                 throw invalidPembelianException();
             }
         }
-
-        // void beliBarang(int kuantitas, int pilihan) {
-        //     if(isBangunan(this->items[pilihan-1].first.getNama()) && kuantitas > this->items[pilihan-1].second) {
-        //         throw pembelianMelebihiStokException();
-        //     } else {
-
-        //     }
-        // }
 
         void Sell() {
             try {
@@ -185,7 +188,7 @@ class Shop {
                     j++;
                 }while(terimaInput);
 
-                int tempPrice;
+                int tempPrice, totalPenjualan = 0;
 
                 for(int i = 0; i < slotJual.size(); i++) {
                     pair<int, int> coord = stringToCoord(slotJual[i]);
@@ -194,33 +197,38 @@ class Shop {
                         bool masukToko = true;
                         vector<vector<TradeObject *>> temp = pelaku->getPenyimpanan();
 
+                        if(temp[coord.first][coord.second]->getType() == "BANGUNAN" && (pelaku->getPeran() != "Walikota")) {
+                            throw invalidPenjualanException();
+                        }
+
                         // yang dijual bangunan
-                        if(isBangunan(temp[coord.frist][coord.second]->getNama())) {
+                        if(isBangunan(temp[coord.first][coord.second]->getNama())) {
                             for(int i= 0; i < items.size(); i++) {
-                                if(this->items[pilihan-1].first.getNama() == temp[coord.frist][coord.second]->getNama()) {
-                                    this->items[pilihan-1].second++;
+                                if(this->items[i].first.getNama() == temp[coord.first][coord.second]->getNama()) {
+                                    this->items[i].second++;
                                     masukToko = false;
                                     break;
                                 }
                             }
 
                             if(masukToko) {
-                                this->items.push_back({temp[coord.frist][coord.second], 1});
+                                this->items.push_back({*temp[coord.first][coord.second], 1});
                             }
                         } else {
                             for(int i= 0; i < items.size(); i++) {
-                                if(this->items[pilihan-1].first.getNama() == temp[coord.frist][coord.second]->getNama()) {
+                                if(this->items[i].first.getNama() == temp[coord.first][coord.second]->getNama()) {
                                     masukToko = false;
                                     break;
                                 }
                             }
 
                             if(masukToko) {
-                                this->items.push_back({temp[coord.frist][coord.second], -1});
+                                this->items.push_back({*temp[coord.first][coord.second], -1});
                             }
                         }
 
                         tempPrice = pelaku->getBarangPenyimpananPrice(coord.first, coord.second);
+                        totalPenjualan += tempPrice;
                         pelaku->setBarangPenyimpananKosong(coord.first, coord.second);
                         pelaku->setUang(pelaku->getUang() + tempPrice);
                     } else {
@@ -228,11 +236,13 @@ class Shop {
                         cout << "Penjualan gagal!\n";
                     }
                 }
-                cout << "Barang Anda berhasil dijual! Uang Anda bertambah " << tempPrice << " gulden!";
+                cout << "Barang Anda berhasil dijual! Uang Anda bertambah " << totalPenjualan << " gulden!";
 
             } catch (itemPenyimpananKosongException e) {
                 cout << e.message();
             } catch (invalidPetak e) {
+                cout << e.message();
+            } catch (invalidPenjualanException e) {
                 cout << e.message();
             } catch (...) {
                 cout << "Terjadi kesalahan saat penjualan\n";

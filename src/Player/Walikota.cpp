@@ -97,4 +97,5 @@ void Walikota ::tambahPlayer(string peran)
     {
         throw tambahPlayerInvalidException();
     }
+    this->setUang(this->getUang() - 50);
 }

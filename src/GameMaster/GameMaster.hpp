@@ -6,6 +6,8 @@
 #include "../Player/Peternak.hpp"
 #include "../Player/Walikota.hpp"
 #include "../GameObject/GameObject.hpp"
+#include "../Shop/Shop.hpp"
+#include "../Command/Command.hpp"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -40,6 +42,7 @@ protected:
     map<string, ProductObject> productMap;
     map<string, Recipe> recipeMap;
     Player *currentPlayer;
+    Shop shop;
     /*
     vector<TradeObject> tradeObjMemory;
     vector<CultivatedObject> cultObjMemory;
@@ -73,6 +76,7 @@ public:
         {
             turn++;
         }
+        currentPlayer = listPlayer[turn - 1];
         currentPlayer = listPlayer[turn - 1];
     }
 
@@ -312,6 +316,7 @@ public:
                 player_loaded = true;
                 valid_input = true;
                 vector<pair<TradeObject, int>> inisialisasiToko;
+
                 for (auto it = productMap.begin(); it != productMap.end(); it++)
                 {
                     TradeObject copy_temp(it->second);
@@ -333,7 +338,7 @@ public:
                     TradeObject copy_temp(it->second);
                     inisialisasiToko.push_back(make_pair(copy_temp, -1));
                 }
-                
+                shop.initToko(inisialisasiToko);
             }
             else
             {
@@ -615,6 +620,7 @@ public:
         turn = 1;
         jumlahPlayer = listPlayer.size();
         currentPlayer = listPlayer[0];
+        shop.initToko(inisialisasiToko);
     }
 
     void simpan()
@@ -1186,6 +1192,18 @@ public:
         {
             cout << "Error occured. Returning..." << endl;
         }
+    }
+
+    void jual() {
+        this->shop.Sell();
+    }
+
+    void beli() {
+        this->shop.Buy();
+    }
+
+    void setPelakuShop(){
+        this->shop.setPelaku(getCurrentPlayer());
     }
 
     void tambahPlayer()

@@ -8,7 +8,6 @@
 #include "Player/Player.hpp"
 #include "Player/Walikota.hpp"
 #include "Command/Command.hpp"
-#include "Shop/Shop.hpp"
 
 pair<bool, string> finishGame(vector<Player *> listPlayer, int goalUang, int goalBerat)
 {
@@ -57,8 +56,6 @@ int main()
 
     cout << "\nSELAMAT BERMAIN!!!\n";
 
-    Shop shop;
-
     pair<bool, string> terminateGame;
 
     while (!terminateGame.first)
@@ -67,7 +64,7 @@ int main()
         {
             // set toko dan command
             command.setPeran(main.getCurrentPlayer()->getPeran());
-            shop.setPelaku(main.getCurrentPlayer());
+            main.setPelakuShop();
 
             cout << "\n\nGiliran saat ini : ";
             cout << main.getCurrentPlayer()->getNama() << "\n";
@@ -76,7 +73,7 @@ int main()
             command.displayAvailableCommand();
             cout << endl;
             command.terimaCommand();
-            // cout << "Ini command : " << command.getPerintah() << "\n";
+
             if (command.getPerintah() == "NEXT")
             {
                 main.next();
@@ -91,9 +88,11 @@ int main()
             }
             else if (command.getPerintah() == "BELI")
             {
+                main.beli();
             }
             else if (command.getPerintah() == "JUAL")
             {
+                main.jual();
             }
             else if (command.getPerintah() == "SIMPAN")
             {

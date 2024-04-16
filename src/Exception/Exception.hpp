@@ -20,6 +20,7 @@ public:
     {
         return "Makanan tidak dapat dimakan oleh hewan ini\n";
     }
+
 };
 
 class uangTidakCukupException : public exception
@@ -77,6 +78,7 @@ public:
 class penyimpananPenuhException : public exception
 {
 public:
+
     const char *message()
     {
         return "Penyimpanan sudah penuh\n";
@@ -92,10 +94,6 @@ class BukanMakananException : public exception
 {
 public:
     const char *message()
-    {
-        return "Barang tersebut bukan makanan mass!!\n\n";
-    }
-    const char *what() const noexcept override
     {
         return "Barang tersebut bukan makanan mass!!\n";
     }
@@ -113,6 +111,8 @@ public:
         return "Barang tersebut kosong mass!!\n";
     }
 };
+
+
 
 class PanenKosongException : public exception
 {
@@ -168,11 +168,14 @@ public:
         return this->finalMessage.c_str();
     }
 };
-
 class invalidPembelianException : public exception
 {
 public:
     const char *message()
+    {
+        return "Pembelian barang tersebut tidak bisa Anda lakukan sebagai Walikota!!\n";
+    }
+    const char *what() const noexcept override
     {
         return "Pembelian barang tersebut tidak bisa Anda lakukan sebagai Walikota!!\n";
     }
@@ -183,7 +186,11 @@ class pembelianLuarItemException : public exception
 public:
     const char *message()
     {
-        return "Pembelian barang di luar index!!\n";
+        return "Pembelian barang di luar daftar!!\n";
+    }
+const char *what() const noexcept override
+    {
+        return "Pembelian barang di luar daftar!!\n";
     }
 };
 
@@ -194,12 +201,85 @@ public:
     {
         return "Pembelian kuantitas barang melebihi stok!!\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Pembelian kuantitas barang melebihi stok!!\n";
+    }
+};
+
+class barangKosongException : public exception
+{ 
+public:
+    const char *message()
+    {
+        return "Barang sedang kosong!!\n";
+    }
+    const char *what() const noexcept override
+    {
+        return "Barang sedang kosong!!\n";
+    }
+};
+
+class itemTokoKosongException : public exception
+{
+    public:
+        const char *message()
+        {
+            return "Tidak ada barang yang bisa Anda beli!\n";
+        }
+        const char *what() const noexcept override
+        {
+            return "Tidak ada barang yang bisa Anda beli!\n";
+        }
+};
+
+class itemPenyimpananKosongException : public exception
+{
+    public:
+        const char *message()
+        {
+            return "Tidak ada barang yang bisa Anda jual!\n";
+        }
+        const char *what() const noexcept override
+        {
+            return "Tidak ada barang yang bisa Anda jual!\n";
+        }
+};
+
+class itemPenyimpananKosongMakanException : public exception
+{
+    public:
+        const char *message()
+        {
+            return "Tidak ada barang yang bisa Anda makan! Anda tidak punya makanan yang bisa dimakan!\n";
+        }
+        const char *what() const noexcept override
+        {
+            return "Tidak ada barang yang bisa Anda makan!\n";
+        }
+};
+
+class invalidPetak : public exception
+{
+    public:
+        const char *message()
+        {
+            return "Pilihan petak di luar batas!\n";
+        }
+        const char *what() const noexcept override
+        {
+            return "Pilihan petak di luar batas!\n";
+        }
 };
 
 class invalidPenjualanException : public exception
 {
 public:
     const char *message()
+    {
+        return "Penjualan barang tersebut tidak bisa Anda lakukan!!\n";
+    }
+        const char *what() const noexcept override
     {
         return "Penjualan barang tersebut tidak bisa Anda lakukan!!\n";
     }

@@ -671,7 +671,19 @@ public:
                     }
                 }
             }
-            // TODO: TULIS TOKO ABIS INI
+            vector<pair<TradeObject, int>> itemsShop = shop.getItems();
+            int items_in_shop = 0;
+            for(auto &x: itemsShop){
+                if(x.second != -1 && x.second != 0){
+                    items_in_shop++;
+                }
+            }
+            file << items_in_shop << endl;
+            for(auto &x: itemsShop){
+                if(x.second != -1 && x.second != 0){
+                    file << x.first.getNama() << " " << x.second << endl;
+                }
+            }
             file.close();
         }
     }

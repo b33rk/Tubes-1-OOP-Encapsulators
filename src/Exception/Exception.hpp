@@ -233,6 +233,19 @@ class itemPenyimpananKosongException : public exception
         }
 };
 
+class itemPenyimpananKosongMakanException : public exception
+{
+    public:
+        const char *message()
+        {
+            return "Tidak ada barang yang bisa Anda makan! Anda tidak punya makanan yang bisa dimakan!\n";
+        }
+        const char *what() const noexcept override
+        {
+            return "Tidak ada barang yang bisa Anda makan!\n";
+        }
+};
+
 class invalidPetak : public exception
 {
     public:

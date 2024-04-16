@@ -6,6 +6,8 @@
 #include "../Player/Peternak.hpp"
 #include "../Player/Walikota.hpp"
 #include "../GameObject/GameObject.hpp"
+#include "../Shop/Shop.hpp"
+#include "../Command/Command.hpp"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -40,6 +42,7 @@ public:
     map<string, ProductObject> productMap;
     map<string, Recipe> recipeMap;
     Player *currentPlayer;
+    Shop shop;
     /*
     vector<TradeObject> tradeObjMemory;
     vector<CultivatedObject> cultObjMemory;
@@ -299,6 +302,7 @@ public:
                 currentPlayer = listPlayer[0];
                 player_loaded = true;
                 valid_input = true;
+                shop.initToko(inisialisasiToko);
             }
             else
             {
@@ -580,6 +584,37 @@ public:
         turn = 1;
         jumlahPlayer = listPlayer.size();
         currentPlayer = listPlayer[0];
+        shop.initToko(inisialisasiToko);
+    }
+
+    void makan(){
+        vector<vector<TradeObject*>> penyimpanan_pemain = listPlayer[turn - 1]->getPenyimpanan();
+        bool foodExist = false;
+        for(auto &row_penyimpanan_pemain: penyimpanan_pemain){
+            for(auto &elem_penyimpanan: row_penyimpanan_pemain){
+                for(auto &product: productMap){
+                    if(elem_penyimpanan->getKodeHuruf() != "   " && product.second.getAddedWeight() != 0 && elem_penyimpanan->getKodeHuruf() == product.second.getKodeHuruf()){
+                        foodExist = true;
+                    }
+                }
+            }
+        }
+        if(!foodExist){
+            throw itemPenyimpananKosongMakanException();
+            return;
+        }
+        string input_petak;
+        bool notValid = 1;
+        pair<int, int> coord_input;
+        do{
+            notValid = 0;
+            cin >> input_petak;
+            coord_input = stringToCoord(input_petak);
+        }while(notValid || (coord_input.first < 0 || coord_input.second < 0 || coord_input.first >= rowPenyimpanan || coord_input.second >= colPenyimpanan) || penyimpanan_pemain[coord_input.first][coord_input.second]->getKodeHuruf() == "   " || productMap.find(penyimpanan_pemain[coord_input.first][coord_input.second]->getKodeHuruf()) == productMap.end() || productMap[penyimpanan_pemain[coord_input.first][coord_input.second]->getKodeHuruf()].getAddedWeight() == 0);
+        TradeObject* new_tr_obj = new TradeObject(*penyimpanan_pemain[coord_input.first][coord_input.second]);
+        listPlayer[turn - 1]->makan(new_tr_obj);
+        cout << "Dengan lahapnya, kamu memakanan hidangan itu" << endl;
+        cout << "Alhasil, berat badan kamu naik menjadi " << listPlayer[turn - 1]->getBerat() << endl;
     }
 
     void simpan()
@@ -1151,6 +1186,18 @@ public:
         {
             cout << "Error occured. Returning..." << endl;
         }
+    }
+
+    void jual() {
+        this->shop.Sell();
+    }
+
+    void beli() {
+        this->shop.Buy();
+    }
+
+    void setPelakuShop(){
+        this->shop.setPelaku(getCurrentPlayer());
     }
 
     void tambahPlayer()

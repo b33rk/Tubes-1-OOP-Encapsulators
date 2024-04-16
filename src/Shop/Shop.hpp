@@ -90,11 +90,15 @@ class Shop {
                 cout << e.message();
             } catch (invalidPembelianxception e) {
                 cout << e.message();
+            } catch (pembelianMelebihiStokException e) {
+                cout << e.message();
             } catch (uangTidakCukupException e) {
                 cout << e.message();
             } catch (penyimpananPenuhException e) {
                 cout << e.message();
-            } 
+            } catch (...) {
+                cout << "Terjadi kesalahan saat pembelian\n";
+            }
         }
 
         void pilihSlot() {
@@ -115,11 +119,10 @@ class Shop {
 
         void beliBarang(int kuantitas, int pilihanBarang) {
             if(isBangunan(this->items[pilihan-1].first.getNama()) && kuantitas > his->items[pilihan-1].second) {
-
+                throw pembelianMelebihiStokException();
             }
         }
 
-        
         void Sell() {
             try {
                 vector<string> slotJual;
@@ -154,13 +157,9 @@ class Shop {
 
                 cout << "Barang Anda berhasil dijual! Uang Anda bertambah " << << " gulden!";
 
-            } catch () {
-
+            } catch (...) {
+                cout << "Terjadi kesalahan saat penjualan\n";
             }
-        }
-
-        void beliBarang(int kuantitas, int pilihanBarang) {
-
         }
 
         vector<pair<TradeObject, int>> getItems() {

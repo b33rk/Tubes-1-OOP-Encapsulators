@@ -135,6 +135,15 @@ public:
     }
 };
 
+class pembelianMelebihiStokException : public exception
+{ 
+public:
+    const char *message()
+    {
+        return "Pembelian kuantitas barang melebihi stok!!\n";
+    }
+};
+
 class invalidPenjualanException : public exception
 {
 public:

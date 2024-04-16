@@ -52,7 +52,7 @@ int main() {
             if(command.getPerintah() == "NEXT") {
                 main.nextTurn();
             } else if(command.getPerintah() == "CETAK_PENYIMPANAN") {
-
+                main.cetak_penyimpanan();
             } else if(command.getPerintah() == "MAKAN") {
 
             } else if(command.getPerintah() == "BELI") {
@@ -62,28 +62,36 @@ int main() {
             } else if(command.getPerintah() == "SIMPAN") {
 
             } else if(command.getPerintah() == "PUNGUT_PAJAK") {
-
+                main.pungutPajak();
             } else if(command.getPerintah() == "BANGUN") {
 
             } else if(command.getPerintah() == "TAMBAH_PEMAIN") {
-
+                main.tambahPlayer();
             } else if(command.getPerintah() == "CETAK_LADANG") {
-
+                main.cetak_ladang();
             } else if(command.getPerintah() == "CETAK_PETERNAKAN") {
-
+                main.cetak_lahan();
             } else if(command.getPerintah() == "TANAM") {
-
+                main.tanam();
             } else if(command.getPerintah() == "PANEN") {
-
+                main.panen();
             } else if(command.getPerintah() == "TERNAK") {
 
             } else if(command.getPerintah() == "KASIH_MAKAN") {
-
+                main.beriPangan();
             }
         } catch (invalidCommandException e) {
             cout << e.message();
         }
     }
+
+    // cari pemenang
+    // Player pemenang;
+    // for(int i = 0; i < main.listPlayer.size(); i++) {
+    //     if(main.listPlayer[i]->getUang() >= main.goalUang && main.listPlayer[i]->getBerat() >= main.goalBerat) {
+    //         pemenang = main.listPlayer[i];
+    //     }
+    // }
 
     return 0;
 }

@@ -16,7 +16,7 @@ public:
 
     void ternak(CultivatedObject *hewan, int row, int col);
 
-    void cetakLahan();
+    //void cetakLahan();
 };
 
 #endif

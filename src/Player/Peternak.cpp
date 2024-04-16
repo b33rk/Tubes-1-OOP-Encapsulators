@@ -25,11 +25,11 @@ void Peternak::ternak(CultivatedObject *hewan, int row, int col)
 {
     this->lahan.setBarang(row, col, hewan);
 }
-
+/*
 void Peternak::cetakLahan()
 {
     lahan.cetak();
-}
+}*/
 
 // vector<TradeObject *> Farmers::ambilUniqueValueLahan()
 // {

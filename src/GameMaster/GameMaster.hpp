@@ -1313,6 +1313,9 @@ public:
                         // cout << new_tr_obj->getType();
                         cout << e.message();
                         notValid = 1;
+                    }catch(MakananKosongException e){
+                        cout << e.message();
+                        notValid = 1;
                     }
                 }
 

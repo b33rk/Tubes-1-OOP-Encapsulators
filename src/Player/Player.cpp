@@ -110,9 +110,9 @@ vector<pair<pair<int, int>, pair<string, int>>> Player::getAllPosisiNamaBerat()
 void Player::makan(int row, int col)
 {   
     TradeObject* makanan = this->getPenyimpanan()[row][col];
-    // if (makanan->getType() == "   "){
-    //     throw "Makan tersebut adalah petak kosong !"
-    // }
+    if (makanan->getType() == "   "){
+        throw MakananKosongException();
+    }
     if (makanan->getType() != "PRODUCT_ANIMAL" && makanan->getType() != "PRODUCT_FRUIT_PLANT")
     {
         throw BukanMakananException();

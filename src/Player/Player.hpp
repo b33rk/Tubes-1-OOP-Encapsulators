@@ -47,13 +47,13 @@ public:
     virtual void beriPangan(int, int, int, int);
     int getBerat();
     void setBerat(int);
-    virtual vector<pair<pair<int, int>, pair<string, int> > > getAllPosisiNamaBerat();
+    virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();
     vector<string> getAllNamaBarang();
     virtual Field<CultivatedObject> getLahan();
-    vector<vector<TradeObject*>> getPenyimpanan();
+    vector<vector<TradeObject *>> getPenyimpanan();
     void setBarangPenyimpananKosong(int, int);
     int getBarangPenyimpananPrice(int, int);
-    Field<TradeObject> Player::getPenyimpananField();
+    Field<TradeObject> getPenyimpananField();
 };
 
 #endif

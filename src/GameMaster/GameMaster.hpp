@@ -59,6 +59,9 @@ class Game {
 
        // return pair p, p.first = row, p.second = col
         pair<int, int> stringToCoord(string s){
+            if(s.size() != 3){
+                return make_pair(-1, -1);
+            }
             char col = s[0];
             char row = 10 * (s[1] - '0') + (s[2] - '0');
             int colNum = col - 'A';
@@ -471,6 +474,44 @@ class Game {
         }
         string getPeranPlayer(int i){
             return this->listPlayer[i]->getPeran();
+        }
+
+        void tanam(){
+            if(listPlayer[turn - 1]->getPeran() != "Petani"){
+                cout << "Anda bukan petani mass!" << endl;
+                throw invalidCommandException();
+            }
+            vector<string> allNamaBarang = listPlayer[turn - 1]->getAllNamaBarang();
+            bool notFound = 1;
+            for(auto it = allNamaBarang.begin(); it != allNamaBarang.end() && notFound; it++){
+                for(auto &plant: plantMap){
+                    if(plant.second.getNamaGameObject() == *it){
+                        notFound = 0;
+                    }
+                }
+            }
+            if(notFound){
+                cout << "Tidak ada tanaman di penyimpanan Anda!!" << endl;
+                throw invalidCommandException();
+            }
+            vector<pair<pair<int, int>, pair<string, int>>> isiLahan = listPlayer[turn - 1]->getAllPosisiNamaBerat();
+            if(isiLahan.size() == rowLahan * colLahan){
+                cout << "Lahan penuh!! Kosongkan dulu lahanmu :))" << endl;
+                throw invalidCommandException();
+            }
+            vector<vector<TradeObject*>> penyimpananSkrg = listPlayer[turn - 1]->getPenyimpanan();
+            cout << "Pilih tanaman dari penyimpanan" << endl;
+            listPlayer[turn - 1]->cetakPenyimpanan();
+            string slotTanam = "";
+            pair<int, int> currentCoord;
+            do{
+                cout << "Slot: ";
+                cin >> slotTanam;
+                currentCoord = stringToCoord(slotTanam);
+            }while(currentCoord.first < 0 || currentCoord.second < 0 || currentCoord.first >= rowPenyimpanan || currentCoord.second >= colPenyimpanan 
+            || penyimpananSkrg[currentCoord.first][currentCoord.second]->getKodeHuruf() == "   ");
+            cout << "Kamu memilih " << penyimpananSkrg[currentCoord.first][currentCoord.second]->getNama() << endl;
+            //listPlayer[turn - 1]->cetak
         }
 
         void tambahPlayer(){

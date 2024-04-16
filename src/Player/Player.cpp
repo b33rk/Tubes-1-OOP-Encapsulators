@@ -130,3 +130,7 @@ int Player::bayarPajak(){
 void Player::tambahPlayer(string){
     throw invalidCommandException();
 }
+
+vector<vector<TradeObject*>> Player::getPenyimpanan(){
+    return this->penyimpanan.getStorage();
+}

@@ -124,6 +124,11 @@ public:
         return jumlahIsi;
     }
 
+    int getSisa()
+    {
+        return row*col - getJumlahIsi();
+    }
+
     T *getBarang(int row, int col)
     {
         return this->storage[row][col];

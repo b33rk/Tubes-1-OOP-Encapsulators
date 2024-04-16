@@ -20,7 +20,7 @@ ALLPLAYERFILE := $(wildcard src/Player/*.cpp)
 build:
 	$(COMPILER) -o bin/main.o src/main.cpp ${ALLPLAYERFILE}
 
-run :
+run : build
 	$(OUTPUT_FOLDER)/main.o
 
 

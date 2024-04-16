@@ -13,7 +13,7 @@ class Walikota : public Player {
         Walikota(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan);
         void pungutPajak(vector<Player*> listPlayer, int num_of_players);
         void bangunBangunan(Recipe recipe);
-        void tambahPlayer(string peran );
+        void tambahPlayer(string peran ) override;
         int bayarPajak() override;
 };
 

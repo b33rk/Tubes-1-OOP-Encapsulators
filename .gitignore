@@ -181,3 +181,6 @@ yarn.lock
 .DS_Store
 *.exe
 *.o
+
+*.exe
+*.o

@@ -1,7 +1,10 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 #include <exception>
-
+#include <stdexcept>
+#include <string>
+#include <vector>
+#include <iostream>
 using namespace std;
 
 class MakananSalahException : public exception
@@ -51,13 +54,11 @@ public:
 
 class penyimpananPenuhException : public exception
 {
-private:
-    string type;
 
 public:
-    string message()
+    const char* message()
     {
-        return this->type + " sudah penuh\n";
+        return "Penyimpanan sudah penuh\n";
     }
     //     penyimpananPenuhException(  )
 };
@@ -78,6 +79,39 @@ public:
     {
         return "Barang tersebut kosong mass!!\n";
     }
+};
+
+class KurangMaterialException : public exception{
+    private:
+        vector<string> materials;
+        vector<int> quantity;
+        string finalMessage;
+    public:
+        KurangMaterialException(){
+            this->finalMessage = "Kamu tidak punya sumber daya yang cukup! Masih memerlukan ";
+
+        }
+        KurangMaterialException(const vector<string>& materials, const vector<int>& quantity) : materials(materials) , quantity(quantity), exception(){
+            this->finalMessage = "Kamu tidak punya sumber daya yang cukup! Masih memerlukan ";
+            int count = 0;
+            for (int i = 0 ; i < materials.size() ; i++){
+                if (quantity[i] > 0){
+                    finalMessage.append(to_string(quantity[i]));
+                    finalMessage.append(" ");
+                    count ++;
+                    finalMessage.append(materials[i]);
+                    if (count >=2){
+                        finalMessage.append(", ");
+                    }
+                }
+            }
+            finalMessage.append("\n");
+ 
+        }
+        const char* message() {
+            return this->finalMessage.c_str();
+        }
+
 };
 
 #endif

@@ -1,28 +1,35 @@
 #include "Farmers.hpp"
 
-Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan)
+Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : lahan(rowLahan,colLahan), Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan)
 {
-    Field<CultivatedObject> lahanTemp;
+
     this->penguranganKKP = penguranganKKP;
-    this->lahan = lahanTemp;
+
 }
 
 int Farmers::hitungKekayaan()
 {
     int total = 0;
-    vector<vector<CultivatedObject *>> barang = this->lahan.getStorage();
+    vector<vector<CultivatedObject*>> barang = this->lahan.getStorage();
     for (int i = 0; i < lahan.getRow(); i++)
     {
+        cout << "row" << endl;
+        cout << i << endl;
         for (int j = 0; j < lahan.getCol(); j++)
         {
+            cout << "col" << endl;
+            
             if (barang[i][j]->getKodeHuruf() != "  ")
             {
+
+                cout << barang[i][j]->getKodeHuruf() << endl;
                 int price = barang[i][j]->getPrice();
                 total += price;
             }
         }
     }
     vector<vector<TradeObject *>> penyimpanan = this->penyimpanan.getStorage();
+    
     for (int i = 0; i < this->penyimpanan.getRow(); i++)
     {
         for (int j = 0; j < this->penyimpanan.getCol(); j++)
@@ -38,9 +45,8 @@ int Farmers::hitungKekayaan()
     return total;
 }
 
-void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight)
+void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject* product)
 {
-    ProductObject *product = new ProductObject(prodId, prodKode, nama, prodPrice, prodType, origin, addedWeight);
     this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
     delete this->lahan.getBarang(rowLahan, colLahan);
     CultivatedObject *kosong = new CultivatedObject();
@@ -70,6 +76,10 @@ int Farmers::bayarPajak()
         this->setUang(this->uang - pajak);
     }
     return pajak;
+}
+
+void Farmers::cetakLadangLahan() {
+    this->lahan.cetak();
 }
 
 void Farmers ::setBarangFirstLahan(CultivatedObject *object)

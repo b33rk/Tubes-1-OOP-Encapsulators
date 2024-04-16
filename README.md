@@ -9,19 +9,13 @@ Melihat hal ini, terbesit pikiran di hati Bondowoso untuk mengijinkan Roro menge
 Jalankan perintah
 ```
 git clone https://github.com/b33rk/Tubes-1-OOP-Encapsulators.git
+cd Tubes-1-OOP-Encapsulators
 ```
-
-### Linux
+Pada Linuc, jalankan perintah
 ```
-make
-./main.exe
+make run
 ```
-
-### Windows
-```
-./compile.bat
-./main.exe
-```
+Program sudah berhasil dijalankan
 
 ## Anggota
 1. Kristo Anugrah - 13522024

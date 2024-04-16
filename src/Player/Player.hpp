@@ -23,7 +23,7 @@ public:
     // void virtual muat();
     // void virtual jual(int, int);
     // void virtual beli(TradeObject *, int);
-    void virtual makan(TradeObject *);
+    void virtual makan(int, int);
     void virtual cetakPenyimpanan();
     // void virtual cetakLahan();
     string getNama();
@@ -45,6 +45,7 @@ public:
     virtual void panen(int, int, int, int, ProductObject *);
     virtual void ternak(CultivatedObject *, int, int);
     virtual void beriPangan(int, int, int, int);
+    // virtual vector<TradeObject *> ambilUniqueValueLahan();
     int getBerat();
     void setBerat(int);
     virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();

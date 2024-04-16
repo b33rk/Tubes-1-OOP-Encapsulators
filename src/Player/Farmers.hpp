@@ -3,6 +3,7 @@
 
 #include "Player.hpp"
 #include <vector>
+#include <cmath>
 
 class Farmers : public Player
 {
@@ -17,8 +18,9 @@ public:
     void panen(int, int, int, int, ProductObject *);
     void setBarangFirstLahan(CultivatedObject *) override;
     void setBarangLahan(int row, int col, CultivatedObject *) override;
-    vector<pair<pair<int, int>, pair<string, int> > > getAllPosisiNamaBerat() override;
+    vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat() override;
     Field<CultivatedObject> getLahan();
+    // virtual vector<TradeObject *> ambilUniqueValueLahan();
     void cetakLadangLahan();
 };
 

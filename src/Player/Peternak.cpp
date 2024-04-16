@@ -12,7 +12,6 @@ void Peternak::beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, 
     {
         int weightTambah = makanan->getAddedWeight();
         (this->lahan.getBarang(rowLahan, colLahan))->addWeight(weightTambah);
-        //TradeObject *kosong = new TradeObject();
         this->penyimpanan.setKosong(rowPenyimpanan, colPenyimpanan);
     }
     else
@@ -26,8 +25,13 @@ void Peternak::ternak(CultivatedObject *hewan, int row, int col)
 {
     this->lahan.setBarang(row, col, hewan);
 }
-
+/*
 void Peternak::cetakLahan()
 {
     lahan.cetak();
-}
+}*/
+
+// vector<TradeObject *> Farmers::ambilUniqueValueLahan()
+// {
+//     return this->lahan.getUniqueValue();
+// }

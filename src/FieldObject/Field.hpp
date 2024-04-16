@@ -61,13 +61,6 @@ public:
                 this->storage[i][j] = new T();
             }
         }
-        //cout << "PRINT" << endl;
-        /*
-        for(int i = 0; i < this->row; ++i){
-            for(int j = 0; j < this->col; ++j){
-                cout << this->storage[i][j]->getKodeHuruf() << endl;
-            }
-        }*/
     }
     void virtual cetak(bool cetak_warna = false)
     {
@@ -116,7 +109,6 @@ public:
                 cout << "-----+";
             }
             cout << endl;
-            cout << endl;
         }
     }
     int getJumlahIsi()
@@ -126,7 +118,7 @@ public:
 
     int getSisa()
     {
-        return row*col - getJumlahIsi();
+        return row * col - getJumlahIsi();
     }
 
     T *getBarang(int row, int col)
@@ -151,59 +143,35 @@ public:
 
     void setBarang(int row, int col, T *object)
     {
-        //cout << "SAMPAI BARANG" << endl;
-        //cout << this->storage[0].size() << endl;
-        //cout << this->storage[0][0]->getKodeHuruf() << endl;
-        cout << this->storage[row][col] << endl;
         if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
             throw petakTidakKosongException();
         }
-        cout << "INI POINTER SEBELUM DELET " << this->storage[row][col] << endl;
-        //this->setKosong(row,col);
         delete this->storage[row][col];
-        
-        // this->storage[row][col] = nullptr;
         this->storage[row][col] = object;
-        
+
         if (object->getKodeHuruf() != "   ")
         {
             this->jumlahIsi++;
         }
     }
 
-    void setKosong(int row, int col){
-        if (this->storage[row][col]->getKodeHuruf() != "   "){
-            cout << "delete" << row << " " << col << endl;
+    void setKosong(int row, int col)
+    {
+        if (this->storage[row][col]->getKodeHuruf() != "   ")
+        {
             delete this->storage[row][col];
-            T* object = new T();
+            T *object = new T();
             this->storage[row][col] = object;
             this->jumlahIsi--;
-        }/*
-        T* object = new T();
-        this->storage[row][col] = object;*/
+        }
     }
 
-    vector<vector<T*>> getStorage()
+    vector<vector<T *>> getStorage()
     {
         return this->storage;
     }
 
-    void insertFirst(T *object)
-    {
-        for (int i = 0; i < this->row; i++)
-        {
-            for (int j = 0; j < this->col; j++)
-            {
-                if (this->storage[i][j]->getKodeHuruf() == "   ")
-                {
-                    this->setBarang(i, j, object);
-                    return;
-                }
-            }
-        }
-        throw penyimpananPenuhException();
-    }
     vector<TradeObject *> getUniqueValue()
     {
         vector<TradeObject *> listBarang;
@@ -236,9 +204,9 @@ public:
         return namaBarang;
     }
 
-    vector<pair<pair<int, int>, pair<string, int> > > getAllPosisiNamaBerat()
+    vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat()
     {
-        vector<pair<pair<int, int>, pair<string, int> > > hasil;
+        vector<pair<pair<int, int>, pair<string, int>>> hasil;
         int inc = 0;
         for (int i = 0; i < this->row; i++)
         {
@@ -252,30 +220,28 @@ public:
         }
         return hasil;
     }
-};
 
-class cultivateField : public Field<CultivatedObject>
-{
-public:
-    void cetak()
+    bool isFull()
     {
-        Field::cetak();
-        vector<TradeObject *> listUnik = getUniqueValue();
-        for (TradeObject *elmt : listUnik)
+        return jumlahIsi == row * col;
+    }
+
+    Field<T> operator<<(T *object)
+    {
+        for (int i = 0; i < this->row; i++)
         {
-            cout << " - " << elmt->getKodeHuruf() << ": " << elmt->getNama() << endl;
+            for (int j = 0; j < this->col; j++)
+            {
+                if (this->storage[i][j]->getKodeHuruf() == "   ")
+                {
+                    this->setBarang(i, j, object);
+                    return *this;
+                }
+            }
         }
+        throw penyimpananPenuhException();
     }
 };
 
-class penyimpanan : public Field<TradeObject>
-{
-public:
-    void cetak()
-    {
-        Field::cetak();
-        cout << "Total slot kosong: " << getRow() * getCol() - getJumlahIsi() << endl;
-    }
-};
 
 #endif

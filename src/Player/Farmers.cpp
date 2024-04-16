@@ -10,7 +10,7 @@ int Farmers::hitungKekayaan()
 {
     int total = 0;
 
-    vector<vector<CultivatedObject *> > barang = this->lahan.getStorage();
+    vector<vector<CultivatedObject *>> barang = this->lahan.getStorage();
     for (int i = 0; i < lahan.getRow(); i++)
     {
         for (int j = 0; j < lahan.getCol(); j++)
@@ -18,15 +18,12 @@ int Farmers::hitungKekayaan()
 
             if (barang[i][j]->getKodeHuruf() != "  ")
             {
-
-                // cout << barang[i][j]->getKodeHuruf() << endl;
                 int price = barang[i][j]->getPrice();
                 total += price;
             }
         }
     }
-    // cout << "selesai llop 1" << endl;
-    vector<vector<TradeObject *> > penyimpanan = this->penyimpanan.getStorage();
+    vector<vector<TradeObject *>> penyimpanan = this->penyimpanan.getStorage();
 
     for (int i = 0; i < this->penyimpanan.getRow(); i++)
     {
@@ -48,12 +45,7 @@ int Farmers::hitungKekayaan()
 void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject *product)
 {
     this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
-    cout << "POINTER STORAGE 0,0 PANEN " << this->lahan.getBarang(rowLahan, colLahan) << endl;
-    cout << "KODE: " << this->lahan.getBarang(rowLahan, colLahan)->getKodeHuruf() << endl;
     this->lahan.setKosong(rowLahan, colLahan);
-    //delete this->lahan.getBarang(rowLahan, colLahan);
-    //CultivatedObject *kosong = new CultivatedObject();
-    //this->setBarangLahan(rowLahan, colLahan, kosong);
 }
 
 int Farmers::bayarPajak()
@@ -63,7 +55,7 @@ int Farmers::bayarPajak()
     if (KKP > 0)
     {
         float persentase = this->persentasePajak(KKP);
-        pajak = KKP * persentase;
+        pajak = round(KKP * persentase);
     }
     else
     {
@@ -83,12 +75,12 @@ int Farmers::bayarPajak()
 
 void Farmers::cetakLadangLahan()
 {
-    this->lahan.cetak();
+    this->lahan.cetak(true);
 }
 
 void Farmers ::setBarangFirstLahan(CultivatedObject *object)
 {
-    this->lahan.insertFirst(object);
+    this->lahan << object;
 }
 
 void Farmers ::setBarangLahan(int row, int col, CultivatedObject *object)
@@ -96,7 +88,7 @@ void Farmers ::setBarangLahan(int row, int col, CultivatedObject *object)
     this->lahan.setBarang(row, col, object);
 }
 
-vector<pair<pair<int, int>, pair<string, int> > > Farmers::getAllPosisiNamaBerat()
+vector<pair<pair<int, int>, pair<string, int>>> Farmers::getAllPosisiNamaBerat()
 {
     return this->lahan.getAllPosisiNamaBerat();
 }

@@ -90,7 +90,19 @@ class Shop {
                 }
 
                 cout << "Kuantitas : ";
-                cin >> kuantitas;
+                
+                cin >> temp_pil;
+                try{
+                    int temp_barang = stoi(temp_pil);
+                    kuantitas = temp_barang;
+                }catch(...){
+                    kuantitas = -1;
+                }
+
+                if(kuantitas < 0){
+                    throw pembelianMelebihiStokException();
+                }
+
                 if(isBangunan(this->items[pilihanBarang-1].first.getNama()) && kuantitas > this->items[pilihanBarang-1].second) {
                     throw pembelianMelebihiStokException();
                 } else {

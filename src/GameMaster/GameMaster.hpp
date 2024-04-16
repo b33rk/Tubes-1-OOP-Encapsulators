@@ -701,8 +701,9 @@ public:
             currentCoordPenyimpanan = stringToCoord(slotTanam);
         } while (currentCoordPenyimpanan.first < 0 || currentCoordPenyimpanan.second < 0 || currentCoordPenyimpanan.first >= rowPenyimpanan || currentCoordPenyimpanan.second >= colPenyimpanan || penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getKodeHuruf() == "   " || (penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getType() != "MATERIAL_PLANT" && penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getType() != "FRUIT_PLANT"));
 
-        cout << "Kamu memilih " << penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getNama() << endl << endl;
-        cout << "Pilih petak tanah yang akan ditanami\n\n" ;
+        cout << "Kamu memilih " << penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getNama() << endl
+             << endl;
+        cout << "Pilih petak tanah yang akan ditanami\n\n";
         listPlayer[turn - 1]->cetakLadangLahan();
 
         string slotMenanam = "";
@@ -715,12 +716,12 @@ public:
             currentCoordMenanam = stringToCoord(slotMenanam);
         } while (currentCoordMenanam.first < 0 || currentCoordMenanam.second < 0 || currentCoordMenanam.first >= rowLahan || currentCoordMenanam.second >= colLahan || lahanSkrg.getStorage()[currentCoordMenanam.first][currentCoordMenanam.second]->getKodeHuruf() != "   ");
         // membuat pointer baru untuk tanaman
-        TradeObject* temp = listPlayer[turn - 1]->getPenyimpanan()[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second];
-        CultivatedObject* tanamanBaru = new CultivatedObject(temp->getId(),temp->getKodeHuruf(),temp->getNama(),temp->getType(),temp->getCultivateWeight(),temp->getPrice());
+        TradeObject *temp = listPlayer[turn - 1]->getPenyimpanan()[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second];
+        CultivatedObject *tanamanBaru = new CultivatedObject(temp->getId(), temp->getKodeHuruf(), temp->getNama(), temp->getType(), temp->getCultivateWeight(), temp->getPrice());
         // set kosong dan tanam
-        listPlayer[turn - 1]->setBarangPenyimpananKosong(currentCoordPenyimpanan.first,currentCoordPenyimpanan.second);
-        // mencari 
-        listPlayer[turn - 1]->setBarangLahan(currentCoordMenanam.first,currentCoordMenanam.second,tanamanBaru);
+        listPlayer[turn - 1]->setBarangPenyimpananKosong(currentCoordPenyimpanan.first, currentCoordPenyimpanan.second);
+        // mencari
+        listPlayer[turn - 1]->setBarangLahan(currentCoordMenanam.first, currentCoordMenanam.second, tanamanBaru);
         cout << "Cangkul, cangkul, cangkul yang dalam~!\n";
         cout << tanamanBaru->getNama() << " berhasil ditanam!\n\n";
     }
@@ -768,8 +769,9 @@ public:
             currentCoordPenyimpanan = stringToCoord(slotHewan);
         } while (currentCoordPenyimpanan.first < 0 || currentCoordPenyimpanan.second < 0 || currentCoordPenyimpanan.first >= rowPenyimpanan || currentCoordPenyimpanan.second >= colPenyimpanan || penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getKodeHuruf() == "   " || (penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getType() != "HERBIVORE" && penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getType() != "CARNIVORE" && penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getType() != "OMNIVORE"));
 
-        cout << "Kamu memilih " << penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getNama() << endl << endl;
-        cout << "Pilih petak tanah yang akan ditinggali\n\n" ;
+        cout << "Kamu memilih " << penyimpananSkrg[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second]->getNama() << endl
+             << endl;
+        cout << "Pilih petak tanah yang akan ditinggali\n\n";
         listPlayer[turn - 1]->cetakLadangLahan();
 
         string slotMenternak = "";
@@ -782,16 +784,15 @@ public:
             currentCoordMenternak = stringToCoord(slotMenternak);
         } while (currentCoordMenternak.first < 0 || currentCoordMenternak.second < 0 || currentCoordMenternak.first >= rowLadang || currentCoordMenternak.second >= colLadang || lahanSkrg.getStorage()[currentCoordMenternak.first][currentCoordMenternak.second]->getKodeHuruf() != "   ");
         // membuat pointer baru untuk tanaman
-        TradeObject* temp = listPlayer[turn - 1]->getPenyimpanan()[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second];
-        CultivatedObject* hewanBaru = new CultivatedObject(temp->getId(),temp->getKodeHuruf(),temp->getNama(),temp->getType(),temp->getCultivateWeight(),temp->getPrice());
+        TradeObject *temp = listPlayer[turn - 1]->getPenyimpanan()[currentCoordPenyimpanan.first][currentCoordPenyimpanan.second];
+        CultivatedObject *hewanBaru = new CultivatedObject(temp->getId(), temp->getKodeHuruf(), temp->getNama(), temp->getType(), temp->getCultivateWeight(), temp->getPrice());
         // set kosong dan tanam
-        listPlayer[turn - 1]->setBarangPenyimpananKosong(currentCoordPenyimpanan.first,currentCoordPenyimpanan.second);
-        // mencari 
-        listPlayer[turn - 1]->setBarangLahan(currentCoordMenternak.first,currentCoordMenternak.second,hewanBaru);
-        cout << "Dengan hati-hati, kamu meletakkan seekor " << hewanBaru->getNama()  << " di kandang.\n\n";
+        listPlayer[turn - 1]->setBarangPenyimpananKosong(currentCoordPenyimpanan.first, currentCoordPenyimpanan.second);
+        // mencari
+        listPlayer[turn - 1]->setBarangLahan(currentCoordMenternak.first, currentCoordMenternak.second, hewanBaru);
+        cout << "Dengan hati-hati, kamu meletakkan seekor " << hewanBaru->getNama() << " di kandang.\n\n";
         cout << hewanBaru->getNama() << " telah menjadi peliharaanmu sekarang\n\n";
     }
-
 
     void kasihMakan()
     {
@@ -871,12 +872,13 @@ public:
 
     void pungutPajak()
     {
-        
+
         try
         {
             listPlayer[turn - 1]->pungutPajak(listPlayer, listPlayer.size());
         }
-        catch(invalidCommandException e ){
+        catch (invalidCommandException e)
+        {
             cout << "Anda bukan Walikota !\n";
         }
         catch (...)

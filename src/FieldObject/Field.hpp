@@ -109,7 +109,6 @@ public:
                 cout << "-----+";
             }
             cout << endl;
-            cout << endl;
         }
     }
     int getJumlahIsi()

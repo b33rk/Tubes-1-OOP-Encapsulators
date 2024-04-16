@@ -34,8 +34,12 @@ class Shop {
             this->numOfItems = vectorInit.size();
 
             for(int i = 0; i < this->numOfItems; i++) {
-                items.push_back({ vectorInit.first, vectorInit.second });
+                items.push_back({ vectorInit[i].first, vectorInit[i].second });
             }
+        }
+
+        void setPelaku(Player* newPelaku) {
+            this->pelaku = newPelaku;
         }
 
         void displayShop() {
@@ -43,7 +47,7 @@ class Shop {
                 for(int i = 0; i < this->numOfItems; i++) {
                     cout << i + 1 << "  " << this->items[i].first.getNama() << " - " << this->items[i].first.getPrice();
                     if(this->items[i].second >= 0) {
-                        cout << " berjumlah : "this->items[i].second << "\n";
+                        cout << " berjumlah : " << this->items[i].second << "\n";
                     }
                 }
             } else {
@@ -70,14 +74,13 @@ class Shop {
                 cout << "Kuantitas : " << kuantitas << "\n";
                 beliBarang(kuantitas, pilihanBarang);
 
-                cout << "\nSelamat Anda behasil membeli " << kuantitas << ;
-                cout << ". Uang Anda tersisa
-                " << pelaku->getUang() << " gulden.\n";
+                cout << "\nSelamat Anda behasil membeli " << kuantitas << this->items[pilihanBarang-1].first.getNama();
+                cout << ". Uang Anda tersisa" << pelaku->getUang() << " gulden.\n";
                 // display penyimpanan
                 cout << "Pilih slot untuk menyimpan barang yang Anda beli!\n";
                 pelaku->cetakPenyimpanan();
 
-                cout << "\n\nPilih petak slot yang ingin diisi : \n"
+                cout << "\n\nPilih petak slot yang ingin diisi : \n";
                 for(int i = 0; i < kuantitas; i++) {
                     string inputSlot;
                     cout << i+1 << ".   " << inputSlot << "\n";
@@ -88,18 +91,20 @@ class Shop {
                 cout << " berhasil disimpan dalam penyimpanan!\n\n";
             } catch (penyimpananPenuhException e) {
                 cout << e.message();
-            } catch (invalidPembelianxception e) {
+            } catch (invalidPembelianException e) {
+                cout << e.message();
+            } catch (pembelianMelebihiStokException e) {
                 cout << e.message();
             } catch (uangTidakCukupException e) {
                 cout << e.message();
-            } catch (penyimpananPenuhException e) {
-                cout << e.message();
-            } 
+            } catch (...) {
+                cout << "Terjadi kesalahan saat pembelian\n";
+            }
         }
 
         void pilihSlot() {
-            cout << "Slot penyimpanan tersedia: " << pelaku->getPenyimpanaField()->getSisa() << "\n";
-            if(pelaku->getPenyimpanaField()->getSisa() <= 0) {
+            cout << "Slot penyimpanan tersedia: " << pelaku->getPenyimpananField().getSisa() << "\n";
+            if(pelaku->getPenyimpananField().getSisa() <= 0) {
                 throw penyimpananPenuhException();
             }
         }
@@ -109,17 +114,16 @@ class Shop {
                 throw pembelianLuarItemException();
             }
             if(pelaku->getPeran() == "Walikota" && isBangunan(this->items[pilihan-1].first.getNama())) {
-                throw invalidPembelianxception();
+                throw invalidPembelianException();
             }
         }
 
-        void beliBarang(int kuantitas, int pilihanBarang) {
-            if(isBangunan(this->items[pilihan-1].first.getNama()) && kuantitas > his->items[pilihan-1].second) {
-
+        void beliBarang(int kuantitas, int pilihan) {
+            if(isBangunan(this->items[pilihan-1].first.getNama()) && kuantitas > this->items[pilihan-1].second) {
+                throw pembelianMelebihiStokException();
             }
         }
 
-        
         void Sell() {
             try {
                 vector<string> slotJual;
@@ -127,40 +131,38 @@ class Shop {
                 pelaku->cetakPenyimpanan();
                 
                 cout << "\n\nSilahkan pilih petak yang ingin Anda jual!\n";
-                cout << "Ketik -1 apabila sudah cukup"
+                cout << "Ketik -1 apabila sudah cukup";
 
-                int i = 1;
+                int j = 1;
                 bool terimaInput = true;
                 do {
                     string inputJual;
-                    cout << i << "  ";
+                    cout << j << "  ";
                     // validasi input
                     cin >> inputJual;
-                    if(inputJual == -1){
+                    if(inputJual == "-1"){
                         terimaInput = false;
                     } else {
                         slotJual.push_back(inputJual);
                     }
                     cout << "\n";
-                    i++;
+                    j++;
                 }while(terimaInput);
+
+                int tempPrice;
 
                 for(int i = 0; i < slotJual.size(); i++) {
                     pair<int, int> coord = stringToCoord(slotJual[i]);
-                    int tempPrice = pelaku->getBarangPenyimpananPrice(coord.first, coord.second);
+                    tempPrice = pelaku->getBarangPenyimpananPrice(coord.first, coord.second);
                     pelaku->setBarangPenyimpananKosong(coord.first, coord.second);
-                    pelaku->setUang(pelaku->getUanng() + tempPrice);
+                    pelaku->setUang(pelaku->getUang() + tempPrice);
                 }
 
-                cout << "Barang Anda berhasil dijual! Uang Anda bertambah " << << " gulden!";
+                cout << "Barang Anda berhasil dijual! Uang Anda bertambah " << tempPrice << " gulden!";
 
-            } catch () {
-
+            } catch (...) {
+                cout << "Terjadi kesalahan saat penjualan\n";
             }
-        }
-
-        void beliBarang(int kuantitas, int pilihanBarang) {
-
         }
 
         vector<pair<TradeObject, int>> getItems() {

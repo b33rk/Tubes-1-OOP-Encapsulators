@@ -41,7 +41,7 @@ class invalidCommandException : public exception
 public:
     const char *message()
     {
-        return "Command tidak valid\n";
+        return "COMMAND TIDAK VALID!!!\n";
     }
 };
 
@@ -132,6 +132,15 @@ public:
     const char *message()
     {
         return "Pembelian barang di luar index!!\n";
+    }
+};
+
+class pembelianMelebihiStokException : public exception
+{ 
+public:
+    const char *message()
+    {
+        return "Pembelian kuantitas barang melebihi stok!!\n";
     }
 };
 

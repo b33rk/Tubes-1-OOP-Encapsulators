@@ -12,20 +12,43 @@ int main()
 {
     Game main;
     main.muat_semua_config();
+    main.muat_player_state();
     string command;
     bool is = true;
+    cout << main.jumlahPlayer << endl;
+    for(int i = 0; i < main.listPlayer.size(); ++i){
+        cout << main.listPlayer[i]->getNama() << endl;
+    }
+    CultivatedObject *hewan = new CultivatedObject(main.animalMap["COW"]);
+    main.listPlayer[1]->ternak(hewan, 0, 1);
+    CultivatedObject *snk = new CultivatedObject(main.animalMap["SNK"]);
+    main.listPlayer[1]->ternak(snk, 0, 2);
+    TradeObject *prod = new ProductObject(main.productMap["ORP"]);
+    TradeObject *prodMeat = new ProductObject(main.productMap["SHM"]);
+    TradeObject *prodMeat2 = new ProductObject(main.productMap["SHM"]);
+    TradeObject *prodMeat3 = new ProductObject(main.productMap["SHM"]);
+    main.listPlayer[1]->setBarangFirstPenyimpanan(prod);
+    main.listPlayer[1]->setBarangFirstPenyimpanan(prodMeat);
+    main.listPlayer[1]->setBarangFirstPenyimpanan(prodMeat2);
+    main.listPlayer[1]->setBarangFirstPenyimpanan(prodMeat3);
+    main.listPlayer[1]->cetakLadangLahan();
+    main.listPlayer[1]->cetakPenyimpanan();
+    main.turn++;
     while(is) {
         try
         {
             // main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
             cin >> command;
-            if (command  == "cetakLahan") {
-                main.listPlayer[main.turn-1]->cetakLadangLahan();
+            if (command  == "kasih_makan") {
+                main.kasihMakan();
             }
             else if (command  == "cetakPen")
             {
                 main.listPlayer[main.turn-1]->cetakPenyimpanan();
+            }else if(command == "cetak_lahan"){
+                main.listPlayer[main.turn - 1]->cetakLadangLahan();
             }
+            /*
             else if (command == "ternak")
             {
                 CultivatedObject *hewan = new CultivatedObject(main.animalMap["COW"]);
@@ -48,7 +71,7 @@ int main()
             {
                 CultivatedObject *tumbuhan = new CultivatedObject(main.plantMap["ORG"]);
                 main.listPlayer[main.turn-1]->tanam(tumbuhan,0,0);
-            }
+            }*/
         }
         catch (invalidCommandException e)
         {

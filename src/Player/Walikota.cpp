@@ -42,43 +42,47 @@ void Walikota ::pungutPajak(vector<Player *> listPlayer, int num_of_players)
 void Walikota ::bangunBangunan(Recipe recipe)
 {
     // Anggap building adalah tradeobject dengan id yang sama dengan recipe, dan atribut yang sama dengan recipe
-    vector<pair<int,int>> location;
+    vector<pair<int, int>> location;
     vector<string> materials = recipe.getListMaterial();
-    vector<int> materialQuantity = recipe.getMaterialQuantity();    
+    vector<int> materialQuantity = recipe.getMaterialQuantity();
     bool complete = true;
     bool allComplete = true;
     bool found = false;
-    for (int i = 0 ; i < materials.size() ; i++){
+    for (int i = 0; i < materials.size(); i++)
+    {
         complete = false;
-        for (int r = 0 ; r < this->penyimpanan.getRow() && !complete ; r++){
-            for (int c = 0 ; c < this->penyimpanan.getCol()  && !complete; c++){
-                if (this->penyimpanan.getBarang(r,c)->getNama() == materials[i]){
+        for (int r = 0; r < this->penyimpanan.getRow() && !complete; r++)
+        {
+            for (int c = 0; c < this->penyimpanan.getCol() && !complete; c++)
+            {
+                if (this->penyimpanan.getBarang(r, c)->getNama() == materials[i])
+                {
                     materialQuantity[i] -= 1;
-                    location.push_back(make_pair(r,c));
-                    if (materialQuantity[i] == 0){
+                    location.push_back(make_pair(r, c));
+                    if (materialQuantity[i] == 0)
+                    {
                         complete = true;
                     }
                 }
             }
         }
         allComplete = allComplete && complete;
-        
     }
 
-    if (!allComplete){
-        
-        throw KurangMaterialException(materials,materialQuantity);
+    if (!allComplete)
+    {
 
+        throw KurangMaterialException(materials, materialQuantity);
     }
 
-    for (auto &pair : location){
-        this->penyimpanan.setKosong(pair.first,pair.second);
+    for (auto &pair : location)
+    {
+        this->penyimpanan.setKosong(pair.first, pair.second);
     }
 
-    TradeObject* T = new TradeObject(recipe.getId(),recipe.getKodeHuruf(),recipe.getNamaGameObject(),recipe.getPrice(),"BANGUNAN");
-    vector<vector<TradeObject*>> temp_penyimpanan = this->penyimpanan.getStorage();
+    TradeObject *T = new TradeObject(recipe.getId(), recipe.getKodeHuruf(), recipe.getNamaGameObject(), recipe.getPrice(), "BANGUNAN");
+    vector<vector<TradeObject *>> temp_penyimpanan = this->penyimpanan.getStorage();
     this->penyimpanan.insertFirst(T);
-
 }
 
 Field<CultivatedObject> Walikota ::getLahan()
@@ -88,23 +92,6 @@ Field<CultivatedObject> Walikota ::getLahan()
 
 void Walikota ::tambahPlayer(string peran)
 {
-    // if (peran == "Peternak"){
-    //     Peternak* player = new Peternak(id,nama);
-    //     game.tambahGamePlayer(player);
-
-    // }
-    // else if (peran == "Petani"){
-    //     Petani* player = new Petani(id,nama);
-    //     game.tambahGamePlayer(player);
-
-    // }
-    // else if (peran == "Walikota"){
-    //     throw "Walikota hanya boleh ada 1\n";
-    // }
-    // else {
-    //     throw "Peran tidak valid\n";
-    // }
-
     if (this->getUang() < 50)
     {
         throw uangTidakCukupException();

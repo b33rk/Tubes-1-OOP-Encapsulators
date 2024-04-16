@@ -63,7 +63,7 @@ int Farmers::bayarPajak()
     if (KKP > 0)
     {
         float persentase = this->persentasePajak(KKP);
-        pajak = KKP * persentase;
+        pajak = round(KKP * persentase);
     }
     else
     {

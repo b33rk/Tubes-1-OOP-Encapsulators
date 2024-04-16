@@ -920,6 +920,91 @@ public:
             cout << "tambahPlayer: error lain ditemui" << endl;
         }
     }
+
+    void next()
+    {
+        cout << "Giliran dilanjut ke pemain berikutnya." << endl;
+        this->nextTurn();
+        for (int i = 0; i < this->listPlayer.size(); i++)
+        {
+            if (listPlayer[i]->getPeran() == "Petani")
+            {
+                listPlayer[i]->next();
+            }
+        }
+    }
+
+    void bangun()
+    {
+        if (listPlayer[turn - 1]->getPeran() != "Walikota")
+        {
+            throw invalidCommandException();
+        }
+        try
+        {
+            cout << "Resep bangunan yang ada adalah sebagai berikut." << endl;
+            int i = 1;
+            for (auto ite = recipeMap.begin(); ite != recipeMap.end(); ite++)
+            {
+                cout << i << ". " << ite->second.getNamaGameObject();
+                if (ite->second.getListMaterial().size() == 0)
+                {
+                    cout << "\n";
+                }
+                else
+                {
+                    cout << " (";
+                    for (int j = 0; j < ite->second.getListMaterial().size(); j++)
+                    {
+                        if (j != ite->second.getListMaterial().size() - 1)
+                            cout << ite->second.getListMaterial()[j] << " " << ite->second.getMaterialQuantity()[j] << ",";
+                        else
+                        {
+                            cout << ite->second.getListMaterial()[j] << " " << ite->second.getMaterialQuantity()[j] << ")\n";
+                        }
+                    }
+                }
+                i++;
+            }
+            string input;
+            bool valid = false;
+            do
+            {
+                cout << "Bangunan yang ingin dibangun: ";
+                cin >> input;
+                try
+                {
+
+                    for (auto &ite : recipeMap)
+                    {
+                        if (ite.second.getNamaGameObject() == input)
+                        {
+
+                            listPlayer[turn - 1]->bangunBangunan(ite.second);
+                            valid = true;
+                        }
+                    }
+                    if (!valid)
+                    {
+                        cout << "Kamu tidak punya resep bangunan tersebut!" << endl;
+                    }
+                    else
+                    {
+                        cout << input << " berhasil dibangun dan telah menjadi hak milik walikota!" << endl;
+                        ;
+                    }
+                }
+                catch (KurangMaterialException &kme)
+                {
+                    cout << kme.message();
+                }
+            } while (!valid);
+        }
+        catch (...)
+        {
+            cout << "Error occured. Returning..." << endl;
+        }
+    }
 };
 
 #endif

@@ -1,7 +1,8 @@
 #include "Player.hpp"
 #include "../Exception/Exception.hpp"
 
-Player::Player() : penyimpanan(){
+Player::Player() : penyimpanan()
+{
     berat = 0;
     uang = 0;
     nama = "   ";
@@ -10,7 +11,6 @@ Player::Player() : penyimpanan(){
 
 Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpanan, int colPenyimpanan) : penyimpanan(rowPenyimpanan, colPenyimpanan, "Penyimpanan")
 {
-    // this->id = id;
     this->nama = nama;
     this->peran = peran;
     this->berat = berat;
@@ -37,10 +37,6 @@ void Player::setUang(int uang)
 {
     this->uang = uang;
 }
-// void Player::setKekayaan(int kekayaan)
-// {
-//     this->kekayaan = kekayaan;
-// }
 
 void Player::cetakPenyimpanan()
 {
@@ -105,7 +101,7 @@ void Player::setBerat(int x)
     this->berat = x;
 }
 
-vector<pair<pair<int, int>, pair<string, int> > > Player::getAllPosisiNamaBerat()
+vector<pair<pair<int, int>, pair<string, int>>> Player::getAllPosisiNamaBerat()
 {
     throw invalidCommandException();
     return {};
@@ -169,11 +165,13 @@ Field<CultivatedObject> Player::getLahan()
     throw invalidCommandException();
 }
 
-vector<vector<TradeObject*>> Player::getPenyimpanan(){
+vector<vector<TradeObject *>> Player::getPenyimpanan()
+{
     return this->penyimpanan.getStorage();
 }
 
-void Player::beriPangan(int, int, int, int){
+void Player::beriPangan(int, int, int, int)
+{
     throw invalidCommandException();
 }
 void Player::setBarangPenyimpananKosong(int row, int col)
@@ -186,6 +184,7 @@ int Player::getBarangPenyimpananPrice(int row, int col)
     return this->penyimpanan.getStorage()[row][col]->getPrice();
 }
 
-Field<TradeObject> Player::getPenyimpananField() {
+Field<TradeObject> Player::getPenyimpananField()
+{
     return this->penyimpanan;
 }

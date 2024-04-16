@@ -115,11 +115,20 @@ class KurangMaterialException : public exception{
 };
 
 class invalidPembelianException : public exception
-{
+{ 
 public:
     const char *message()
     {
         return "Pembelian barang tersebut tidak bisa Anda lakukan sebagai Walikota!!\n";
+    }
+};
+
+class pembelianLuarItemException : public exception
+{ 
+public:
+    const char *message()
+    {
+        return "Pembelian barang di luar index!!\n";
     }
 };
 

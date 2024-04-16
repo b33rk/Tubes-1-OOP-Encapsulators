@@ -182,3 +182,7 @@ int Player::getBarangPenyimpananPrice(int row, int col)
 {
     return this->penyimpanan.getStorage()[row][col]->getPrice();
 }
+
+Field<TradeObject> Player::getPenyimpananField() {
+    return this->penyimpanan;
+}

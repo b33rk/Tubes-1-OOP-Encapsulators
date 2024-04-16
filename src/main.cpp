@@ -31,7 +31,7 @@ int main() {
     Game main;
 
     // memuat semua config
-    cout << "DIATAS CONFIG" << endl;
+    // cout << "DIATAS CONFIG" << endl;
     try{
         main.muat_semua_config();
         main.muat_player_state();
@@ -44,8 +44,26 @@ int main() {
 
     // Command
     Command command(main.getCurrentPlayer());
+    main.turn++;
+    main.turn++;
+    // main.turn++;
+    CultivatedObject* tanaman1 = new CultivatedObject(1,"TEK", "TEAK_TREE","MATERIAL_PLANT",15,5);
+    CultivatedObject* tanaman2 = new CultivatedObject(1,"TEK", "APPLE_TREE","FRUIT_PLANT",15,5);
+    CultivatedObject* tanaman3 = new CultivatedObject(1,"ORG", "ORANGE_TREE","FRUIT_PLANT",15,5);
+    CultivatedObject* hewan1 = new CultivatedObject(1,"COW", "COW","HERBIVORE",15,5);
+    CultivatedObject* hewan2 = new CultivatedObject(1,"CHK", "CHICKEN","OMNIVORE",15,5);
+    CultivatedObject* hewan3 = new CultivatedObject(1,"SNK", "SNAKE","CARNIVORE",15,5);
+    
+    main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(tanaman1);
+    main.listPlayer[main.turn - 1]->setBarangPenyimpanan(1,1,tanaman2);
+    main.listPlayer[main.turn - 1]->setBarangPenyimpanan(3,2,tanaman3);
+    main.listPlayer[main.turn - 1]->setBarangPenyimpanan(2,2,hewan1);
+    main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(hewan2);
+    main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(hewan3);
 
     while(!finishGame(main.getListPlayer(), main.goalUang, main.goalBerat)) {
+        // testing ganti turn
+        
         try {
             command.terimaCommand();
             // cout << "Ini command : " << command.getPerintah() << "\n";
@@ -73,9 +91,12 @@ int main() {
 
             } else if(command.getPerintah() == "TANAM") {
 
+                main.tanam();
+
             } else if(command.getPerintah() == "PANEN") {
 
             } else if(command.getPerintah() == "TERNAK") {
+                main.ternak();
 
             } else if(command.getPerintah() == "KASIH_MAKAN") {
 

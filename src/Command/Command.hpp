@@ -58,9 +58,10 @@ class Command {
             cout << "> ";
             cin >> perintah;
 
-            if(!isValid(this->peran)){
-                throw invalidCommandException();
-            }
+            // INI PROSEDURAL !
+            // if(!isValid(this->peran)){
+            //     throw invalidCommandException();
+            // }
         }
 
         bool validateCommand(vector<string> listCommand) {

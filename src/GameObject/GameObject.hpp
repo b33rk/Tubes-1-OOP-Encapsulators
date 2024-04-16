@@ -120,6 +120,11 @@ class TradeObject : public GameObject {
         throw invalidCommandException();
         return -1;
     }
+
+    virtual int getCultivateWeight(){
+        throw invalidCommandException();
+        return -1;
+    }
 };
 
 class CultivatedObject : public TradeObject
@@ -196,6 +201,10 @@ public:
     void cetak()
     {
         cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
+    }
+
+    int getCultivateWeight() override{
+        return this->cultivateWeight;
     }
 };
 

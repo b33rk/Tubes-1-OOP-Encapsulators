@@ -12,6 +12,8 @@ using namespace std;
 
 // TODO : Buat copy constructor buat smw kelas
 
+// TODO : Buat copy constructor buat smw kelas
+
 class GameObject {
     protected:
         int id;
@@ -55,7 +57,13 @@ class TradeObject : public GameObject {
         int price;
         string type;
         //vector<string> ngasilin; // KODE HURUF PRODUCT OBJECT NYA 
+        //vector<string> ngasilin; // KODE HURUF PRODUCT OBJECT NYA 
     public:
+        TradeObject() : GameObject(){
+            price = 0;
+            type = "   ";
+        }
+        TradeObject(int p, string t) : GameObject(){
         TradeObject() : GameObject(){
             price = 0;
             type = "   ";
@@ -115,11 +123,66 @@ class TradeObject : public GameObject {
 };
 
 class CultivatedObject : public TradeObject {
+        void setNama(string newNama) {
+            nama = newNama;
+        }
+        void setKode(string newKode) {
+            kode_huruf = newKode;
+        }
+        // string getKode() {
+        //     return kode_huruf;
+        // }
+        string getNama() {
+            return nama;
+        }
+        int getPrice(){
+            return this->price;
+        }
+        string getType(){
+            return this->type;
+        }
+
+        virtual void incrementWeight(){
+            throw invalidCommandException();
+        }
+
+        virtual void addWeight(int weight){
+            throw invalidCommandException();
+        }
+
+        virtual int getCurrentBerat(){
+            throw invalidCommandException();
+            return -1;
+        }
+
+        virtual int getAddedWeight(){
+            throw invalidCommandException();
+            return -1;
+        }
+
+};
+
+class CultivatedObject : public TradeObject {
     private:
         int cultivateWeight;
         int currentWeight;
         //string type; // string "hewan" / "tumbuhan"
+        //string type; // string "hewan" / "tumbuhan"
     public:
+        CultivatedObject() : TradeObject(){
+            cultivateWeight = 0;
+            currentWeight = 0;
+        }
+        CultivatedObject(const CultivatedObject& other) : TradeObject(other){
+            this->cultivateWeight = other.cultivateWeight;
+            this->currentWeight = other.currentWeight;
+        }
+        CultivatedObject(int id, string kode, string name, string type, int dur, int price) : TradeObject(id, kode, name, price, type){
+            this->cultivateWeight = dur;
+            this->currentWeight = 0;
+        }
+        
+        void incrementWeight() override{
         CultivatedObject() : TradeObject(){
             cultivateWeight = 0;
             currentWeight = 0;

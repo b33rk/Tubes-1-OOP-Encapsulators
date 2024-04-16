@@ -128,3 +128,56 @@ void Player::makan(TradeObject *makanan)
 int Player::bayarPajak(){
     throw invalidCommandException();
 }
+void Player::pungutPajak(vector<Player *> l, int x)
+{
+    throw invalidCommandException();
+}
+
+void Player::bangunBangunan(Recipe recipe)
+{
+    throw invalidCommandException();
+}
+
+void Player::tambahPlayer(string peran)
+{
+    throw invalidCommandException();
+}
+
+void Player::cetakLadangLahan()
+{
+    throw invalidCommandException();
+}
+
+void Player::tanam(CultivatedObject *tanaman, int row, int col)
+{
+    throw invalidCommandException();
+}
+
+void Player::ternak(CultivatedObject *hewan, int row, int col)
+{
+    throw invalidCommandException();
+}
+
+void Player::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject *product)
+{
+    throw invalidCommandException();
+}
+
+Field<CultivatedObject> Player::getLahan()
+{
+    throw invalidCommandException();
+}
+
+vector<vector<TradeObject*>> Player::getPenyimpanan(){
+    return this->penyimpanan.getStorage();
+}
+
+void Player::setBarangPenyimpananKosong(int row, int col)
+{
+    this->penyimpanan.setKosong(row, col);
+}
+
+int Player::getBarangPenyimpananPrice(int row, int col)
+{
+    return this->penyimpanan.getStorage()[row][col]->getPrice();
+}

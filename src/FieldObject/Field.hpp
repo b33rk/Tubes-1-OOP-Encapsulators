@@ -3,6 +3,11 @@
 
 #include "../GameObject/GameObject.hpp"
 #include "../Exception/Exception.hpp"
+#ifndef FIELD_HPP
+#define FIELD_HPP
+
+#include "../GameObject/GameObject.hpp"
+#include "../Exception/Exception.hpp"
 
 template <class T>
 class Field
@@ -87,6 +92,7 @@ public:
             {
                 cout << "-----+";
             }
+            cout << endl;
             cout << endl;
         }
     }

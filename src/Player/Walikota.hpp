@@ -7,6 +7,11 @@
 #include "../Exception/Exception.hpp"
 #include <iostream>
 using namespace std;
+#include "Petani.hpp"
+#include "Peternak.hpp"
+#include "../Exception/Exception.hpp"
+#include <iostream>
+using namespace std;
 
 class Walikota : public Player {
     public:

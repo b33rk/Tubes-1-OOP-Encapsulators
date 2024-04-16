@@ -1,7 +1,13 @@
 #ifndef GAMEMASTER_HPP
 #define GAMEMASTER_HPP
 
+#ifndef GAMEMASTER_HPP
+#define GAMEMASTER_HPP
+
 #include "../Player/Player.hpp"
+#include "../Player/Petani.hpp"
+#include "../Player/Peternak.hpp"
+#include "../Player/Walikota.hpp"
 #include "../Player/Petani.hpp"
 #include "../Player/Peternak.hpp"
 #include "../Player/Walikota.hpp"
@@ -11,7 +17,12 @@
 #include <fstream>
 #include <string.h>
 
+
 #include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
 #include <algorithm>
 #include <map>
 
@@ -20,9 +31,12 @@ using namespace std;
 string const pathConfig = "./config";
 
 const char* spaces = " \n\r\t";
+string const pathConfig = "./config";
+
+const char* spaces = " \n\r\t";
 
 class Game {
-    private:
+    public:
         int goalUang;
         int goalBerat;
         int rowPenyimpanan;

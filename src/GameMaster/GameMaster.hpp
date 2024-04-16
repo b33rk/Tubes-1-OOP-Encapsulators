@@ -108,7 +108,7 @@ class Game {
         }
 
         void readRecipe(vector<string> tokens){
-            if(tokens.size() <= 4 || tokens.size() % 2 == 1) throw "readRecipe: panjang token <= 4 atau panjang token ganjil";
+            if(tokens.size() < 4 || tokens.size() % 2 == 1) throw "readRecipe: panjang token < 4 atau panjang token ganjil";
             vector<string> materials;
             vector<int> materialQuantity;
             for(int i = 4; i < tokens.size(); i += 2){
@@ -162,12 +162,13 @@ class Game {
                 }                
             }
             this->turn = 1;
+            /*
             this->rowLadang = 10;
             this->colLadang = 8;
             this->rowLahan = 10;
             this->colLahan = 8;
             this->colPenyimpanan = 10;
-            this->rowPenyimpanan = 8;
+            this->rowPenyimpanan = 8;*/
             this->listPlayer.push_back(new Walikota("Walikota", 40, 50, this->rowPenyimpanan, this->colPenyimpanan));
             this->listPlayer.push_back(new Petani("Petani1", 40, 50, this->rowPenyimpanan,this->colPenyimpanan, this->rowLahan, this->colLahan));
             this->listPlayer.push_back(new Peternak("Peternak1", 40, 50, this->rowPenyimpanan, this->colPenyimpanan, this->rowLadang, this->colLadang));
@@ -422,13 +423,74 @@ class Game {
             getline(currentFile, numberItemTokoM);
             numberItemTokoM.erase(numberItemTokoM.find_last_not_of(spaces) + 1);
             int numberItemM = stoi(numberItemTokoM);
-            vector<pair<string, int>> inisialisasiToko;
+            vector<pair<TradeObject, int>> inisialisasiToko;
             for(int m = 0; m < numberItemM; ++m){
                 string itemDanJumlah;
                 getline(currentFile, itemDanJumlah);
                 itemDanJumlah.erase(itemDanJumlah.find_last_not_of(spaces) + 1);
                 vector<string> itemJumlah = split(itemDanJumlah, ' ');
-                inisialisasiToko.push_back(make_pair(itemJumlah[0], stoi(itemJumlah[1])));
+
+                bool notFound = 1;
+                TradeObject* objInInv;
+                for(auto it = plantMap.begin(); it != plantMap.end() && notFound; it++){
+                    if(it->second.getNama() == itemJumlah[0]){
+                        objInInv = new CultivatedObject(it->second);
+                        notFound = 0;
+                    }
+                }
+                for(auto it = animalMap.begin(); it != animalMap.end() && notFound; it++){
+                    if(it->second.getNama() == itemJumlah[0]){
+                        objInInv = new CultivatedObject(it->second);
+                        notFound = 0;
+                    }
+                }
+                for(auto it = productMap.begin(); it != productMap.end() && notFound; it++){
+                    if(it->second.getNama() == itemJumlah[0]){
+                        objInInv = new ProductObject(it->second);
+                        notFound = 0;
+                    }
+                }
+                for(auto it = recipeMap.begin(); it != recipeMap.end() && notFound; it++){
+                    if(it->second.getNamaGameObject() == itemJumlah[0]){
+                        Recipe copyRecipe(it->second);
+                        objInInv = new TradeObject(copyRecipe.getId(),copyRecipe.getKodeHuruf(),copyRecipe.getNamaGameObject(),copyRecipe.getPrice(),"BANGUNAN");
+                        notFound = 0;
+                    }
+                }
+
+                TradeObject final_object(*objInInv);
+                delete objInInv;
+
+                inisialisasiToko.push_back(make_pair(final_object, stoi(itemJumlah[1])));
+            }
+            for(auto it = productMap.begin(); it != productMap.end(); it++){
+                bool found = 0;
+                for(auto &obj: inisialisasiToko){
+                    if(obj.first.getKodeHuruf() == it->second.getKodeHuruf()) found = 1;
+                }
+                if(!found){
+                    TradeObject copy_temp(it->second);
+                    inisialisasiToko.push_back(make_pair(copy_temp, 0));
+                }
+            }
+            for(auto it = recipeMap.begin(); it != recipeMap.end(); it++){
+                bool found = 0;
+                for(auto &obj: inisialisasiToko){
+                    if(obj.first.getKodeHuruf() == it->second.getKodeHuruf()) found = 1;
+                }
+                if(!found){
+                    Recipe copyRecipe(it->second);
+                    TradeObject copy_temp(copyRecipe.getId(),copyRecipe.getKodeHuruf(),copyRecipe.getNamaGameObject(),copyRecipe.getPrice(),"BANGUNAN");
+                    inisialisasiToko.push_back(make_pair(copy_temp, 0));
+                }
+            }
+            for(auto it = plantMap.begin(); it != plantMap.end(); it++){
+                TradeObject copy_temp(it->second);
+                inisialisasiToko.push_back(make_pair(copy_temp, -1));
+            }
+            for(auto it = animalMap.begin(); it != animalMap.end(); it++){
+                TradeObject copy_temp(it->second);
+                inisialisasiToko.push_back(make_pair(copy_temp, -1));
             }
             turn = 1;
             jumlahPlayer = listPlayer.size();

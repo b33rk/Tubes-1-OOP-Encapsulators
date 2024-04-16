@@ -75,7 +75,15 @@ class Shop {
                 pilihSlot();
  
                 cout << "\nNomor barang ingin dibeli : ";
-                cin >> pilihanBarang;
+
+                string temp_pil;
+                cin >> temp_pil;
+                try{
+                    int temp_barang = stoi(temp_pil);
+                    pilihanBarang = temp_barang;
+                }catch(...){
+                    pilihanBarang = -1;
+                }
                 pilihBarang(pilihanBarang);
                 if(this->items[pilihanBarang-1].second == 0) {
                     throw barangKosongException();

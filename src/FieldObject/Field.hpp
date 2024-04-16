@@ -7,7 +7,7 @@
 template <class T>
 class Field
 {
-private:
+public:
     int row;
     int col;
     int jumlahIsi;
@@ -21,13 +21,15 @@ public:
         this->row = 0;
         this->col = 0;
         this->jumlahIsi = 0;
+        this->tipe = "   ";
         this->initBarang();
     }
-    Field(int row, int col)
+    Field(int row, int col, string tipe)
     {
         this->row = row;
         this->col = col;
         this->jumlahIsi = 0;
+        this->tipe = tipe;
         this->initBarang();
     }
 
@@ -56,7 +58,7 @@ public:
             this->storage[i].resize(this->col); // make inner vector col size;
             for (int j = 0; j < this->col; j++)
             {
-                this->storage[i][j] = new T;
+                this->storage[i][j] = new T();
             }
         }
         //cout << "PRINT" << endl;
@@ -69,11 +71,22 @@ public:
     }
     void virtual cetak(bool cetak_warna = false)
     {
-        cout << "     ================[ " << tipe << "]=================" << endl;
-        cout << "   ";
+        int totalLebar = col * 6 + 4;
+        string judul = "[" + tipe + "]";
+        int panjangJudul = judul.length();
+        int banyakSamaDengan = (totalLebar - panjangJudul) / 2;
+        string barJudul = string(banyakSamaDengan, '=') + judul + string(banyakSamaDengan, '=');
+
+        if (panjangJudul % 2 != totalLebar % 2)
+        {
+            barJudul += "=";
+        }
+
+        cout << barJudul << endl;
+        cout << "       ";
         for (int i = 0; i < col; i++)
         {
-            cout << (char)(i + 40) << "     ";
+            cout << (char)(i + 65) << "     ";
         }
         cout << endl;
         cout << "    +";
@@ -84,7 +97,14 @@ public:
         cout << endl;
         for (int i = 0; i < row; i++)
         {
-            cout << " 0" << i << " |";
+            if (i < 9)
+            {
+                cout << " 0" << (i + 1) << " |";
+            }
+            else
+            {
+                cout << " " << (i + 1) << " |";
+            }
             for (int j = 0; j < col; j++)
             {
                 storage[i][j]->cetakBarang(cetak_warna);
@@ -128,14 +148,18 @@ public:
         //cout << "SAMPAI BARANG" << endl;
         //cout << this->storage[0].size() << endl;
         //cout << this->storage[0][0]->getKodeHuruf() << endl;
+        cout << this->storage[row][col] << endl;
         if (this->storage[row][col]->getKodeHuruf() != "   ")
         {
-            throw BarangKosongException();
+            throw petakTidakKosongException();
         }
-        //cout << "SIAP2 DELTE" << endl;
+        cout << "INI POINTER SEBELUM DELET " << this->storage[row][col] << endl;
+        //this->setKosong(row,col);
         delete this->storage[row][col];
-        //cout << "SELESAI EDE" << endl;
+        
+        // this->storage[row][col] = nullptr;
         this->storage[row][col] = object;
+        
         if (object->getKodeHuruf() != "   ")
         {
             this->jumlahIsi++;
@@ -144,11 +168,14 @@ public:
 
     void setKosong(int row, int col){
         if (this->storage[row][col]->getKodeHuruf() != "   "){
+            cout << "delete" << row << " " << col << endl;
             delete this->storage[row][col];
+            T* object = new T();
+            this->storage[row][col] = object;
             this->jumlahIsi--;
-        }
-        T* object = new T;
-        this->storage[row][col] = object;
+        }/*
+        T* object = new T();
+        this->storage[row][col] = object;*/
     }
 
     vector<vector<T*>> getStorage()
@@ -171,15 +198,14 @@ public:
         }
         throw penyimpananPenuhException();
     }
-    vector<TradeObject*> getUniqueValue()
+    vector<TradeObject *> getUniqueValue()
     {
-        vector<TradeObject*> listBarang;
+        vector<TradeObject *> listBarang;
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
             {
-                if (storage[i][j]->getKodeHuruf() != "   " 
-                    )
+                if (storage[i][j]->getKodeHuruf() != "   ")
                 {
                     listBarang.push_back(storage[i][j]);
                 }
@@ -204,9 +230,9 @@ public:
         return namaBarang;
     }
 
-    vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat()
+    vector<pair<pair<int, int>, pair<string, int> > > getAllPosisiNamaBerat()
     {
-        vector<pair<pair<int, int>, pair<string, int>>> hasil;
+        vector<pair<pair<int, int>, pair<string, int> > > hasil;
         int inc = 0;
         for (int i = 0; i < this->row; i++)
         {
@@ -228,8 +254,8 @@ public:
     void cetak()
     {
         Field::cetak();
-        vector<TradeObject*> listUnik = getUniqueValue();
-        for (TradeObject* elmt : listUnik)
+        vector<TradeObject *> listUnik = getUniqueValue();
+        for (TradeObject *elmt : listUnik)
         {
             cout << " - " << elmt->getKodeHuruf() << ": " << elmt->getNama() << endl;
         }

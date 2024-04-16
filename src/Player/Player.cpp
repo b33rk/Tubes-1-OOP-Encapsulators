@@ -1,21 +1,20 @@
 #include "Player.hpp"
 #include "../Exception/Exception.hpp"
 
-Player::Player(){
+Player::Player() : penyimpanan(){
     berat = 0;
     uang = 0;
     nama = "   ";
     peran = "   ";
 }
 
-Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpanan, int colPenyimpanan) : penyimpanan(rowPenyimpanan,colPenyimpanan)
+Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpanan, int colPenyimpanan) : penyimpanan(rowPenyimpanan, colPenyimpanan, "Penyimpanan")
 {
     // this->id = id;
     this->nama = nama;
     this->peran = peran;
     this->berat = berat;
     this->uang = uang;
-
 }
 
 string Player::getNama()
@@ -25,6 +24,7 @@ string Player::getNama()
 
 string Player::getPeran()
 {
+    return this->peran;
     return this->peran;
 }
 
@@ -105,7 +105,7 @@ void Player::setBerat(int x)
     this->berat = x;
 }
 
-vector<pair<pair<int, int>, pair<string, int>>> Player::getAllPosisiNamaBerat()
+vector<pair<pair<int, int>, pair<string, int> > > Player::getAllPosisiNamaBerat()
 {
     throw invalidCommandException();
     return {};
@@ -124,34 +124,61 @@ void Player::makan(TradeObject *makanan)
     }
 }
 
-int Player::bayarPajak(){
+int Player::bayarPajak()
+{
     throw invalidCommandException();
 }
 
-void Player::pungutPajak(vector<Player *> l, int x){
+void Player::pungutPajak(vector<Player *> l, int x)
+{
     throw invalidCommandException();
 }
 
-void Player::bangunBangunan(Recipe recipe){
+void Player::bangunBangunan(Recipe recipe)
+{
     throw invalidCommandException();
 }
 
-void Player::tambahPlayer(string peran){
+void Player::tambahPlayer(string peran)
+{
     throw invalidCommandException();
 }
 
-void Player::cetakLadangLahan(){
+void Player::cetakLadangLahan()
+{
     throw invalidCommandException();
 }
 
-void Player::tanam(CultivatedObject *tanaman, int row, int col){
+void Player::tanam(CultivatedObject *tanaman, int row, int col)
+{
     throw invalidCommandException();
 }
 
-void Player::ternak(CultivatedObject *hewan, int row, int col){
+void Player::ternak(CultivatedObject *hewan, int row, int col)
+{
     throw invalidCommandException();
 }
 
-void Player::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject* product){
+void Player::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject *product)
+{
     throw invalidCommandException();
+}
+
+Field<CultivatedObject> Player::getLahan()
+{
+    throw invalidCommandException();
+}
+
+vector<vector<TradeObject*>> Player::getPenyimpanan(){
+    return this->penyimpanan.getStorage();
+}
+
+void Player::setBarangPenyimpananKosong(int row, int col)
+{
+    this->penyimpanan.setKosong(row, col);
+}
+
+int Player::getBarangPenyimpananPrice(int row, int col)
+{
+    return this->penyimpanan.getStorage()[row][col]->getPrice();
 }

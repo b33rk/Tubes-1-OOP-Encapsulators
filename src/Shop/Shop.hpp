@@ -1,12 +1,13 @@
 #include "../Player/Player.hpp"
 #include "../Exception/Exception.hpp"
 #include "../GameObject/GameObject.hpp"
+#include <vector>
 
 class Shop {
     private:
         int numOfItems; // jumlah barang di toko
         Player* pelaku; // peran(walikota, petani, peternak)
-        vector<pair<TradeObject, int>> items;    // item yang ada (nama barang, harga)
+        vector<pair<TradeObject, int>> items;    // item yang ada (nama barang, jumlah)
         
         // apakah bangunan atau tidak
         bool isBangunan(string namaItem) {
@@ -81,7 +82,8 @@ class Shop {
                     string inputSlot;
                     cout << i+1 << ".   " << inputSlot << "\n";
                     pair<int, int> coord = stringToCoord(inputSlot);
-                    setBarang(coord.first, coord.second, items)
+                    TradeObject * object = new TradeObject(items[pilihanBarang - 1].first);
+                    pelaku->setBarangPenyimpanan(coord.first, coord.second, object);
                 }
                 cout << " berhasil disimpan dalam penyimpanan!\n\n";
             } catch (penyimpananPenuhException e) {
@@ -122,7 +124,9 @@ class Shop {
 
                 for(int i = 0; i < slotJual.size(); i++) {
                     pair<int, int> coord = stringToCoord(slotJual[i]);
-                    setKosong(coord.first, coord.second);
+                    int tempPrice = pelaku->getBarangPenyimpananPrice(coord.first, coord.second);
+                    pelaku->setBarangPenyimpananKosong(coord.first, coord.second);
+                    pelaku->setUang(pelaku->getUanng() + tempPrice);
                 }
 
                 cout << "Barang Anda berhasil dijual! Uang Anda bertambah " << << " gulden!";

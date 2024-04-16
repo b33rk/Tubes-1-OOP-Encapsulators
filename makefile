@@ -15,12 +15,14 @@ GAME_MASTER_FOLDER = GameMaster
 GAME_OBJECT_FOLDER = GameObject
 
 ALLPLAYERFILE := $(wildcard src/Player/*.cpp)
+ALLGAMEOBJECTFILE := $(wildcard src/GameObject/*.c)
+
 
 # Build main.exe directly from source files
 build:
-	$(COMPILER) -o bin/main.o src/main.cpp ${ALLPLAYERFILE}
+	$(COMPILER) -o bin/main.o src/main.cpp ${ALLGAMEOBJECTFILE} ${ALLPLAYERFILE}
 
-run :
+run : build
 	$(OUTPUT_FOLDER)/main.o
 
 

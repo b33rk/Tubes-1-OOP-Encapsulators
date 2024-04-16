@@ -6,6 +6,7 @@
 
 #include <string>
 #include "../Exception/Exception.hpp"
+#include "pcolor.h"
 // #include <string.h>
 
 using namespace std;
@@ -24,6 +25,7 @@ class GameObject {
             nama = "   ";
         }
         GameObject(const GameObject& other){
+            //cout << "CCTOR GO" << endl;
             this->id = other.id;
             this->kode_huruf = other.kode_huruf;
             this->nama = other.nama;
@@ -37,17 +39,20 @@ class GameObject {
             return this->id;
         }
 
-        string getKodeHuruf(){
-            return this->kode_huruf;
-        }
+    string getKodeHuruf()
+    {
+        return this->kode_huruf;
+    }
 
-        string getNamaGameObject(){
-            return this->nama;
-        }
+    string getNamaGameObject()
+    {
+        return this->nama;
+    }
 
-        bool notExist(){
-            return this->kode_huruf == "   ";
-        }
+    bool notExist()
+    {
+        return this->kode_huruf == "   ";
+    }
 };
 
 class TradeObject : public GameObject {
@@ -72,7 +77,7 @@ class TradeObject : public GameObject {
             price = p;
             type = t;
         }
-        void cetakBarang(){
+        void cetakBarang(bool cetak_warna = false){
             cout << " " << kode_huruf <<" |";
         }
         void setNama(string newNama) {
@@ -94,66 +99,104 @@ class TradeObject : public GameObject {
             return this->type;
         }
 
-        virtual void incrementWeight(){
-            throw invalidCommandException();
-        }
+    virtual void incrementWeight()
+    {
+        throw invalidCommandException();
+    }
 
-        virtual void addWeight(int weight){
-            throw invalidCommandException();
-        }
+    virtual void addWeight(int weight)
+    {
+        throw invalidCommandException();
+    }
 
-        virtual int getCurrentBerat(){
-            throw invalidCommandException();
-            return -1;
-        }
+    virtual int getCurrentBerat()
+    {
+        throw invalidCommandException();
+        return -1;
+    }
 
-        virtual int getAddedWeight(){
-            throw invalidCommandException();
-            return -1;
-        }
-
+    virtual int getAddedWeight()
+    {
+        throw invalidCommandException();
+        return -1;
+    }
 };
 
-class CultivatedObject : public TradeObject {
-    private:
-        int cultivateWeight;
-        int currentWeight;
-        //string type; // string "hewan" / "tumbuhan"
-    public:
-        CultivatedObject() : TradeObject(){
-            cultivateWeight = 0;
-            currentWeight = 0;
-        }
-        CultivatedObject(const CultivatedObject& other) : TradeObject(other){
-            this->cultivateWeight = other.cultivateWeight;
-            this->currentWeight = other.currentWeight;
-        }
-        CultivatedObject(int id, string kode, string name, string type, int dur, int price) : TradeObject(id, kode, name, price, type){
-            this->cultivateWeight = dur;
-            this->currentWeight = 0;
-        }
-        
-        void incrementWeight() override{
-            cultivateWeight++;
-        }
+class CultivatedObject : public TradeObject
+{
+private:
+    int cultivateWeight;
+    int currentWeight;
+    // string type; // string "hewan" / "tumbuhan"
+public:
+    CultivatedObject() : TradeObject()
+    {
+        cultivateWeight = 0;
+        currentWeight = 0;
+    }
+    CultivatedObject(const CultivatedObject &other) : TradeObject(other)
+    {
+        this->cultivateWeight = other.cultivateWeight;
+        this->currentWeight = other.currentWeight;
+    }
+    CultivatedObject(int id, string kode, string name, string type, int dur, int price) : TradeObject(id, kode, name, price, type)
+    {
+        this->cultivateWeight = dur;
+        this->currentWeight = 0;
+    }
 
-        void setWeight(int weight)
-        {
-            this->currentWeight = weight;
-        }
+    ~CultivatedObject() {}
 
-        void addWeight(int weight)
-        {
-            this->setWeight(weight + this->currentWeight);
-        }
+    CultivatedObject &operator=(const CultivatedObject &other)
+    {
+        TradeObject::operator=(other);
+        this->cultivateWeight = other.cultivateWeight;
+        this->currentWeight = other.currentWeight;
+
+        return *this;
+    }
+
+    void incrementWeight() override
+    {
+        cultivateWeight++;
+    }
+
+    void setWeight(int weight)
+    {
+        this->currentWeight = weight;
+    }
+
+    void addWeight(int weight)
+    {
+        this->setWeight(weight + this->currentWeight);
+    }
 
         int getCurrentBerat() override{
             return currentWeight;
         }
 
-        void cetak(){
-            cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
+        void cetakBarang(bool cetak_warna = false){
+            if(!cetak_warna){
+                cout << " " << kode_huruf <<" |";
+            }else{
+                cout << " ";
+                if(currentWeight < cultivateWeight){
+                    print_red(kode_huruf[0]);
+                    print_red(kode_huruf[1]);
+                    print_red(kode_huruf[2]);
+                }else{
+                    print_green(kode_huruf[0]);
+                    print_green(kode_huruf[1]);
+                    print_green(kode_huruf[2]);
+                }
+                cout << " |";
+            }
         }
+
+    void cetak()
+    {
+        cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
+    }
 };
 
 class ProductObject : public TradeObject
@@ -163,8 +206,8 @@ private:
     int addedWeight;
 
 public:
-
-    ProductObject() : TradeObject(){
+    ProductObject() : TradeObject()
+    {
         origin = "   ";
         addedWeight = 0;
     }
@@ -196,24 +239,44 @@ public:
         this->price = 0;
     }
     Recipe(const Recipe& other) : GameObject(other){
+        this->price = other.price;
         for(auto &material: other.listMaterial){
             listMaterial.push_back(material);
+            //cout << material << endl;
         }
-        for(auto &quantity: other.materialQuantity){
+        for (auto &quantity : other.materialQuantity)
+        {
             materialQuantity.push_back(quantity);
+            //cout << quantity << endl;
         }
     }
-    Recipe(int id, string kode_huruf, string nama, int price, vector<string> listMaterials, vector<int> materialQuantity) : GameObject(id, kode_huruf, nama)
+    Recipe(int id, string kode_huruf, string nama, int price, vector<string> temp_materials, vector<int> materialQuantity) : GameObject(id, kode_huruf, nama)
     {
-        for (int i = 0; i < listMaterial.size(); i++)
+        this->price = price;
+        for (int i = 0; i < temp_materials.size(); i++)
         {
-            this->listMaterial.push_back(listMaterials[i]);
+            this->listMaterial.push_back(temp_materials[i]);
             this->materialQuantity.push_back(materialQuantity[i]);
         }
+    }
+    void cetak(){
+        cout << price << endl;
+        for(auto &x: listMaterial) cout << x << " ";
+        cout << endl;
+        for(auto &x: materialQuantity) cout << x << " ";
+        cout << endl;
     }
     int getPrice()
     {
         return this->price;
+    }
+
+    vector<string> getListMaterial(){
+        return this->listMaterial;
+    }
+
+    vector<int> getMaterialQuantity(){
+        return this->materialQuantity;
     }
 };
 

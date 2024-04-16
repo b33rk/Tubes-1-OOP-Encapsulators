@@ -1,7 +1,10 @@
 #ifndef PETERNAK_HPP
 #define PETERNAK_HPP
 
+
 #include "Player.hpp"
+#include "../GameObject/GameObject.hpp"
+#include "Farmers.hpp"
 #include "../GameObject/GameObject.hpp"
 #include "Farmers.hpp"
 

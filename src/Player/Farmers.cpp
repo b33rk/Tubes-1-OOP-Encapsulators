@@ -1,35 +1,42 @@
 #include "Farmers.hpp"
 
-Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan)
+Farmers::Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, string tipeLahan) : lahan(rowLahan, colLahan, tipe), Player(nama, tipe, berat, uang, rowPenyimpanan, colPenyimpanan)
 {
-    Field<CultivatedObject> lahanTemp;
+
     this->penguranganKKP = penguranganKKP;
-    this->lahan = lahanTemp;
 }
 
 int Farmers::hitungKekayaan()
 {
     int total = 0;
-    vector<vector<CultivatedObject *>> barang = this->lahan.getStorage();
+
+    vector<vector<CultivatedObject *> > barang = this->lahan.getStorage();
     for (int i = 0; i < lahan.getRow(); i++)
     {
         for (int j = 0; j < lahan.getCol(); j++)
         {
+
             if (barang[i][j]->getKodeHuruf() != "  ")
             {
+
+                // cout << barang[i][j]->getKodeHuruf() << endl;
                 int price = barang[i][j]->getPrice();
                 total += price;
             }
         }
     }
-    vector<vector<TradeObject *>> penyimpanan = this->penyimpanan.getStorage();
+    // cout << "selesai llop 1" << endl;
+    vector<vector<TradeObject *> > penyimpanan = this->penyimpanan.getStorage();
+
     for (int i = 0; i < this->penyimpanan.getRow(); i++)
     {
         for (int j = 0; j < this->penyimpanan.getCol(); j++)
         {
-            if (barang[i][j]->getKodeHuruf() != "   ")
+
+            if (penyimpanan[i][j]->getKodeHuruf() != "   ")
             {
-                int price = barang[i][j]->getPrice();
+
+                int price = penyimpanan[i][j]->getPrice();
                 total += price;
             }
         }
@@ -38,13 +45,15 @@ int Farmers::hitungKekayaan()
     return total;
 }
 
-void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, int prodId, string prodKode, string nama, int prodPrice, string prodType, string origin, int addedWeight)
+void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject *product)
 {
-    ProductObject *product = new ProductObject(prodId, prodKode, nama, prodPrice, prodType, origin, addedWeight);
     this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
-    delete this->lahan.getBarang(rowLahan, colLahan);
-    CultivatedObject *kosong = new CultivatedObject();
-    this->setBarangLahan(rowLahan, colLahan, kosong);
+    cout << "POINTER STORAGE 0,0 PANEN " << this->lahan.getBarang(rowLahan, colLahan) << endl;
+    cout << "KODE: " << this->lahan.getBarang(rowLahan, colLahan)->getKodeHuruf() << endl;
+    this->lahan.setKosong(rowLahan, colLahan);
+    //delete this->lahan.getBarang(rowLahan, colLahan);
+    //CultivatedObject *kosong = new CultivatedObject();
+    //this->setBarangLahan(rowLahan, colLahan, kosong);
 }
 
 int Farmers::bayarPajak()
@@ -72,6 +81,11 @@ int Farmers::bayarPajak()
     return pajak;
 }
 
+void Farmers::cetakLadangLahan()
+{
+    this->lahan.cetak();
+}
+
 void Farmers ::setBarangFirstLahan(CultivatedObject *object)
 {
     this->lahan.insertFirst(object);
@@ -82,7 +96,11 @@ void Farmers ::setBarangLahan(int row, int col, CultivatedObject *object)
     this->lahan.setBarang(row, col, object);
 }
 
-vector<pair<pair<int, int>, pair<string, int>>> Farmers::getAllPosisiNamaBerat()
+vector<pair<pair<int, int>, pair<string, int> > > Farmers::getAllPosisiNamaBerat()
 {
     return this->lahan.getAllPosisiNamaBerat();
+}
+Field<CultivatedObject> Farmers::getLahan()
+{
+    return this->lahan;
 }

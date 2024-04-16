@@ -56,8 +56,8 @@ int main()
 
     cout << "\nSELAMAT BERMAIN!!!\n";
 
-    pair<bool, string> terminateGame;
-
+    pair<bool, string>  terminateGame = finishGame(main.getListPlayer(), main.getGoalUang(), main.getGoalBerat());
+    
     while (!terminateGame.first)
     {
         try

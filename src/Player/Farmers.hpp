@@ -11,14 +11,14 @@ public:
     int penguranganKKP;
 
 public:
-    Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan);
+    Farmers(string nama, string tipe, int penguranganKKP, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, string tipeLahan);
     int hitungKekayaan();
     int bayarPajak();
-    void panen(int, int, int, int, ProductObject*);
+    void panen(int, int, int, int, ProductObject *);
     void setBarangFirstLahan(CultivatedObject *) override;
     void setBarangLahan(int row, int col, CultivatedObject *) override;
-    vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat() override;
-
+    vector<pair<pair<int, int>, pair<string, int> > > getAllPosisiNamaBerat() override;
+    Field<CultivatedObject> getLahan();
     void cetakLadangLahan();
 };
 

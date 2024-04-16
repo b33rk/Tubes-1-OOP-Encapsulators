@@ -2,7 +2,7 @@
 #include "../Exception/Exception.hpp"
 #include "../GameObject/GameObject.hpp"
 
-Peternak::Peternak(string nama, int berat, int uang, int rowPenyimpanan,int colPenyimpanan, int rowLahan, int colLahan) : Farmers(nama, "Peternak", 11, berat, uang, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan){};
+Peternak::Peternak(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Farmers(nama, "Peternak", 11, berat, uang, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan, "Peternakan"){};
 
 void Peternak::beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan)
 {
@@ -17,8 +17,8 @@ void Peternak::beriPangan(int rowPenyimpanan, int colPenyimpanan, int rowLahan, 
     }
     else
     {
-        
-        throw MakananSalahException() ;
+
+        throw MakananSalahException();
     }
 }
 

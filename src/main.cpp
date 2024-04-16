@@ -8,41 +8,47 @@
 #include "Player/Player.hpp"
 #include "Player/Walikota.hpp"
 
-int main() {
+int main()
+{
     Game main;
     main.muat_semua_config();
-    try {
-        // TradeObject* first = new TradeObject(1, "TWD","TEAK_WOOD",10,"MATERIAL");
-        // TradeObject* second = new TradeObject(1,"SW","SANDAL_WOOD",10,"MATERIAL");
-        // main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(first);
-        // main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(second);
-        main.listPlayer[main.turn - 1]->cetakPenyimpanan();
-        main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
-        main.listPlayer[main.turn - 1]->cetakPenyimpanan();
-        int row = 0 ;
-        int col = 0 ;
-        TradeObject* p = new TradeObject(main.productMap["APP"]);
-        main.listPlayer[main.turn - 1]->setBarangPenyimpanan(row + 2,col + 2,p);
-        main.listPlayer[main.turn - 1]->cetakPenyimpanan();
-        
+    try
+    {
+        // // main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
+        CultivatedObject *hewan = new CultivatedObject(main.animalMap["COW"]);
+        main.listPlayer[2]->ternak(hewan, 0, 0);
+        main.listPlayer[2]->cetakPenyimpanan();
 
-
-        
-        // main.listPlayer[main.turn - 1]->cetakPenyimpanan();
-        // cout << "SUP";
-        // CultivatedObject *hewan = new CultivatedObject(main.animalMap["COW"]);
-        // main.listPlayer[2]->ternak(hewan, 0,0);
-        // main.listPlayer[2]->cetakLadangLahan();
-        // main.listPlayer[2]->panen(0,0,0,0, &main.productMap["COM"]);
+        // main.listPlayer[2]->ternak(hewan, 1, 0);
+        main.listPlayer[2]->cetakLadangLahan();
+        // main.listPlayer[2]->penyimpanan.getBarang(0, 0)->cetakBarang();
+        main.listPlayer[2]->panen(0, 0, 0, 0, &main.productMap["COM"]);
         // // main.listPlayer[main.turn]->tanam(&main.plantMap["ORG"], 0,0);
-        // main.listPlayer[2]->cetakLadangLahan();
-        // main.listPlayer[2]->cetakPenyimpanan();
-        
+        main.listPlayer[2]->cetakLadangLahan();
+        main.listPlayer[2]->cetakPenyimpanan();
+
+        main.listPlayer[2]->cetakLadangLahan();
+        cout << "POINTER STORAGE 0,0 " << main.listPlayer[2]->getLahan().storage[0][0] << endl;
+        CultivatedObject *hewan2 = new CultivatedObject(main.animalMap["SNK"]);
+        cout << "POINTER HEWAN 2  " << hewan2 << endl;
+        CultivatedObject *hewan3 = new CultivatedObject(main.animalMap["CHK"]);
+        cout << "POINTER HEWAN 3  " << hewan2 << endl;
+        main.listPlayer[2]->cetakLadangLahan();
+        cout << "POINTER STORAGE 0,0 " << main.listPlayer[2]->getLahan().storage[0][0] << endl;
+        main.listPlayer[2]->ternak(hewan2, 0, 0);
+        main.listPlayer[2]->cetakLadangLahan();
+
         // main.nextTurn();
 
-    } catch (invalidCommandException e) {
-        cout << e.message(); 
-    } catch (KurangMaterialException e){
+        // cout << main.listPlayer[main.turn]->penyimpanan.getRow() << endl;
+        // cout << main.listPlayer[main.turn]->penyimpanan.getCol() << endl;
+    }
+    catch (invalidCommandException e)
+    {
+        cout << e.message();
+    }
+    catch (BarangKosongException e)
+    {
         cout << e.message();
     }
     // } catch (BarangKosongException e) {

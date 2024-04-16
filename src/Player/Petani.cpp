@@ -1,7 +1,7 @@
 #include "Farmers.hpp"
 #include "Petani.hpp"
 
-Petani::Petani(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Farmers(nama,"Petani",13,berat,uang,rowPenyimpanan,colPenyimpanan, rowLahan, colLahan) {}
+Petani::Petani(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan) : Farmers(nama, "Petani", 13, berat, uang, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan, "Ladang") {}
 
 void Petani::next()
 {

@@ -126,6 +126,15 @@ public:
     }
 };
 
+class pembelianLuarItemException : public exception
+{ 
+public:
+    const char *message()
+    {
+        return "Pembelian barang di luar index!!\n";
+    }
+};
+
 class invalidPenjualanException : public exception
 {
 public:

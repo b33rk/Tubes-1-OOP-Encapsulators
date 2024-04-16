@@ -1,22 +1,20 @@
 #include "Player.hpp"
 #include "../Exception/Exception.hpp"
 
-Player::Player(){
+Player::Player() : penyimpanan(){
     berat = 0;
     uang = 0;
     nama = "   ";
     peran = "   ";
 }
 
-Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpanan, int colPenyimpanan)
+Player::Player(string nama, string peran, int berat, int uang, int rowPenyimpanan, int colPenyimpanan) : penyimpanan(rowPenyimpanan, colPenyimpanan, "Penyimpanan")
 {
     // this->id = id;
-    Field<TradeObject> penyimpananTemp(rowPenyimpanan, colPenyimpanan);
     this->nama = nama;
     this->peran = peran;
     this->berat = berat;
     this->uang = uang;
-    this->penyimpanan = penyimpananTemp;
 }
 
 string Player::getNama()
@@ -26,7 +24,8 @@ string Player::getNama()
 
 string Player::getPeran()
 {
-    return this->getPeran();
+    return this->peran;
+    return this->peran;
 }
 
 int Player::getUang()
@@ -106,7 +105,7 @@ void Player::setBerat(int x)
     this->berat = x;
 }
 
-vector<pair<pair<int, int>, pair<string, int>>> Player::getAllPosisiNamaBerat()
+vector<pair<pair<int, int>, pair<string, int> > > Player::getAllPosisiNamaBerat()
 {
     throw invalidCommandException();
     return {};
@@ -125,9 +124,11 @@ void Player::makan(TradeObject *makanan)
     }
 }
 
-int Player::bayarPajak(){
+int Player::bayarPajak()
+{
     throw invalidCommandException();
 }
+
 void Player::pungutPajak(vector<Player *> l, int x)
 {
     throw invalidCommandException();
@@ -172,6 +173,9 @@ vector<vector<TradeObject*>> Player::getPenyimpanan(){
     return this->penyimpanan.getStorage();
 }
 
+void Player::beriPangan(int, int, int, int){
+    throw invalidCommandException();
+}
 void Player::setBarangPenyimpananKosong(int row, int col)
 {
     this->penyimpanan.setKosong(row, col);

@@ -13,13 +13,15 @@ using namespace std;
 #include <iostream>
 using namespace std;
 
-class Walikota : public Player {
-    public:
-        Walikota(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan);
-        void pungutPajak(vector<Player*> listPlayer, int num_of_players);
-        void bangunBangunan(Recipe recipe);
-        void tambahPlayer(string peran );
-        int bayarPajak() override;
+class Walikota : public Player
+{
+public:
+    Walikota(string nama, int berat, int uang, int rowPenyimpanan, int colPenyimpanan);
+    void pungutPajak(vector<Player *> listPlayer, int num_of_players);
+    void bangunBangunan(Recipe recipe);
+    void tambahPlayer(string peran) override;
+    int bayarPajak() override;
+    Field<CultivatedObject> getLahan();
 };
 
 #endif

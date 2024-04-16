@@ -76,15 +76,7 @@ void Walikota :: bangunBangunan(Recipe recipe){
     TradeObject* T = new TradeObject(recipe.getId(),recipe.getKodeHuruf(),recipe.getNamaGameObject(),recipe.getPrice(),"BANGUNAN");
     vector<vector<TradeObject*>> temp_penyimpanan = this->penyimpanan.getStorage();
     this->penyimpanan.insertFirst(T);
-    // for (int row = 0 ; row <  this->penyimpanan.getRow() && !found ; row++){
-    //     for (int col = 0 ; col <  this->penyimpanan.getCol() && !found; col++){
-    //         if (temp_penyimpanan[row][col]->getKodeHuruf() == "   "){
-    //             this->penyimpanan.setBarang(row,col, T); // Membuat fungsi untuk set barang pada peyimpanan pada row col 
-    //             cout << this->penyimpanan.getJumlahIsi() << endl;
-    //             found = true;
-    //         }
-    //     }
-    // }
+
 }
 
 void Walikota :: tambahPlayer(string peran ){

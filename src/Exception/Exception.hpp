@@ -96,13 +96,14 @@ class KurangMaterialException : public exception{
             int count = 0;
             for (int i = 0 ; i < materials.size() ; i++){
                 if (quantity[i] > 0){
-                    finalMessage.append(to_string(quantity[i]));
-                    finalMessage.append(" ");
-                    count ++;
-                    finalMessage.append(materials[i]);
-                    if (count >=2){
+                    if (count >= 1){
                         finalMessage.append(", ");
                     }
+                    finalMessage.append(to_string(quantity[i]));
+                    finalMessage.append(" ");
+                    count++;
+                    finalMessage.append(materials[i]);
+
                 }
             }
             finalMessage.append("\n");

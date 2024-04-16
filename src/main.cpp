@@ -12,10 +12,10 @@ int main() {
     Game main;
     main.muat_semua_config();
     try {
-        TradeObject* first = new TradeObject(1, "TWD","TEAK_WOOD",10,"MATERIAL");
-        TradeObject* second = new TradeObject(1,"SW","SANDAL_WOOD",10,"MATERIAL");
-        main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(first);
-        main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(second);
+        // TradeObject* first = new TradeObject(1, "TWD","TEAK_WOOD",10,"MATERIAL");
+        // TradeObject* second = new TradeObject(1,"SW","SANDAL_WOOD",10,"MATERIAL");
+        // main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(first);
+        // main.listPlayer[main.turn - 1]->setBarangFirstPenyimpanan(second);
         main.listPlayer[main.turn - 1]->cetakPenyimpanan();
         main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
         main.listPlayer[main.turn - 1]->cetakPenyimpanan();
@@ -35,7 +35,10 @@ int main() {
         // main.nextTurn();
 
     } catch (invalidCommandException e) {
-        cout << e.message(); }
+        cout << e.message(); 
+    } catch (KurangMaterialException e){
+        cout << e.message();
+    }
     // } catch (BarangKosongException e) {
     //     cout << e.message();
     // } catch (KurangMaterialException e){

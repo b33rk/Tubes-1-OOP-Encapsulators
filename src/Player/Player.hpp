@@ -53,6 +53,7 @@ public:
     vector<vector<TradeObject*>> getPenyimpanan();
     void setBarangPenyimpananKosong(int, int);
     int getBarangPenyimpananPrice(int, int);
+    Field<TradeObject> Player::getPenyimpananField();
 };
 
 #endif

@@ -45,6 +45,7 @@ public:
     virtual void panen(int, int, int, int, ProductObject *);
     virtual void ternak(CultivatedObject *, int, int);
     virtual void beriPangan(int, int, int, int);
+    virtual vector<TradeObject *> ambilUniqueValueLahan();
     int getBerat();
     void setBerat(int);
     virtual vector<pair<pair<int, int>, pair<string, int>>> getAllPosisiNamaBerat();

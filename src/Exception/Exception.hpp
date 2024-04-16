@@ -16,12 +16,20 @@ public:
     {
         return "Makanan tidak dapat dimakan oleh hewan ini\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Makanan tidak dapat dimakan oleh hewan ini\n";
+    }
 };
 
 class uangTidakCukupException : public exception
 {
 public:
     const char *message()
+    {
+        return "Uang tidak cukup!\n";
+    }
+    const char *what() const noexcept override
     {
         return "Uang tidak cukup!\n";
     }
@@ -34,6 +42,10 @@ public:
     {
         return "Peran player tidak valid\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Peran player tidak valid\n";
+    }
 };
 
 class invalidCommandException : public exception
@@ -42,6 +54,14 @@ public:
     const char *message()
     {
         return "COMMAND TIDAK VALID!!!\n";
+    }
+    const char *what() const noexcept override
+    {
+        return "COMMAND TIDAK VALID!!!\n";
+    }
+    const char *what() const noexcept override
+    {
+        return "Command tidak valid\n";
     }
 };
 
@@ -52,13 +72,20 @@ public:
     {
         return "Petak tersebut tidak kosong !\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Petak tersebut tidak kosong !\n";
+    }
 };
 
 class penyimpananPenuhException : public exception
 {
-
 public:
-    const char* message()
+    const char *message()
+    {
+        return "Penyimpanan sudah penuh\n";
+    }
+    const char *what() const noexcept override
     {
         return "Penyimpanan sudah penuh\n";
     }
@@ -72,6 +99,10 @@ public:
     {
         return "Barang tersebut bukan makanan mass!!\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Barang tersebut bukan makanan mass!!\n";
+    }
 };
 
 class BarangKosongException : public exception
@@ -81,40 +112,65 @@ public:
     {
         return "Barang tersebut kosong mass!!\n";
     }
+    const char *what() const noexcept override
+    {
+        return "Barang tersebut kosong mass!!\n";
+    }
 };
 
-class KurangMaterialException : public exception{
-    private:
-        vector<string> materials;
-        vector<int> quantity;
-        string finalMessage;
-    public:
-        KurangMaterialException(){
-            this->finalMessage = "Kamu tidak punya sumber daya yang cukup! Masih memerlukan ";
+class PanenKosongException : public exception
+{
+public:
+    const char *message()
+    {
+        return "Tidak ada barang yang bisa dipanen!\n";
+    }
+    const char *what() const noexcept override
+    {
+        return "Tidak ada barang yang bisa dipanen!\n";
+    }
+};
 
-        }
-        KurangMaterialException(const vector<string>& materials, const vector<int>& quantity) : materials(materials) , quantity(quantity), exception(){
-            this->finalMessage = "Kamu tidak punya sumber daya yang cukup! Masih memerlukan ";
-            int count = 0;
-            for (int i = 0 ; i < materials.size() ; i++){
-                if (quantity[i] > 0){
-                    if (count >= 1){
-                        finalMessage.append(", ");
-                    }
-                    finalMessage.append(to_string(quantity[i]));
-                    finalMessage.append(" ");
-                    count++;
-                    finalMessage.append(materials[i]);
+class KurangMaterialException : public exception
+{
+private:
+    vector<string> materials;
+    vector<int> quantity;
+    string finalMessage;
 
+public:
+    KurangMaterialException()
+    {
+        this->finalMessage = "Kamu tidak punya sumber daya yang cukup! Masih memerlukan ";
+    }
+    KurangMaterialException(const vector<string> &materials, const vector<int> &quantity) : materials(materials), quantity(quantity), exception()
+    {
+        this->finalMessage = "Kamu tidak punya sumber daya yang cukup! Masih memerlukan ";
+        int count = 0;
+        for (int i = 0; i < materials.size(); i++)
+        {
+            if (quantity[i] > 0)
+            {
+                if (count >= 1)
+                {
+                    finalMessage.append(", ");
                 }
+                finalMessage.append(to_string(quantity[i]));
+                finalMessage.append(" ");
+                count++;
+                finalMessage.append(materials[i]);
             }
-            finalMessage.append("\n");
- 
         }
-        const char* message() {
-            return this->finalMessage.c_str();
-        }
-
+        finalMessage.append("\n");
+    }
+    const char *message()
+    {
+        return this->finalMessage.c_str();
+    }
+    const char *what() const noexcept override
+    {
+        return this->finalMessage.c_str();
+    }
 };
 
 class invalidPembelianException : public exception
@@ -127,7 +183,7 @@ public:
 };
 
 class pembelianLuarItemException : public exception
-{ 
+{
 public:
     const char *message()
     {
@@ -136,7 +192,7 @@ public:
 };
 
 class pembelianMelebihiStokException : public exception
-{ 
+{
 public:
     const char *message()
     {

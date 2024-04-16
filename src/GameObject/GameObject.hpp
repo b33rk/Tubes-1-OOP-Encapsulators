@@ -249,6 +249,11 @@ public:
         this->origin = origin;
     }
 
+    string getOrigin()
+    {
+        return origin;
+    }
+
     int getAddedWeight() override
     {
         return this->addedWeight;

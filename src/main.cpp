@@ -21,8 +21,8 @@ int main() {
         main.listPlayer[main.turn - 1]->cetakPenyimpanan();
         int row = 0 ;
         int col = 0 ;
-        TradeObject* p = new TradeObject();
-        main.listPlayer[main.turn - 1]->setBarangPenyimpanan(row,col,p);
+        TradeObject* p = new TradeObject(main.productMap["APP"]);
+        main.listPlayer[main.turn - 1]->setBarangPenyimpanan(row + 2,col + 2,p);
         main.listPlayer[main.turn - 1]->cetakPenyimpanan();
         
 

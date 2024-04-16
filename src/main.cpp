@@ -70,6 +70,10 @@ int main()
             cout << main.getCurrentPlayer()->getNama() << "\n";
             cout << "Peran : ";
             cout << main.getCurrentPlayer()->getPeran() << "\n";
+            cout << "Berat player sekarang : " << main.getCurrentPlayer()->getBerat() << endl; 
+            cout << "Gulden player sekarang : " << main.getCurrentPlayer()->getUang() << endl;
+            cout << "Berat target : " << main.getGoalBerat() << endl;
+            cout << "Gulden target : " << main.getGoalUang() << endl;
             command.displayAvailableCommand();
             cout << endl;
             command.terimaCommand();

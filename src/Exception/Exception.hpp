@@ -93,7 +93,7 @@ class BukanMakananException : public exception
 public:
     const char *message()
     {
-        return "Barang tersebut bukan makanan mass!!\n";
+        return "Barang tersebut bukan makanan mass!!\n\n";
     }
     const char *what() const noexcept override
     {
@@ -204,5 +204,19 @@ public:
         return "Penjualan barang tersebut tidak bisa Anda lakukan!!\n";
     }
 };
+
+class MakananKosongException : public exception
+{
+public:
+    const char *message()
+    {
+        return "Kamu mengambil harapan kosong dari penyimpanan.\nSilahkan masukan slot yang berisi makanan\n\n";
+    }
+    const char *what() const noexcept override
+    {
+        return "Kamu mengambil harapan kosong dari penyimpanan.\nSilahkan masukan slot yang berisi makanan.\n\n";
+    }
+};
+
 
 #endif

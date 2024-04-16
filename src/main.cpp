@@ -87,7 +87,7 @@ int main()
             }
             else if (command.getPerintah() == "MAKAN")
             {
-                // main.
+                main.makan();
             }
             else if (command.getPerintah() == "BELI")
             {
@@ -97,6 +97,7 @@ int main()
             }
             else if (command.getPerintah() == "SIMPAN")
             {
+                main.simpan();
             }
             else if (command.getPerintah() == "PUNGUT_PAJAK")
             {

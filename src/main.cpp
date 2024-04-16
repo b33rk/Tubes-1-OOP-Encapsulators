@@ -87,6 +87,7 @@ int main()
             }
             else if (command.getPerintah() == "MAKAN")
             {
+                // main.makan();
             }
             else if (command.getPerintah() == "BELI")
             {
@@ -98,6 +99,7 @@ int main()
             }
             else if (command.getPerintah() == "SIMPAN")
             {
+                main.simpan();
             }
             else if (command.getPerintah() == "PUNGUT_PAJAK")
             {
@@ -125,7 +127,7 @@ int main()
             }
             else if (command.getPerintah() == "PANEN")
             {
-                // main.panen();
+                main.panen();
             }
             else if (command.getPerintah() == "TERNAK")
             {
@@ -135,12 +137,16 @@ int main()
             {
                 main.kasihMakan();
             }
+            else 
+            {
+                throw invalidCommandException();
+            }
         }
-        catch (invalidCommandException e)
+        catch (const exception& e)
         {
             const char *red = "\033[1;91m";
             const char *reset = "\033[0m";
-            cout << red << e.message() << reset;
+            cout << red << e.what() << reset;
         }
 
         terminateGame = finishGame(main.getListPlayer(), main.goalUang, main.goalBerat);

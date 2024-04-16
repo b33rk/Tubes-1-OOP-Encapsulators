@@ -132,7 +132,8 @@ public:
         return -1;
     }
 
-    virtual int getCultivateWeight(){
+    virtual int getCultivateWeight()
+    {
         throw invalidCommandException();
         return -1;
     }
@@ -222,7 +223,8 @@ public:
         cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
     }
 
-    int getCultivateWeight() override{
+    int getCultivateWeight() override
+    {
         return this->cultivateWeight;
     }
 };
@@ -245,6 +247,11 @@ public:
     {
         this->addedWeight = addedWeight;
         this->origin = origin;
+    }
+
+    string getOrigin()
+    {
+        return origin;
     }
 
     int getAddedWeight() override

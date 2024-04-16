@@ -138,6 +138,9 @@ class Shop {
         void Sell() {
             try {
                 vector<string> slotJual;
+                if(pelaku->getPenyimpananField().getJumlahIsi() == 0) {
+                    throw itemPenyimpananKosongException();
+                }
                 cout << "Berikut merupakan penyimpanan Anda\n";
                 pelaku->cetakPenyimpanan();
                 
@@ -172,11 +175,13 @@ class Shop {
                         throw invalidPetak();
                         cout << "Penjualan gagal!\n";
                     }
-                    
                 }
-
                 cout << "Barang Anda berhasil dijual! Uang Anda bertambah " << tempPrice << " gulden!";
 
+            } catch (itemPenyimpananKosongException e) {
+                cout << e.message();
+            } catch (invalidPetak e) {
+                cout << e.message();
             } catch (...) {
                 cout << "Terjadi kesalahan saat penjualan\n";
             }

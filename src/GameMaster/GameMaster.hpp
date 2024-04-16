@@ -23,7 +23,7 @@ const char *spaces = " \n\r\t";
 
 class Game
 {
-public:
+protected:
     int goalUang;
     int goalBerat;
     int rowPenyimpanan;
@@ -51,6 +51,18 @@ public:
     */
 public:
     Game() {}
+
+    string getNamaPlayerGame(int i){
+        return this->listPlayer[i]->getNama();
+    }
+
+    int getGoalUang(){
+        return this->goalUang;
+    }
+
+    int getGoalBerat(){
+        return this->goalBerat;
+    }
     void nextTurn()
     {
         if (turn == jumlahPlayer)

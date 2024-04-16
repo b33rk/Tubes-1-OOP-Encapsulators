@@ -48,11 +48,11 @@ int main()
     // Command
     Command command(main.getCurrentPlayer());
 
-    cout << "Jumlah player : " << main.jumlahPlayer << "\n";
+    cout << "Jumlah player : " << main.getJumlahPlayer() << "\n";
     cout << "\nUrutan giliran : \n";
     for (int i = 0; i < main.getListPlayer().size(); i++)
     {
-        cout << i + 1 << ".     " << main.listPlayer[i]->getNama() << "\n";
+        cout << i + 1 << ".     " << main.getNamaPlayerGame(i) << "\n";
     }
 
     cout << "\nSELAMAT BERMAIN!!!\n";
@@ -147,7 +147,7 @@ int main()
             cout << red << e << reset;
         }
 
-        terminateGame = finishGame(main.getListPlayer(), main.goalUang, main.goalBerat);
+        terminateGame = finishGame(main.getListPlayer(), main.getGoalUang(), main.getGoalBerat());
     }
 
     cout << terminateGame.second << " adalah pemenangnya!\n";

@@ -59,10 +59,6 @@ public:
     {
         return "COMMAND TIDAK VALID!!!\n";
     }
-    const char *what() const noexcept override
-    {
-        return "Command tidak valid\n";
-    }
 };
 
 class petakTidakKosongException : public exception

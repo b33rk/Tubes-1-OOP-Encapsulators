@@ -18,14 +18,11 @@ int Farmers::hitungKekayaan()
 
             if (barang[i][j]->getKodeHuruf() != "  ")
             {
-
-                // cout << barang[i][j]->getKodeHuruf() << endl;
                 int price = barang[i][j]->getPrice();
                 total += price;
             }
         }
     }
-    // cout << "selesai llop 1" << endl;
     vector<vector<TradeObject *>> penyimpanan = this->penyimpanan.getStorage();
 
     for (int i = 0; i < this->penyimpanan.getRow(); i++)
@@ -48,12 +45,7 @@ int Farmers::hitungKekayaan()
 void Farmers::panen(int rowPenyimpanan, int colPenyimpanan, int rowLahan, int colLahan, ProductObject *product)
 {
     this->penyimpanan.setBarang(rowPenyimpanan, colPenyimpanan, product);
-    cout << "POINTER STORAGE 0,0 PANEN " << this->lahan.getBarang(rowLahan, colLahan) << endl;
-    cout << "KODE: " << this->lahan.getBarang(rowLahan, colLahan)->getKodeHuruf() << endl;
     this->lahan.setKosong(rowLahan, colLahan);
-    // delete this->lahan.getBarang(rowLahan, colLahan);
-    // CultivatedObject *kosong = new CultivatedObject();
-    // this->setBarangLahan(rowLahan, colLahan, kosong);
 }
 
 int Farmers::bayarPajak()

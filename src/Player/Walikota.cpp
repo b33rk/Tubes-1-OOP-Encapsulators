@@ -21,13 +21,10 @@ void Walikota ::pungutPajak(vector<Player *> listPlayer, int num_of_players)
     int j = 1;
     for (int i = 0; i < num_of_players; i++)
     {
-        cout << listPlayer[i]->getPeran() << endl;
         if (listPlayer[i]->getPeran() != "Walikota")
         {
             pajak_temp = listPlayer[i]->bayarPajak();
-            cout << listPlayer[i]->getPeran() << endl;
             cout << j << ". " << listPlayer[i]->getNama() << " - " << listPlayer[i]->getPeran() << ": " << pajak_temp << " gulden\n";
-            cout << listPlayer[i]->getPeran() << endl;
             total += pajak_temp;
             j++;
         }

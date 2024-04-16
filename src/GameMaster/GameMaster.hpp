@@ -700,7 +700,7 @@ public:
         {
             for (auto &objek : listObjek)
             {
-                if (objek->getKodeHuruf() != "   " & objek->getCurrentBerat() >= objek->getCultivatedWeight())
+                if (objek->getKodeHuruf() != "   " & objek->getCurrentBerat() >= objek->getCultivateWeight())
                 {
                     mapPanenJumlah[objek->getKodeHuruf()]++;
                 }
@@ -833,7 +833,7 @@ public:
                 }
             } while (
                 notValid || (currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getKodeHuruf() != kodeHurufSiapPanen[noTanaman - 1] ||
-                             currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getCurrentBerat() < currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getCultivatedWeight()));
+                             currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getCurrentBerat() < currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getCultivateWeight()));
             KoorPanen.push_back(kodeKoordinat);
         }
         cout << jumlahPanen << " petak " << tipe << " " << kodeHurufSiapPanen[noTanaman - 1] << " pada cetak ";

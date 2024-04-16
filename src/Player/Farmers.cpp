@@ -83,7 +83,7 @@ int Farmers::bayarPajak()
 
 void Farmers::cetakLadangLahan()
 {
-    this->lahan.cetak();
+    this->lahan.cetak(true);
 }
 
 void Farmers ::setBarangFirstLahan(CultivatedObject *object)

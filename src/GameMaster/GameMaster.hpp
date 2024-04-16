@@ -595,6 +595,73 @@ class Game {
             //listPlayer[turn - 1]->cetak
         }
 
+        void kasihMakan(){
+            if(listPlayer[turn - 1]->getPeran() != "Peternak"){
+                throw invalidCommandException();
+            }
+            listPlayer[turn - 1]->cetakLadangLahan();
+            vector<pair<pair<int, int>, pair<string, int>>> penyimpananSkrg = listPlayer[turn - 1]->getAllPosisiNamaBerat();
+            string coordInput;
+            bool notValid = 1;
+            string namaHewan;
+            do{
+                cout << "Petak kandang: ";
+                cin >> coordInput;
+                try{
+                    pair<int, int> realCoord = stringToCoord(coordInput);
+                    if(realCoord.first < 0 || realCoord.second < 0 || realCoord.first >= rowLadang || realCoord.second >= colLadang){
+                        notValid = 1;
+                    }else{
+                        for(auto &itemPenyimpanan: penyimpananSkrg){
+                            if(itemPenyimpanan.first.first == realCoord.first && itemPenyimpanan.first.second == realCoord.second){
+                                notValid = 0;
+                                namaHewan = itemPenyimpanan.second.first;
+                                break;
+                            }
+                        }
+                    }
+                }catch(...){
+                    notValid = 1;
+                }
+            }while(notValid);
+            cout << "Kamu memilih " << namaHewan << " untuk diberi makan." << endl;
+            cout << "Pilih pangan yang akan diberikan:" << endl;
+            listPlayer[turn - 1]->cetakPenyimpanan();
+            vector<vector<TradeObject*>> penyimpananSemua = listPlayer[turn - 1]->getPenyimpanan();
+            notValid = 1;
+            do{
+                cout << "Slot: ";
+                cin >> coordInput;
+                try{
+                    pair<int, int> realCoord = stringToCoord(coordInput);
+                    if(realCoord.first < 0 || realCoord.second < 0 || realCoord.first >= rowLadang || realCoord.second >= colLadang){
+                        notValid = 1;
+                    }else{
+                        for(auto &itemPenyimpanan: penyimpananSkrg){
+                            if(itemPenyimpanan.first.first == realCoord.first && itemPenyimpanan.first.second == realCoord.second){
+                                notValid = 0;
+                                namaHewan = itemPenyimpanan.second.first;
+                                break;
+                            }
+                        }
+                    }
+                }catch(...){
+                    notValid = 1;
+                }
+            }while(notValid);
+        }
+
+        void pungutPajak(){
+            if(listPlayer[turn - 1]->getPeran() != "Walikota"){
+                throw invalidCommandException();
+            }
+            try{
+                listPlayer[turn - 1]->pungutPajak(listPlayer, listPlayer.size());
+            }catch(...){
+                cout << "Error occured. Returning..." << endl;
+            }
+        }
+
         void tambahPlayer(){
             string jenis_pemain;
             string user;

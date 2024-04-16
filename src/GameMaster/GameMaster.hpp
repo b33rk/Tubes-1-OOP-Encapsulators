@@ -1227,6 +1227,7 @@ public:
                 new_player = new Petani(user, 40, 50, rowPenyimpanan, colPenyimpanan, rowLahan, colLahan);
             }
             listPlayer.push_back(new_player);
+            jumlahPlayer++;
         }
         catch (const uangTidakCukupException &utc)
         {

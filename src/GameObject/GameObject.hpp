@@ -11,8 +11,6 @@
 
 using namespace std;
 
-// TODO : Buat copy constructor buat smw kelas
-
 class GameObject
 {
 protected:
@@ -29,7 +27,6 @@ public:
     }
     GameObject(const GameObject &other)
     {
-        // cout << "CCTOR GO" << endl;
         this->id = other.id;
         this->kode_huruf = other.kode_huruf;
         this->nama = other.nama;
@@ -66,7 +63,7 @@ class TradeObject : public GameObject
 private:
     int price;
     string type;
-    // vector<string> ngasilin; // KODE HURUF PRODUCT OBJECT NYA
+
 public:
     TradeObject() : GameObject()
     {
@@ -100,9 +97,6 @@ public:
     {
         kode_huruf = newKode;
     }
-    // string getKode() {
-    //     return kode_huruf;
-    // }
     string getNama()
     {
         return nama;
@@ -144,7 +138,7 @@ class CultivatedObject : public TradeObject
 private:
     int cultivateWeight;
     int currentWeight;
-    // string type; // string "hewan" / "tumbuhan"
+
 public:
     CultivatedObject() : TradeObject()
     {
@@ -250,7 +244,6 @@ public:
     }
 };
 
-// recipe seharusnya bukan tradeobject, gabisa di trade soalnya
 class Recipe : public GameObject
 {
 private:
@@ -269,12 +262,10 @@ public:
         for (auto &material : other.listMaterial)
         {
             listMaterial.push_back(material);
-            // cout << material << endl;
         }
         for (auto &quantity : other.materialQuantity)
         {
             materialQuantity.push_back(quantity);
-            // cout << quantity << endl;
         }
     }
     Recipe(int id, string kode_huruf, string nama, int price, vector<string> temp_materials, vector<int> materialQuantity) : GameObject(id, kode_huruf, nama)

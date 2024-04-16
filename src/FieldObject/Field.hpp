@@ -61,13 +61,6 @@ public:
                 this->storage[i][j] = new T();
             }
         }
-        // cout << "PRINT" << endl;
-        /*
-        for(int i = 0; i < this->row; ++i){
-            for(int j = 0; j < this->col; ++j){
-                cout << this->storage[i][j]->getKodeHuruf() << endl;
-            }
-        }*/
     }
     void virtual cetak(bool cetak_warna = false)
     {

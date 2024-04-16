@@ -12,6 +12,4 @@ public:
     void tanam(CultivatedObject *tanaman, int row, int col);
 };
 
-// ask for get in fields
-
 #endif

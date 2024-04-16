@@ -103,7 +103,7 @@ class Shop {
                     throw pembelianMelebihiStokException();
                 }
 
-                if(isBangunan(this->items[pilihanBarang-1].first.getNama()) && kuantitas > this->items[pilihanBarang-1].second) {
+                if(this->items[pilihanBarang-1].second != -1 && kuantitas > this->items[pilihanBarang-1].second) {
                     throw pembelianMelebihiStokException();
                 } else {
                     int totalPengeluaran = kuantitas * this->items[pilihanBarang-1].first.getPrice();
@@ -222,7 +222,7 @@ class Shop {
                         }
 
                         // yang dijual bangunan
-                        if(isBangunan(temp[coord.first][coord.second]->getNama())) {
+                        if(temp[coord.first][coord.second]->getType() == "BANGUNAN" || temp[coord.first][coord.second]->getType() == "PRODUCT_MATERIAL_PLANT" || temp[coord.first][coord.second]->getType() == "PRODUCT_FRUIT_PLANT" || temp[coord.first][coord.second]->getType() == "PRODUCT_ANIMAL") {
                             for(int i= 0; i < items.size(); i++) {
                                 if(this->items[i].first.getNama() == temp[coord.first][coord.second]->getNama()) {
                                     this->items[i].second++;

@@ -97,6 +97,29 @@ class Shop {
             } 
         }
 
+        void pilihSlot() {
+            cout << "Slot penyimpanan tersedia: " << pelaku->getPenyimpanaField()->getSisa() << "\n";
+            if(pelaku->getPenyimpanaField()->getSisa() <= 0) {
+                throw penyimpananPenuhException();
+            }
+        }
+
+        void pilihBarang(int pilihan) {
+            if(pilihan <= 0 && pilihan >this->items.size()) {
+                throw pembelianLuarItemException();
+            }
+            if(pelaku->getPeran() == "Walikota" && isBangunan(this->items[pilihan-1].first.getNama())) {
+                throw invalidPembelianxception();
+            }
+        }
+
+        void beliBarang(int kuantitas, int pilihanBarang) {
+            if(isBangunan(this->items[pilihan-1].first.getNama()) && kuantitas > his->items[pilihan-1].second) {
+
+            }
+        }
+
+        
         void Sell() {
             try {
                 vector<string> slotJual;
@@ -133,19 +156,6 @@ class Shop {
 
             } catch () {
 
-            }
-        }
-
-        void pilihSlot() {
-            cout << "Slot penyimpanan tersedia: " << pelaku.getSisaSlot() << "\n";
-            if(pelaku.getSisaSlot() == 0) {
-                throw penyimpananPenuhException();
-            }
-        }
-
-        void pilihBarang(int pilihan) {
-            if(pelaku->getPeran() == "Walikota" && isBangunan(this->items[i-1].first)) {
-                throw invalidPembelianxception();
             }
         }
 

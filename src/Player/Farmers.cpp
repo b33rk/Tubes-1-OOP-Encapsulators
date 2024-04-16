@@ -80,7 +80,7 @@ void Farmers::cetakLadangLahan()
 
 void Farmers ::setBarangFirstLahan(CultivatedObject *object)
 {
-    this->lahan.insertFirst(object);
+    this->lahan << object;
 }
 
 void Farmers ::setBarangLahan(int row, int col, CultivatedObject *object)

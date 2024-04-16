@@ -6,22 +6,14 @@ Bondowoso kini sudah menikah dengan Roro setelah berhasil menjadi kampiun dalam 
 Melihat hal ini, terbesit pikiran di hati Bondowoso untuk mengijinkan Roro mengelola kerajaannya. Akan tetapi, Bondowoso belum tahu apakah Roro sudah cukup berkapabilitas dalam mengelola kerajaannya, yang tentunya karakteristik masyarakat pada kerajaannya berbeda dengan kerajaan Roro dahulu. Oleh karena itu, Bondowoso ingin membuat terlebih dahulu sebuah gim simulasi sederhana mengelola kerajaan yang sudah disesuaikan dengan kondisi masyarakatnya.
 
 ## Cara menjalankan
-Jalankan perintah
+1. Pastikan sudah memiliki C++ dan berjalan pada Linux
+2. Jalankan perintah pada terminal
 ```
 git clone https://github.com/b33rk/Tubes-1-OOP-Encapsulators.git
+cd Tubes-1-OOP-Encapsulators
+make run
 ```
-
-### Linux
-```
-make
-./main.exe
-```
-
-### Windows
-```
-./compile.bat
-./main.exe
-```
+Program sudah berhasil dijalankan. Selamat bermain!
 
 ## Anggota
 1. Kristo Anugrah - 13522024

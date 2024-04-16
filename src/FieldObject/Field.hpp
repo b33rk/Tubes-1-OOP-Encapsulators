@@ -172,21 +172,6 @@ public:
         return this->storage;
     }
 
-    void insertFirst(T *object)
-    {
-        for (int i = 0; i < this->row; i++)
-        {
-            for (int j = 0; j < this->col; j++)
-            {
-                if (this->storage[i][j]->getKodeHuruf() == "   ")
-                {
-                    this->setBarang(i, j, object);
-                    return;
-                }
-            }
-        }
-        throw penyimpananPenuhException();
-    }
     vector<TradeObject *> getUniqueValue()
     {
         vector<TradeObject *> listBarang;
@@ -240,5 +225,23 @@ public:
     {
         return jumlahIsi == row * col;
     }
+
+    Field<T> operator<<(T *object)
+    {
+        for (int i = 0; i < this->row; i++)
+        {
+            for (int j = 0; j < this->col; j++)
+            {
+                if (this->storage[i][j]->getKodeHuruf() == "   ")
+                {
+                    this->setBarang(i, j, object);
+                    return *this;
+                }
+            }
+        }
+        throw penyimpananPenuhException();
+    }
 };
+
+
 #endif

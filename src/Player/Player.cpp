@@ -69,7 +69,7 @@ float Player::persentasePajak(int KKP)
 
 void Player::setBarangFirstPenyimpanan(TradeObject *p)
 {
-    this->penyimpanan.insertFirst(p);
+    this->penyimpanan << p;
 }
 
 void Player::setBarangFirstLahan(CultivatedObject *p)

@@ -79,7 +79,7 @@ void Walikota ::bangunBangunan(Recipe recipe)
 
     TradeObject *T = new TradeObject(recipe.getId(), recipe.getKodeHuruf(), recipe.getNamaGameObject(), recipe.getPrice(), "BANGUNAN");
     vector<vector<TradeObject *>> temp_penyimpanan = this->penyimpanan.getStorage();
-    this->penyimpanan.insertFirst(T);
+    this->penyimpanan << T;
 }
 
 Field<CultivatedObject> Walikota ::getLahan()

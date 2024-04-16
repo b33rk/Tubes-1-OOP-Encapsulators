@@ -686,7 +686,7 @@ public:
         vector<pair<pair<int, int>, pair<string, int>>> isiLahan = listPlayer[turn - 1]->getAllPosisiNamaBerat();
         if (isiLahan.size() == rowLahan * colLahan)
         {
-            cout << "Lahan penuh!! Kosongkan dulu lahanmu :))" << endl;
+            cout << "Ladang penuh!! Kosongkan dulu ladangmu :))" << endl;
             throw invalidCommandException();
         }
         vector<vector<TradeObject *>> penyimpananSkrg = listPlayer[turn - 1]->getPenyimpanan();
@@ -754,7 +754,7 @@ public:
         vector<pair<pair<int, int>, pair<string, int>>> isiLadang = listPlayer[turn - 1]->getAllPosisiNamaBerat();
         if (isiLadang.size() == rowLadang * colLadang)
         {
-            cout << "Ladang penuh!! Kosongkan dulu ladangmu :))" << endl;
+            cout << "Peternakan penuh!! Kosongkan dulu peternakanmu :))" << endl;
             throw invalidCommandException();
         }
         vector<vector<TradeObject *>> penyimpananSkrg = listPlayer[turn - 1]->getPenyimpanan();

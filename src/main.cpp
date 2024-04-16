@@ -136,11 +136,15 @@ int main()
                 main.kasihMakan();
             }
         }
-        catch (invalidCommandException e)
+        catch (const exception &e)
         {
             const char *red = "\033[1;91m";
             const char *reset = "\033[0m";
-            cout << red << e.message() << reset;
+            cout << red << e.what() << reset;
+        }catch(const char* e){
+            const char *red = "\033[1;91m";
+            const char *reset = "\033[0m";
+            cout << red << e << reset;
         }
 
         terminateGame = finishGame(main.getListPlayer(), main.goalUang, main.goalBerat);

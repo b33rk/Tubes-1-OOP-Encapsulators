@@ -162,16 +162,6 @@ class Game {
                 }                
             }
             this->turn = 1;
-            /*
-            this->rowLadang = 10;
-            this->colLadang = 8;
-            this->rowLahan = 10;
-            this->colLahan = 8;
-            this->colPenyimpanan = 10;
-            this->rowPenyimpanan = 8;*/
-            this->listPlayer.push_back(new Walikota("Walikota", 40, 50, this->rowPenyimpanan, this->colPenyimpanan));
-            this->listPlayer.push_back(new Petani("Petani1", 40, 50, this->rowPenyimpanan,this->colPenyimpanan, this->rowLahan, this->colLahan));
-            this->listPlayer.push_back(new Peternak("Peternak1", 40, 50, this->rowPenyimpanan, this->colPenyimpanan, this->rowLadang, this->colLadang));
             this->jumlahPlayer = listPlayer.size();
         }
 
@@ -262,6 +252,8 @@ class Game {
                     sort(listPlayer.begin(), listPlayer.end(), [](Player* p1, Player* p2){
                         return p1->getNama() < p2->getNama();
                     });
+                    turn = 1;
+                    jumlahPlayer = listPlayer.size();
                     player_loaded = true;
                     valid_input = true;
                 }else{
@@ -593,6 +585,115 @@ class Game {
             || penyimpananSkrg[currentCoord.first][currentCoord.second]->getKodeHuruf() == "   ");
             cout << "Kamu memilih " << penyimpananSkrg[currentCoord.first][currentCoord.second]->getNama() << endl;
             //listPlayer[turn - 1]->cetak
+        }
+
+        void kasihMakan(){
+            if(listPlayer[turn - 1]->getPeran() != "Peternak"){
+                throw invalidCommandException();
+            }
+            listPlayer[turn - 1]->cetakLadangLahan();
+            vector<vector<CultivatedObject*>> isiLahan = listPlayer[turn - 1]->getLahan().getStorage();
+            vector<vector<TradeObject*>> penyimpananSemua = listPlayer[turn - 1]->getPenyimpanan();
+            bool valid = 0;
+            int status = 0;
+            for(auto &isi_row_lahan: isiLahan){
+                for(auto &isi_lahan: isi_row_lahan){
+                    for(auto &isi_row_penyimpanan: penyimpananSemua){
+                        for(auto &isiPenyimpanan: isi_row_penyimpanan){
+                            if((isiPenyimpanan->getType() == "PRODUCT_FRUIT_PLANT" && ((isi_lahan->getType() == "HERBIVORE") || (isi_lahan->getType() == "OMNIVORE"))) 
+                            || (isiPenyimpanan->getType() == "PRODUCT_ANIMAL" && (isi_lahan->getType() == "CARNIVORE") || (isi_lahan->getType() == "OMNIVORE"))){
+                                valid = 1;
+                                if(isi_lahan->getType() == "HERBIVORE") status |= 1;
+                                else if(isi_lahan->getType() == "CARNIVORE") status |= 2;
+                                else status |= 4;
+                            }
+                        }
+                    }
+                }
+            }
+            if(!valid){
+                cout << "KASIH_MAKAN TIDAK DAPAT DILAKUKAN: TIDAK ADA HEWAN YANG DAPAT DIBERI MAKANAN DALAM PENYIMPANAN" << endl;
+                return;
+            }
+            string coordInput;
+            bool notValid = 1;
+            string namaHewan;
+            string tipeHewan;
+            pair<int, int> petakKandang;
+            pair<int, int> petakPenyimpanan;
+            do{
+                cout << "Petak kandang: ";
+                cin >> coordInput;
+                try{
+                    pair<int, int> realCoord = stringToCoord(coordInput);
+                    if(realCoord.first < 0 || realCoord.second < 0 || realCoord.first >= rowLadang || realCoord.second >= colLadang){
+                        notValid = 1;
+                    }else{
+                        if(isiLahan[realCoord.first][realCoord.second]->getKodeHuruf() == "   "){
+                            cout << "Uh petak ini kosong mas!" << endl;
+                            notValid = 1;
+                        }else{
+                            string tipe_hewan = isiLahan[realCoord.first][realCoord.second]->getType();
+                            if((tipe_hewan == "HERBIVORE" && !(status & 1)) || (tipe_hewan == "CARNIVORE" && !(status & 2)) || (tipe_hewan == "OMNIVORE" && !(status & 4))){
+                                cout << "TIDAK ADA MAKANAN DALAM PENYIMPANAN UNTUK DIMAKAN" << endl;
+                                notValid = 1;
+                            }else{
+                                tipeHewan = tipe_hewan;
+                                namaHewan = isiLahan[realCoord.first][realCoord.second]->getNama();
+                                petakKandang = realCoord;
+                                notValid = 0;
+                            }
+                        }
+                    }
+                }catch(...){
+                    notValid = 1;
+                }
+            }while(notValid);
+            cout << "Kamu memilih " << namaHewan << " untuk diberi makan." << endl;
+            cout << "Pilih pangan yang akan diberikan:" << endl;
+            listPlayer[turn - 1]->cetakPenyimpanan();
+            notValid = 1;
+            do{
+                cout << "Slot: ";
+                cin >> coordInput;
+                try{
+                    pair<int, int> realCoord = stringToCoord(coordInput);
+                    if(realCoord.first < 0 || realCoord.second < 0 || realCoord.first >= rowPenyimpanan || realCoord.second >= colPenyimpanan){
+                        notValid = 1;
+                    }else{
+                        if(penyimpananSemua[realCoord.first][realCoord.second]->getKodeHuruf() == "   "){
+                            cout << "Uh petak ini kosong mas!" << endl;
+                            notValid = 1;
+                        }else{
+                            string tipe_barang = penyimpananSemua[realCoord.first][realCoord.second]->getType();
+                            if((tipe_barang == "PRODUCT_FRUIT_PLANT" && ((tipeHewan == "HERBIVORE") || (tipeHewan == "OMNIVORE"))) 
+                            || (tipe_barang == "PRODUCT_ANIMAL" && (tipeHewan == "CARNIVORE") || (tipeHewan == "OMNIVORE"))){
+                                notValid = 0;
+                                petakPenyimpanan = realCoord;
+                            }else{
+                                cout << "Makanan ini tidak bisa diberi ke hewan itu!" << endl;
+                                notValid = 1;
+                            }
+                        }
+                    }
+                }catch(...){
+                    notValid = 1;
+                }
+            }while(notValid);
+            listPlayer[turn - 1]->beriPangan(petakPenyimpanan.first, petakPenyimpanan.second, petakKandang.first, petakKandang.second);
+            vector<vector<CultivatedObject*>> storageBaru = listPlayer[turn - 1]->getLahan().getStorage();
+            cout << namaHewan << " sudah diberi makan dan beratnya menjadi " << storageBaru[petakKandang.first][petakKandang.second]->getCurrentBerat() << endl;
+        }
+
+        void pungutPajak(){
+            if(listPlayer[turn - 1]->getPeran() != "Walikota"){
+                throw invalidCommandException();
+            }
+            try{
+                listPlayer[turn - 1]->pungutPajak(listPlayer, listPlayer.size());
+            }catch(...){
+                cout << "Error occured. Returning..." << endl;
+            }
         }
 
         void tambahPlayer(){

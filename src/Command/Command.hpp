@@ -55,8 +55,12 @@ class Command {
         }
 
         void terimaCommand() {
-            cout << "> ";
+            cout << ">>> ";
+            const char* yellow = "\033[0;93;1m";
+            const char* reset = "\033[0m";
+            cout << yellow;
             cin >> perintah;
+            cout << reset;
 
             if(!isValid(this->peran)){
                 throw invalidCommandException();
@@ -84,6 +88,27 @@ class Command {
             } else {
                 return validateCommand(commandPeternak);
             }
+        }
+
+        void displayCommand(vector<string> listCommand) {
+            cout << "Command yang bisa Anda jalankan :\n";
+            for(int i = 0; i < listCommand.size(); i++) {
+                cout <<  "> " << listCommand[i] << "\n";
+            }
+        }
+
+        void displayAvailableCommand() {
+            if(peran == "Walikota") {
+                return displayCommand(commandWalikota);
+            } else if(peran == "Petani") {
+                return displayCommand(commandPetani);
+            } else {
+                return displayCommand(commandPeternak);
+            }
+        }
+
+        void setPeran(string peran) {
+            this->peran = peran;
         }
 };
 

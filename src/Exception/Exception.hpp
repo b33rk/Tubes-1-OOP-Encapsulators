@@ -41,7 +41,7 @@ class invalidCommandException : public exception
 public:
     const char *message()
     {
-        return "Command tidak valid\n";
+        return "COMMAND TIDAK VALID!!!\n";
     }
 };
 

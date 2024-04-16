@@ -197,6 +197,10 @@ public:
     {
         cout << id << " " << kode_huruf << " " << nama << " " << getType() << " " << cultivateWeight << " " << getPrice();
     }
+
+    int getCultivatedWeight() {
+        return this->cultivateWeight;
+    }
 };
 
 class ProductObject : public TradeObject
@@ -217,6 +221,10 @@ public:
     {
         this->addedWeight = addedWeight;
         this->origin = origin;
+    }
+
+    string getOrigin(){
+        return origin;
     }
 
     int getAddedWeight() override

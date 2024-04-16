@@ -31,24 +31,21 @@ int main()
     main.listPlayer[1]->setBarangFirstPenyimpanan(prodMeat);
     main.listPlayer[1]->setBarangFirstPenyimpanan(prodMeat2);
     main.listPlayer[1]->setBarangFirstPenyimpanan(prodMeat3);
-    main.listPlayer[1]->cetakLadangLahan();
-    main.listPlayer[1]->cetakPenyimpanan();
-    main.turn++;
+    //main.listPlayer[1]->cetakLadangLahan();
+    //main.listPlayer[1]->cetakPenyimpanan();
+    //main.turn++;
     while(is) {
         try
         {
             // main.listPlayer[main.turn - 1]->bangunBangunan(main.recipeMap["SMH"]);
             cin >> command;
-            if (command  == "kasih_makan") {
-                main.kasihMakan();
+            if (command  == "cetakLahan") {
+                main.cetakLahanLadang();
             }
             else if (command  == "cetakPen")
             {
                 main.listPlayer[main.turn-1]->cetakPenyimpanan();
-            }else if(command == "cetak_lahan"){
-                main.listPlayer[main.turn - 1]->cetakLadangLahan();
             }
-            /*
             else if (command == "ternak")
             {
                 CultivatedObject *hewan = new CultivatedObject(main.animalMap["COW"]);
@@ -60,34 +57,21 @@ int main()
             }
             else if (command  == "panen")
             {
-                ProductObject *prod = new ProductObject(main.productMap["ORP"]);
-                main.listPlayer[main.turn-1]->panen(0, 0, 0, 0, prod);
+                main.panen();
             }
-            else if (command  == "beriPakan")
+            else if (command  == "kasih_makan")
             {
-                main.listPlayer[main.turn-1]->beriPangan(0,0,0,0);
+                main.kasihMakan();
             }
             else if (command  == "tanam")
             {
                 CultivatedObject *tumbuhan = new CultivatedObject(main.plantMap["ORG"]);
                 main.listPlayer[main.turn-1]->tanam(tumbuhan,0,0);
-            }*/
+            }
         }
-        catch (invalidCommandException e)
+        catch (const exception& e)
         {
-            cout << e.message();
-        }
-        catch (BarangKosongException e)
-        {
-            cout << e.message();
-        }
-        catch (petakTidakKosongException e)
-        {
-            cout << e.message();
-        }
-        catch (MakananSalahException e)
-        {
-            cout << e.message();
+            cout << e.what();
         }
     }
 }

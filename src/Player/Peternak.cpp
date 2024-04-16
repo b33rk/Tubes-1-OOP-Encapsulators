@@ -31,3 +31,7 @@ void Peternak::cetakLahan()
 {
     lahan.cetak();
 }
+
+vector<TradeObject *> Farmers::ambilUniqueValueLahan(){
+    return this->lahan.getUniqueValue();
+}

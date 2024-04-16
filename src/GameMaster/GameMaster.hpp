@@ -38,6 +38,7 @@ class Game {
         map<string, CultivatedObject> animalMap;
         map<string, ProductObject> productMap;
         map<string, Recipe> recipeMap;
+        Player* currentPlayer;
         /*
         vector<TradeObject> tradeObjMemory;
         vector<CultivatedObject> cultObjMemory;
@@ -55,6 +56,7 @@ class Game {
             } else {
                 turn++;
             }
+            currentPlayer = listPlayer[turn - 1];
         }
 
         Player* getCurrentPlayer() {
@@ -254,6 +256,7 @@ class Game {
                     });
                     turn = 1;
                     jumlahPlayer = listPlayer.size();
+                    currentPlayer = listPlayer[0];
                     player_loaded = true;
                     valid_input = true;
                 }else{
@@ -486,6 +489,7 @@ class Game {
             }
             turn = 1;
             jumlahPlayer = listPlayer.size();
+            currentPlayer = listPlayer[0];
         }
 
         void simpan(){
@@ -548,6 +552,195 @@ class Game {
         string getPeranPlayer(int i){
             return this->listPlayer[i]->getPeran();
         }
+
+        void cetakLahanLadang() {
+            currentPlayer->cetakLadangLahan();
+            vector<TradeObject *> listUnik = currentPlayer->getLahan().getUniqueValue();
+            cout << endl;
+            for (TradeObject *elmt : listUnik)
+            {
+                cout << " - " << elmt->getKodeHuruf() << ": " << elmt->getNama() << endl;
+            }
+        }
+
+        void cetakPenyimpanan() {
+            currentPlayer->cetakPenyimpanan();
+            // cout << "Total slot kosong: " << currentPlayer->lahan.getRow() * getCol() - getJumlahIsi() << endl;
+        }
+
+        void panen(){
+            cetakLahanLadang();
+            cout << endl << endl;
+
+            map<string, int> mapPanenJumlah;
+            vector<string> kodeHurufSiapPanen;
+            vector<string> KoorPanen;
+            string tipe;
+            int noTanaman = 0;
+            int jumlahPanen = 0;
+            pair<int,int> koordinat;
+            string kodeKoordinat;
+            int banyakHasil = 0;
+
+            if (currentPlayer->getPeran() == "Petani") {
+                tipe = "tanaman";
+            } else {
+                tipe = "Hewan";
+            }
+
+            for ( auto &listObjek : currentPlayer->getLahan().getStorage() )
+            {
+                for ( auto &objek : listObjek )
+                {
+                    if (objek->getKodeHuruf() != "   " & objek->getCurrentBerat() >= objek->getCultivatedWeight())
+                    {
+                        mapPanenJumlah[objek->getKodeHuruf()]++;
+                    }
+                }
+            }
+
+            if ( mapPanenJumlah.size() == 0 ) {
+                throw PanenKosongException();
+            }
+
+            cout << "Pilih "<< tipe <<" siap panen yang kamu miliki" << endl;
+            int noPanen = 1;
+            for ( auto &objek : mapPanenJumlah )
+            {
+                cout << "   " << noPanen << ". " << objek.first << "(" << objek.second << " petak siap dipanen)" << endl;
+                kodeHurufSiapPanen.push_back(objek.first);
+                noPanen++;
+            }
+
+            while (noTanaman < 1 || noTanaman > mapPanenJumlah.size())
+            {
+                cout << "Nomor " << tipe <<" yang ingin dipanen: ";
+                string temp;
+                cin >> temp;
+                try {
+                    int tempNoTanaman = stoi(temp);
+                    noTanaman = tempNoTanaman;
+                } catch(...){
+                    cout << "Masukkan Anda tidak valid!" << endl;
+                }
+            }
+
+            string kode_dipilih = kodeHurufSiapPanen[noTanaman - 1];
+
+            string nama_dipilih = "";
+
+            for(auto &it: animalMap){
+                if(it.second.getKodeHuruf() == kode_dipilih){
+                    nama_dipilih = it.second.getNama();
+                    break;
+                }
+            }
+
+            for(auto &it: plantMap){
+                if(it.second.getKodeHuruf() == kode_dipilih){
+                    nama_dipilih = it.second.getNama();
+                    break;
+                }
+            }
+            
+            vector<ProductObject> productResult;
+
+            vector<vector<TradeObject*>> penyimpananPlayer = currentPlayer->getPenyimpanan();
+
+            for(auto it = productMap.begin(); it != productMap.end(); it++){
+                if(it->second.getOrigin() == nama_dipilih){
+                    ProductObject temp_prod_obj(it->second);
+                    productResult.push_back(temp_prod_obj);
+                }
+            }
+
+            int kosong = 0;
+
+            for(auto &row_penyimpanan: penyimpananPlayer){
+                for(auto &elemen_penyimpanan: row_penyimpanan){
+                    if(elemen_penyimpanan->getKodeHuruf() == "   "){
+                        kosong++;
+                    }
+                }
+            }
+
+            if(kosong < productResult.size()){
+                cout << "Penyimpanan tidak cukup untuk mengambil product itu!" << endl;
+                return;
+            }
+
+            while (jumlahPanen < 1 || jumlahPanen > mapPanenJumlah[ kodeHurufSiapPanen[ noTanaman - 1 ] ] || (int)(jumlahPanen * productResult.size()) > kosong)
+            {
+
+                cout << "Berapa petak yang ingin dipanen:: ";
+                string temp;
+                cin >> temp;
+                try {
+                    int tempNoTanaman = stoi(temp);
+                    jumlahPanen = tempNoTanaman;
+                } catch(...){
+                    cout << "Masukkan Anda tidak valid!" << endl;
+                }
+            }
+
+            if (currentPlayer->getLahan().isFull())
+            {
+                throw penyimpananPenuhException();
+            }
+
+            cout << "Pilih petak yang ingin dipanen:" << endl;
+            for (int i = 0; i < jumlahPanen; i++)
+            {
+                bool notValid = 0;
+                do
+                {
+                    try{
+                        cout << "Petak ke-" << i + 1 << ": ";
+                        cin >> kodeKoordinat;
+                        koordinat = stringToCoord(kodeKoordinat);
+                        notValid = 0;
+                    }catch(const exception& e){
+                        cout << "Masukan anda tidak valid!" << endl;
+                        notValid = 1;
+                    }
+                } 
+                while 
+                (
+                    notValid || (
+                    currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getKodeHuruf() != kodeHurufSiapPanen[noTanaman - 1]
+                    ||
+                    currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getCurrentBerat() < currentPlayer->getLahan().getBarang(koordinat.first, koordinat.second)->getCultivatedWeight()
+                    )
+                );
+                KoorPanen.push_back(kodeKoordinat);
+            }
+            cout << jumlahPanen << " petak " << tipe <<" " << kodeHurufSiapPanen[noTanaman - 1] << " pada cetak ";
+            for (int i = 0; i < KoorPanen.size(); i++)
+            {
+                cout << KoorPanen[i];
+
+                vector<vector<TradeObject*>> tempPenyimpananPlayer = currentPlayer->getPenyimpanan();
+
+                int row_peny_kosong = -1, col_peny_kosong = -1;
+                for(int i = 0; i < tempPenyimpananPlayer.size(); ++i){
+                    for(int j = 0; j < tempPenyimpananPlayer[i].size(); ++j){
+                        if(tempPenyimpananPlayer[i][j]->getKodeHuruf() == "   "){
+                            row_peny_kosong = i;
+                            col_peny_kosong = j;
+                            break;
+                        }
+                    }
+                }
+                pair<int, int> koordinat_dipanen = stringToCoord(KoorPanen[i]);
+                for(auto &product_result: productResult){
+                    ProductObject* new_pointer_prod_obj = new ProductObject(product_result);
+                    currentPlayer->panen(row_peny_kosong, col_peny_kosong, koordinat_dipanen.first, koordinat_dipanen.second, new_pointer_prod_obj);
+                }
+                if(i != KoorPanen.size() - 1) cout << ", ";
+            }
+            cout << " telah dipanen!" << endl;
+        }
+
 
         void tanam(){
             if(listPlayer[turn - 1]->getPeran() != "Petani"){
